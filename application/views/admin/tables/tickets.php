@@ -39,7 +39,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
     ];
 
-$custom_fields = get_table_custom_fields('tickets');
+$custom_fields = get_table_custom_fields('meter_number');
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_' . $key);
     array_push($customFieldsColumns, $selectAs);

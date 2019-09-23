@@ -1109,6 +1109,16 @@ class Tickets_model extends App_Model
 
         return $this->db->get(db_prefix() . 'tickets_priorities')->result_array();
     }
+    public function get_channel_type($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'tickets_channel_type')->row();
+        }
+
+        return $this->db->get(db_prefix() . 'tickets_channel_type')->result_array();
+    }
 
     /**
      * Add new ticket priority

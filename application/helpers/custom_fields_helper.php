@@ -54,6 +54,12 @@ function render_custom_fields($belongs_to, $rel_id = false, $where = [], $items_
             if ($field['bs_column'] == '' || $field['bs_column'] == 0) {
                 $field['bs_column'] = 12;
             }
+            if($field['fieldto'] == 'meter_number'){
+                $field['bs_column'] = 12;
+            }
+            if($field['fieldto'] == 'channel_type'){
+                $field['bs_column'] = 6;
+            }
 
             if (!$items_add_edit_preview && !$items_applied) {
                 $fields_html .= '<div class="col-md-' . $field['bs_column'] . '">';

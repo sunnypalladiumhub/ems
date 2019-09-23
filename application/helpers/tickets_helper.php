@@ -32,11 +32,12 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
     $table .= '<th class="toggleable" id="th-last-reply">' . _l('ticket_dt_last_reply') . '</th>';
     $table .= '<th class="toggleable ticket_created_column" id="th-created">' . _l('ticket_date_created') . '</th>';
 
-    $custom_fields = get_table_custom_fields('tickets');
+    $custom_fields = get_table_custom_fields('meter_number');
 
     foreach ($custom_fields as $field) {
         $table .= '<th>' . $field['name'] . '</th>';
     }
+    
 
     $table .= '</tr>';
     $table .= '</thead>';

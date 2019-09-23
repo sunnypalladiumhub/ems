@@ -78,8 +78,12 @@ class Tickets extends AdminController
         $this->load->model('departments_model');
 
         $data['departments']        = $this->departments_model->get();
+        $data['company_groups']     = $this->clients_model->get_groups();
+        $data['company_name']     = $this->clients_model->get();;
+         
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
+        $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['services']           = $this->tickets_model->get_service();
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
@@ -208,6 +212,9 @@ class Tickets extends AdminController
         $data['statuses']['callback_translate'] = 'ticket_status_translate';
 
         $data['departments']        = $this->departments_model->get();
+        $data['company_groups']     = $this->clients_model->get_groups();
+        $data['company_name']       = $this->clients_model->get();
+        $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
         $data['services']           = $this->tickets_model->get_service();

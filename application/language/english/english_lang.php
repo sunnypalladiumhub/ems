@@ -502,7 +502,6 @@ $lang['wd_saturday']  = 'Saturday';
 $lang['wd_sunday']    = 'Sunday';
 
 # Admin Left Sidebar
-$lang['als_cat_dashboard']             = 'CAT-DASH';
 $lang['als_dashboard']             = 'Dashboard';
 $lang['als_clients']               = 'Customers';
 $lang['als_leads']                 = 'Leads';
@@ -510,7 +509,6 @@ $lang['als_contracts']             = 'Contracts';
 $lang['als_sales']                 = 'Sales';
 $lang['als_staff']                 = 'Staff';
 $lang['als_tasks']                 = 'Tasks';
-$lang['als_stock']                 = 'Stock';
 $lang['als_kb']                    = 'Knowledge Base';
 $lang['als_media']                 = 'Media';
 $lang['als_reports']               = 'Reports';
@@ -2162,7 +2160,7 @@ $lang['discussion_no_comments']                              = 'No comments';
 $lang['discussion_no_attachments']                           = 'No attachments';
 $lang['discussion_attachments_drop']                         = 'Drag and drop to upload file';
 $lang['project_note']                                        = 'Note';
-$lang['project_note_private']                                = 'Private notes';
+$lang['project_note_private']                                = 'Personal notes';
 $lang['project_save_note']                                   = 'Save note';
 
 # Project Activity
@@ -3591,191 +3589,30 @@ $lang['send_payment_receipt_to_client']            = 'Send Payment Receipt To Cl
 $lang['payment_sent_successfully']                 = 'Payment receipt sent successfully.';
 $lang['payment_sent_failed']                       = 'Failed to send payment receipt.';
 
-//This is new
-$lang['clients_nav_products']                                  = 'Products';
-$lang['customer_permission_product']  = 'Products';
+# Version 2.3.5
+$lang['tags_update_replace_warning'] = 'Some tags are not updated because the name of the tag already exist';
+$lang['attach_statement']            = 'Attach Customer Statement';
 
-//22-5-2019
-$lang['total_headsets']  = 'Total Headsets';
-$lang['factory_faults']  = 'Factory Faults';
-$lang['damages']  = 'Damages';
-$lang['recycling']  = 'Recycling';
-$lang['no_fault_found']  = 'No Fault Found';
-$lang['total_headsets_this_month']  = 'Total Headsets this month';
-$lang['units']  = 'units';
-$lang['total_faults_this_month']  = 'Total faults this month';
-$lang['savings']  = 'Savings';
-$lang['number']  = 'Number';
-$lang['number']  = 'Number';
-$lang['average_time_to_deliver']  = 'Average time to deliver';
-$lang['hrs']  = 'Hrs';
-$lang['industry_average']  = 'Industry Average';
-$lang['days']  = 'Days';
-$lang['average_time_to_repair']  = 'Average time to repair';
-$lang['average_time_to_recycle']  = 'Average time to recycle';
-$lang['total_nff_this_month']  = 'Total NFF this month';
-$lang['months']  = 'Months';
-$lang['age_analysis']  = 'Age Analysis';
+# Version 2.4.0
+$lang['delete_credit_card']               = 'Delete Card';
+$lang['delete_credit_card_info']          = 'You cannot delete the credit card as you have active subscriptions.';
+$lang['credit_card_successfully_deleted'] = 'Credit card successfully deleted.';
+$lang['subscription_incomplete']          = 'Incomplete';
+$lang['subscription_incomplete_expired']  = 'Incomplete Expired';
+$lang['credit_card_short']                = 'Card';
+$lang['webhook_created']                  = 'Webhook created successfully.';
+$lang['subscriptions_terms_info']         = 'Enter customer terms & conditions to be displayed to the customer before subscribe to the subscription.';
+$lang['subscription_complete_payment']    = 'Complete Payment';
+$lang['subscription_is_subscription_is_expired'] = 'This subscription is expired.';
+$lang['subscription_plan_currency_does_not_match'] = 'Selected plan currency does not match currency selected below.';
+$lang['subscription_first_billing_date_info'] = 'Leave blank to use date when the customer is subscribed to the subscription. This field must be future date, if you select date and the date is passed but customer is not yet subscribed, the date when the customer will subscribe will be used.';
+$lang['stripe_subscription_select_plan'] = 'Select Stripe plan';
 
 
-$lang['product_summary']                       = 'Product Summary';
-$lang['clients_my_products']                                   = 'Products';
-$lang['product']                                             = 'Product';
+/****** This is New Changes on 23-09-2019 ******/
 
-$lang['product_customer'] = 'Customer';
-$lang['product_product'] = 'Product';
-$lang['product_code'] = 'Code';
-$lang['product_serial_number'] = 'Serial Number';
-$lang['product_cable'] = 'Cable';
-$lang['product_purchase_order'] = 'Purchase Order';
-$lang['product_total_combo'] = 'Total Combo (Ex VAT)';
-$lang['product_status'] = 'Status';
+$lang['ticket_drp_grp_type']               = 'Company Group Type';
+$lang['ticket_drp_company_name']           = 'Company Name';
+$lang['ticket_drp_channel_type']           = 'Channel';
 
-$lang['stock_customer_name']='Customer Name';
-$lang['stock_s_number']='Serial Number';
-$lang['stock_p_type']='Stock Assembly';
-$lang['stock_invoice']='Invoice #';
-$lang['stock_m_date']='Manufactured Date';
-$lang['stock_allocated_date']='Invoice Date';
-$lang['stock_customer']='Customer';
-$lang['stock_sock']='Stock Packer Name';
-$lang['stock_allocated']='Allocated';
-$lang['als_product']='Product allocation';
-
-$lang['products'] = 'Products';
-$lang['clients_my_products']                                   = 'Products';
-$lang['clients_ticket_single_product']          = 'Product: %s';
-$lang['clients_tickets_dt_product']             = 'Product';
-$lang['clients_tickets_serial_number']             = 'Serial Number';
-$lang['ticket_dt_product']                      = 'Product';
-
-//This is for frontend product list
-$lang['product_summary_product'] = 'Product Name';
-$lang['product_summary_code'] = 'Code';
-$lang['product_summary_serial_number'] = 'Serial Number';
-$lang['product_summary_cable'] = 'Cable';
-$lang['product_summary_purchase_order'] = 'Purchase Order';
-$lang['product_summary_total_combo'] = 'Total Combo(Ex Vat)';
-$lang['product_summary_status'] = 'Status';
-
-
-// this is for stock 
-$lang['stocks']                                = 'Stocks';
-$lang['stocks_summary']                                = 'Stock Summary';
-$lang['stocks_status_1']                               = 'All';
-$lang['stocks_status_2']                               = 'Allocated';
-$lang['stocks_status_3']                               = 'Not Allocated';
-
-// this is for Product allocation 
-$lang['product_summary']                                = 'Product Summary';
-$lang['product_status_1']                               = 'Total Units';
-$lang['product_status_2']                               = 'In Repair';
-$lang['product_status_3']                               = 'Decommissioned';
-$lang['product_status_4']                               = 'In Use';
-$lang['product_status_5']                               = 'In Use/Out of Warranty';
-
-//THis is for product tab;
-$lang['product_tab_assets']                               = 'Assets';
-$lang['product_tab_warranty']                             = 'Warranty';
-$lang['product_tab_tracking']                             = 'Tracking';
-$lang['product_tab_maintanance']                            = 'Maintanance';
-$lang['product_tab_stock_item']                           = 'Stock Item';
-$lang['product_assets']                             = 'Product Assets';
-$lang['product_warranty']                             = 'Product Warranty';
-
-$lang['product_customer']   = 'Customer';
-$lang['product_headset_serial_number'] = 'Headset Serial Number';
-$lang['product_category'] = 'Product Category';
-$lang['product_name'] = 'Name';
-$lang['product_cable'] = 'Cable';
-$lang['product_cable_serial_number'] = 'Cable Serial Number';
-$lang['product_purchase_order'] = 'Purchase Order';
-$lang['product_invoice_number'] = 'Invoice Number';
-$lang['product_telephony_platform'] = 'Telephony platform';
-$lang['product_assets_total_value'] = 'Asset Total Value (Ex VAT)';
-
-$lang['product_invoice_date'] = 'Invoice Date';
-$lang['product_delivery_date'] = 'Delivery Date';
-$lang['product_warranty_expiry_date'] = 'Warranty Expiry Date';
-$lang['product_warranty_expiry_alert'] = 'Warranty Expiry Alert';
-$lang['product_warranty_period'] = 'Warranty Period';
-$lang['product_assets_age'] = 'Assets_age';
-
-$lang['product_location'] = 'Location';
-$lang['product_branch'] = 'Branch';
-$lang['product_campaign'] = 'Campaign/Department';
-$lang['product_team'] = 'Team';
-$lang['product_team_leader'] = 'Team Leader';
-$lang['product_agent_name'] = 'Agent Name';
-$lang['product_tracking_update_msg'] = 'Product Tracking';
-
-//Admin Stock Add
-$lang['product_add_asset'] = 'Asset';
-$lang['product_add_warranty'] = 'Warranty';
-$lang['product_add_tracking'] = 'Tracking';
-$lang['product_add_maintenance'] = 'Maintenance';
-$lang['product_add_stock_item'] = 'Stock Item';
-$lang['product_add_customer'] = 'Customer';
-$lang['product_add_headset_serial_number'] = 'Headset Serial Number';
-$lang['product_add_product_category'] = 'Product Category';
-$lang['product_add_product_name'] = 'Product Name';
-$lang['product_add_cable'] = 'Cable';
-$lang['product_add_cable_serial_number'] = 'Cable Serial Number';
-$lang['product_add_purchase_order'] = 'Purchase Order';
-$lang['product_add_invoice_number'] = 'Invoice Number';
-$lang['product_add_telephony_plarform'] = 'Telephony platform';
-$lang['product_add_asset_value'] = 'Asset Total Value (Ex VAT)';
-$lang['product_add_deliver_date'] = 'Invoice Date';
-$lang['product_add_warranty_expiry_date'] = 'Warranty Expiry Date';
-$lang['product_add_warranty_expiry_alert'] = 'Warranty Expiry Alert';
-$lang['product_add_warranty_period'] = 'Warranty Period';
-$lang['product_add_warranty_asset_age'] = 'Asset Age';
-$lang['product_add_location'] = 'Location';
-$lang['product_add_branch'] = 'Branch';
-$lang['product_add_campaign'] = 'Campaign/Department';
-$lang['product_add_team'] = 'Team';
-$lang['product_add_team_leader'] = 'Team Leader';
-$lang['product_add_agent_name'] = 'Agent Name';
-$lang['product_add_history'] = 'History';
-$lang['product_add_serial_number'] = 'Serial Number';
-$lang['product_add_stock_assembly'] = 'Stock Assembly';
-$lang['product_add_invoice_number'] = 'Invoice Number';
-$lang['product_add_manufactured_date'] = 'Manufactured Date';
-$lang['product_add_invoice_date'] = 'Invoice Date';
-$lang['product_add_delivery_date'] = 'Delivery Date';
-$lang['product_add_stock_packer'] = 'Stock Packer';
-$lang['product_add_allocate_to_customer'] = 'Allocate to customer';
-$lang['product_add_decommissioned'] = 'Decommissioned';
-$lang['product_add_note'] = 'Note';
-$lang['stock_allocation_config'] = 'Configuration';
-$lang['stock_allocation_mic'] = 'Mic Type';
-$lang['stock_allocation_plug'] = 'Plug Type';
-$lang['ticket_serial_number'] = 'Serial Number';
-
-$lang['bulk_note'] = 'Note';
-$lang['bulk_reset'] = 'Reset Invoice Date and Number';
-$lang['product_add_stock_color'] = 'Select Color';
-$lang['select_color'] = 'Color';
-$lang['manufactured_date'] = 'Manufactured Date';
-$lang['stock_color'] = 'Color';
-$lang['bulk_select_container_type'] = 'Select Container Type';
-$lang['bulk_select_location'] = 'Select Location';
-$lang['select_location'] = 'Location';
-$lang['select_container_type'] = 'Container Type';
-$lang['unique_code'] = 'Unique Code';
-$lang['stock_virtual_container'] = 'Virtual Container';
-$lang['support_ticket_modal_title'] = 'Support Ticket';
-$lang['support_ticket'] = 'Support Ticket';
-$lang['support_ticket_date'] = 'Date';
-$lang['support_ticket_customer'] = 'Customer';
-$lang['support_ticket_faults'] = 'Faults';
-$lang['support_ticket_serial_number'] = 'Serial Number Code(Common)';
-$lang['stocks_status_4'] = 'Decommissioned';
-$lang['bulk_action_decommission'] = 'Decommission';
-$lang['assembly_config'] = 'Assembly Config';
-
-
-
-
-$lang['stock_reports'] = 'Stocks';
-$lang['stock_reports_title'] = 'Stocks Reports';
+/**********************************************/

@@ -289,7 +289,9 @@
                   <hr class="no-mtop" />
                   <div class="row">
                      <div class="col-md-6">
-                        <?php echo render_input('subject','ticket_settings_subject',$ticket->subject); ?>
+                         <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
+                         <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type',$ticket->group_id ); ?>
+                         <?php echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', $ticket->company_id); ?>
                         <div class="form-group select-placeholder">
                            <label for="contactid" class="control-label"><?php echo _l('contact'); ?></label>
                            <select name="contactid" id="contactid" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"<?php if(!empty($ticket->from_name) && !empty($ticket->ticket_email)){echo ' data-no-contact="true"';} else {echo ' data-ticket-emails="'.$ticket->ticket_emails.'"';} ?>>
@@ -301,27 +303,35 @@
                            </select>
                            <?php echo form_hidden('userid',$ticket->userid); ?>
                         </div>
-                        <div class="row">
-                           <div class="col-md-6">
-                              <?php echo render_input('name','ticket_settings_to',$ticket->submitter,'text',array('disabled'=>true)); ?>
-                           </div>
-                           <div class="col-md-6">
-                              <?php
-                              if($ticket->userid != 0){
-                               echo render_input('email','ticket_settings_email',$ticket->email,'email',array('disabled'=>true));
-                            } else {
-                               echo render_input('email','ticket_settings_email',$ticket->ticket_email,'email',array('disabled'=>true));
-                            }
-                            ?>
-                         </div>
-                      </div>
-                      <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
+                        <?php echo render_input('subject','ticket_settings_subject',$ticket->subject); ?>
+                        
+                        
+                      
                    </div>
                    <div class="col-md-6">
                      <div class="form-group mbot20">
                         <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                         <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
                      </div>
+                    <?php
+                    if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
+                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service,'<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
+                     } else {
+                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service);
+                     }
+                    ?>
+                       <?php echo render_custom_fields('meter_number',$ticket->ticketid); ?>
+                       <div class="row">
+                            <div class="col-md-6">
+                                <?php echo render_select('channel_type_id', $channel_type, array('id', 'name'), 'ticket_drp_channel_type',$ticket->channel_type_id); ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php
+                           $priorities['callback_translate'] = 'ticket_priority_translate';
+                           echo render_select('priority',$priorities,array('priorityid','name'),'ticket_settings_priority',$ticket->priority); ?>
+                            </div>
+                        </div>
+
                      <div class="form-group select-placeholder">
                         <label for="assigned" class="control-label">
                            <?php echo _l('ticket_settings_assign_to'); ?>
@@ -329,10 +339,6 @@
                         <select name="assigned" data-live-search="true" id="assigned" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                            <option value=""><?php echo _l('ticket_settings_none_assigned'); ?></option>
                            <?php foreach($staff as $member){
-                                       // Ticket is assigned to member
-                                       // Member is set to inactive
-                                       // We should show the member in the dropdown too
-                                       // Otherwise, skip this member
                               if($member['active'] == 0 && $ticket->assigned != $member['staffid']) {
                                  continue;
                               }
@@ -343,36 +349,9 @@
                            <?php } ?>
                         </select>
                      </div>
-                     <div class="row">
-                        <div class="col-md-<?php if(get_option('services') == 1){ echo 6; }else{echo 12;} ?>">
-                           <?php
-                           $priorities['callback_translate'] = 'ticket_priority_translate';
-                           echo render_select('priority',$priorities,array('priorityid','name'),'ticket_settings_priority',$ticket->priority); ?>
-                        </div>
-                        <?php if(get_option('services') == 1){ ?>
-                           <div class="col-md-6">
-                              <?php if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                                 echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service,'<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
-                              } else {
-                                 echo render_select('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service);
-                              }
-                              ?>
-                           </div>
-                        <?php } ?>
-                     </div>
-                     <div class="form-group select-placeholder projects-wrapper<?php if($ticket->userid == 0){echo ' hide';} ?>">
-                        <label for="project_id"><?php echo _l('project'); ?></label>
-                        <div id="project_ajax_search_wrapper">
-                           <select name="project_id" id="project_id" class="projects ajax-search" data-live-search="true" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                              <?php if($ticket->project_id != 0){ ?>
-                                 <option value="<?php echo $ticket->project_id; ?>"><?php echo get_project_name_by_id($ticket->project_id); ?></option>
-                              <?php } ?>
-                           </select>
-                        </div>
-                     </div>
                   </div>
                   <div class="col-md-12">
-                     <?php echo render_custom_fields('tickets',$ticket->ticketid); ?>
+                     <?php echo render_custom_fields('tickets_des',$ticket->ticketid); ?>
                   </div>
                </div>
                <div class="row">
