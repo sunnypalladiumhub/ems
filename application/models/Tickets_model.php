@@ -745,8 +745,8 @@ class Tickets_model extends App_Model
         }
 
         $data = hooks()->apply_filters('before_ticket_created', $data, $admin);
-
         $this->db->insert(db_prefix() . 'tickets', $data);
+        
         $ticketid = $this->db->insert_id();
         if ($ticketid) {
             handle_tags_save($tags, $ticketid, 'ticket');
@@ -992,6 +992,11 @@ class Tickets_model extends App_Model
         if (isset($data['contactid']) && $data['contactid'] != '') {
             $data['name']  = null;
             $data['email'] = null;
+        }
+        if (isset($data['booking_date']) && $data['booking_date'] != '') {
+            $data['booking_date'] = date('Y-m-d H:i:s', strtotime($data['booking_date']));
+        }else{
+            $data['booking_date'] = NULL;
         }
 
         $this->db->where('ticketid', $data['ticketid']);
@@ -1385,6 +1390,55 @@ class Tickets_model extends App_Model
         $this->db->delete(db_prefix() . 'services');
         if ($this->db->affected_rows() > 0) {
             log_activity('Ticket Service Deleted [ID: ' . $id . ']');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    
+        public function get_MeterNumber($id = '')
+    {
+        if (is_numeric($id)) {
+            $this->db->where('id', $id);
+
+            return $this->db->get(db_prefix() . 'meter_number')->row();
+        }
+
+        $this->db->order_by('number', 'asc');
+
+        return $this->db->get(db_prefix() . 'meter_number')->result_array();
+    }
+    public function add_meter_number($data)
+    {
+        $this->db->insert(db_prefix() . 'meter_number', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Meter number Added [ID: ' . $insert_id . '.' . $data['number'] . ']');
+        }
+
+        return $insert_id;
+    }
+    public function update_meter_number($data, $id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'meter_number', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Meter number Updated [ID: ' . $id . ' Number: ' . $data['number'] . ']');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete_meter_number($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'meter_number');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Meter number Deleted [ID: ' . $id . ']');
 
             return true;
         }

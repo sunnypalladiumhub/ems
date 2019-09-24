@@ -196,6 +196,12 @@ function add_admin_tickets_js_assets()
         'admin',
         ['app-js']
     );
+    $CI->app_scripts->add(
+        'datetime',
+        base_url($CI->app_scripts->core_file('assets/plugins/datetimepicker', 'jquery.datetimepicker.full.js')),
+        'admin',
+        ['app-js']
+    );
 }
 
 function add_datatables_js_assets($group = 'admin')

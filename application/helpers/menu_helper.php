@@ -12,6 +12,12 @@ function app_init_admin_sidebar_menu_items()
         'position' => 1,
         'icon'     => 'fa fa-home',
     ]);
+    $CI->app_menu->add_sidebar_menu_item('ems_dashboard', [
+        'name'     => _l('menu_title_ems_dash'),
+        'href'     => admin_url().'dashboard/ems_dashboard',
+        'position' => 2,
+        'icon'     => 'fa fa-home',
+    ]);
 
     if (has_permission('customers', '', 'view')
         || (have_assigned_customers()

@@ -85,6 +85,8 @@ class Tickets extends AdminController
         $data['priorities']         = $this->tickets_model->get_priority();
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['services']           = $this->tickets_model->get_service();
+        $data['meter_number']           = $this->tickets_model->get_MeterNumber();
+        
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
             $whereStaff['is_not_staff'] = 0;
@@ -218,6 +220,7 @@ class Tickets extends AdminController
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
         $data['services']           = $this->tickets_model->get_service();
+        $data['meter_number']           = $this->tickets_model->get_MeterNumber();
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
             $whereStaff['is_not_staff'] = 0;
@@ -704,4 +707,34 @@ class Tickets extends AdminController
             }
         }
     }
+    /* Add new Meter Number existing one */
+    public function meter_number($id = '')
+    {
+        if ($this->input->post()) {
+            $post_data = $this->input->post();
+            if (!$this->input->post('id')) {
+                $requestFromTicketArea = isset($post_data['ticket_area']);
+                if (isset($post_data['ticket_area'])) {
+                    unset($post_data['ticket_area']);
+                }
+                $id = $this->tickets_model->add_meter_number($post_data);
+                if (!$requestFromTicketArea) {
+                    if ($id) {
+                        set_alert('success', _l('added_successfully', _l('ticket_meter_number')));
+                    }
+                } else {
+                    echo json_encode(['success' => $id ? true : false, 'id' => $id, 'name' => $post_data['number']]);
+                }
+            } else {
+                $id = $post_data['id'];
+                unset($post_data['id']);
+                $success = $this->tickets_model->update_meter_number($post_data, $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('ticket_meter_number')));
+                }
+            }
+            die;
+        }
+    }
+
 }

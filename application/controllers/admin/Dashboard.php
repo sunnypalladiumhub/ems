@@ -2,17 +2,16 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dashboard extends AdminController
-{
-    public function __construct()
-    {
+class Dashboard extends AdminController {
+
+    public function __construct() {
         parent::__construct();
         $this->load->model('dashboard_model');
     }
 
     /* This is admin dashboard view */
-    public function index()
-    {
+
+    public function index() {
         close_setup_menu();
         $this->load->model('departments_model');
         $this->load->model('todo_model');
@@ -21,30 +20,30 @@ class Dashboard extends AdminController
         $data['todos'] = $this->todo_model->get_todo_items(0);
         // Only show last 5 finished todo items
         $this->todo_model->setTodosLimit(5);
-        $data['todos_finished']            = $this->todo_model->get_todo_items(1);
+        $data['todos_finished'] = $this->todo_model->get_todo_items(1);
         $data['upcoming_events_next_week'] = $this->dashboard_model->get_upcoming_events_next_week();
-        $data['upcoming_events']           = $this->dashboard_model->get_upcoming_events();
-        $data['title']                     = _l('dashboard_string');
+        $data['upcoming_events'] = $this->dashboard_model->get_upcoming_events();
+        $data['title'] = _l('dashboard_string');
         $this->load->model('currencies_model');
-        $data['currencies']    = $this->currencies_model->get();
+        $data['currencies'] = $this->currencies_model->get();
         $data['base_currency'] = $this->currencies_model->get_base_currency();
-        $data['activity_log']  = $this->misc_model->get_activity_log();
+        $data['activity_log'] = $this->misc_model->get_activity_log();
         // Tickets charts
-        $tickets_awaiting_reply_by_status     = $this->dashboard_model->tickets_awaiting_reply_by_status();
+        $tickets_awaiting_reply_by_status = $this->dashboard_model->tickets_awaiting_reply_by_status();
         $tickets_awaiting_reply_by_department = $this->dashboard_model->tickets_awaiting_reply_by_department();
 
-        $data['tickets_reply_by_status']              = json_encode($tickets_awaiting_reply_by_status);
+        $data['tickets_reply_by_status'] = json_encode($tickets_awaiting_reply_by_status);
         $data['tickets_awaiting_reply_by_department'] = json_encode($tickets_awaiting_reply_by_department);
 
-        $data['tickets_reply_by_status_no_json']              = $tickets_awaiting_reply_by_status;
+        $data['tickets_reply_by_status_no_json'] = $tickets_awaiting_reply_by_status;
         $data['tickets_awaiting_reply_by_department_no_json'] = $tickets_awaiting_reply_by_department;
 
         $data['projects_status_stats'] = json_encode($this->dashboard_model->projects_status_stats());
-        $data['leads_status_stats']    = json_encode($this->dashboard_model->leads_status_stats());
-        $data['google_ids_calendars']  = $this->misc_model->get_google_calendar_ids();
-        $data['bodyclass']             = 'dashboard invoices-total-manual';
+        $data['leads_status_stats'] = json_encode($this->dashboard_model->leads_status_stats());
+        $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
+        $data['bodyclass'] = 'dashboard invoices-total-manual';
         $this->load->model('announcements_model');
-        $data['staff_announcements']             = $this->announcements_model->get();
+        $data['staff_announcements'] = $this->announcements_model->get();
         $data['total_undismissed_announcements'] = $this->announcements_model->get_total_undismissed_announcements();
 
         $this->load->model('projects_model');
@@ -78,12 +77,17 @@ class Dashboard extends AdminController
         $this->load->view('admin/dashboard/dashboard', $data);
     }
 
+    public function ems_dashboard() {
+        //$this->load->view('admin/dashboard/c_dashboard', $data);
+    }
+
     /* Chart weekly payments statistics on home page / ajax */
-    public function weekly_payments_statistics($currency)
-    {
+
+    public function weekly_payments_statistics($currency) {
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->dashboard_model->get_weekly_payments_statistics($currency));
             die();
         }
     }
+
 }

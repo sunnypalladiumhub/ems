@@ -3614,5 +3614,44 @@ $lang['stripe_subscription_select_plan'] = 'Select Stripe plan';
 $lang['ticket_drp_grp_type']               = 'Company Group Type';
 $lang['ticket_drp_company_name']           = 'Company Name';
 $lang['ticket_drp_channel_type']           = 'Channel';
+$lang['ticket_contact_name']               = 'Name';
+$lang['ticket_contact_surname']            = 'Surname';
+$lang['ticket_contact_landline']           = 'Landline';
+$lang['ticket_contact_mobile']             = 'Mobile';
+$lang['ticket_contact_email']              = 'Email';
+$lang['ticket_contact_id']                 = 'ID';
+$lang['ticket_contact_passport']           = 'Passport';
+$lang['ticket_contact_alt_name']           = 'Alternative Contact Name';
+$lang['ticket_contact_alt_number']         = 'Alternative Contact Number';
+$lang['ticket_contact_booking_date']       = 'Booking Date and Time';
+$lang['ticket_contact_mobile']             = 'Mobile';
+$lang['ticket_contact_primary_address']    = 'Primary Address';
+$lang['ticket_contact_alt_address']        = 'Alternative Address';
+$lang['ticket_contact_city']               = 'City';
+$lang['ticket_contact_province']           = 'Province';
+$lang['ticket_contact_post_code']          = 'Postal Code';
+$lang['ticket_contact_country']            = 'Country';
+$lang['ticket_contact_local_fines']        = 'Local Authority - Fines';
+$lang['ticket_contact_notice_number']      = 'Notice Number';
+$lang['ticket_contact_bill_payments']      = 'Bill Payments';
+$lang['ticket_contact_paycity_consumer']   = 'payCity Consumer';
+$lang['ticket_contact_infringements']      = 'Infringements';
+$lang['ticket_contact_local_bill']         = 'Local Authority - Bill/Rates';
+$lang['ticket_contact_paycity_business']   = 'payCity Business';
+$lang['ticket_contact_payment_options']    = 'Payment Options';
+$lang['ticket_contact_paycity_title']      = 'payCity Information';
+$lang['ticket_contact_networks_title']     = 'Networks Information';
+$lang['ticket_contact_road_safety_title']  = 'Road Safety Information';
+$lang['ticket_contact_traffic_title']      = 'Traffic Information';
+$lang['ticket_customer_contact_info']      = 'Customer Contact Information';
+$lang['ticket_meter_number']               = 'Meter number';
+$lang['ticket_add_meter_number']           = 'New Meter number';
+$lang['ticket_edit_meter_number']          = 'Edit Meter number';
+$lang['meter_add_edit_name']               = 'Meter number';
+
+
+$lang['menu_title_ems_dash']               = 'EMS-DASH';
+
+
 
 /**********************************************/

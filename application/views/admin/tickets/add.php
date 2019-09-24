@@ -54,7 +54,11 @@
                                     echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_service');
                                 }
                                 ?>
-                                <?php echo render_custom_fields('meter_number'); ?>
+                                <?php
+                                    echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number', '', '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
+                                ?>
+                                
+                                <?php //echo render_custom_fields('meter_number'); ?>
                                 <?php //echo render_custom_fields('channel_type'); ?>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -94,7 +98,8 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <?php echo render_custom_fields('tickets_des'); ?>
+                                <?php// echo render_custom_fields('tickets_des'); ?>
+                                <?php echo render_textarea('description','Description','',array(),array(),'',''); ?>
                             </div>
                         </div>
                     </div>
@@ -102,7 +107,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel_s">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="font-size: 2em;">
                                 <?php echo _l('ticket_add_body'); ?>
                             </div>
                             <div class="panel-body">
@@ -174,6 +179,7 @@
         </div>
     </div>
     <?php $this->load->view('admin/tickets/services/service'); ?>
+    <?php $this->load->view('admin/tickets/meter_number/service'); ?>
     <?php init_tail(); ?>
     <?php hooks()->do_action('new_ticket_admin_page_loaded'); ?>
     <script>
