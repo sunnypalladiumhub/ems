@@ -186,6 +186,30 @@ function add_google_api_js_assets($group = 'admin')
     }
 }
 
+function add_admin_chat_js_assets()
+{
+    $CI = &get_instance();
+//    $CI->app_scripts->add(
+//        'chart-js',
+//        base_url($CI->app_scripts->core_file('assets/plugins/Chart.js', 'Chart.js')),
+//        'admin',
+//        ['app-js']
+//    );
+    $CI->app_scripts->add(
+        'Chart.bundle-js',
+        base_url($CI->app_scripts->core_file('assets/plugins/Chart.js', 'Chart.bundle.js')),
+        'admin',
+        ['app-js']
+    );
+    $CI->app_scripts->add(
+        'utils-js',
+        base_url($CI->app_scripts->core_file('assets/plugins/Chart.js', 'utils.js')),
+        'admin',
+        ['app-js']
+    );
+
+}
+
 
 function add_admin_tickets_js_assets()
 {

@@ -1536,4 +1536,11 @@ class Clients_model extends App_Model
 
         return $data;
     }
+    public function get_customer_by_group_id($group_id){
+        $this->db->select(db_prefix() . 'clients.*',db_prefix() . 'customer_groups.*');
+        $this->db->join(db_prefix() . 'customer_groups', '' . db_prefix() . 'customer_groups.customer_id = ' . db_prefix() . 'clients.userid AND '.db_prefix().'customer_groups.groupid = '.$group_id);
+        $this->db->order_by('company', 'asc');
+
+        return $this->db->get(db_prefix() . 'clients')->result_array();
+    }
 }

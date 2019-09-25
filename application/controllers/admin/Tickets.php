@@ -57,6 +57,16 @@ class Tickets extends AdminController
         $data['default_tickets_list_statuses'] = hooks()->apply_filters('default_tickets_list_statuses', [1, 2, 4]);
         $this->load->view('admin/tickets/list', $data);
     }
+    public function get_contact_list_by_group(){
+        if ($this->input->post()) {
+            $company_name  = $this->clients_model->get_customer_by_group_id($this->input->post('group_id'));
+            
+            $dropdown = render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', '', array('required' => 'true')); 
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
 
     public function add($userid = false)
     {
@@ -79,7 +89,7 @@ class Tickets extends AdminController
 
         $data['departments']        = $this->departments_model->get();
         $data['company_groups']     = $this->clients_model->get_groups();
-        $data['company_name']     = $this->clients_model->get();;
+        $data['company_name']     = $this->clients_model->get();
          
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
@@ -168,7 +178,7 @@ class Tickets extends AdminController
         }
 
         $data['ticket'] = $this->tickets_model->get_ticket_by_id($id);
-
+        
         if (!$data['ticket']) {
             blank_page(_l('ticket_not_found'));
         }
@@ -215,7 +225,7 @@ class Tickets extends AdminController
 
         $data['departments']        = $this->departments_model->get();
         $data['company_groups']     = $this->clients_model->get_groups();
-        $data['company_name']       = $this->clients_model->get();
+        $data['company_name']       = $this->clients_model->get_customer_by_group_id($data['ticket']->group_id);
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();

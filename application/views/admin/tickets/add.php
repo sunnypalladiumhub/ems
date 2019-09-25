@@ -26,8 +26,26 @@
                                 <?php echo render_select('department', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true')); ?>
 
                                 <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type', (count($company_groups) == 1) ? $company_groups[0]['id'] : '', array('required' => 'true')); ?>
+<!--                                    <div class="form-group select-placeholder">
+                                    <label for="contactid"><?php echo _l('ticket_drp_company_name'); ?></label>
+                                    <select name="company_id" required="true" id="company_id" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        <?php if (isset($company_name)) { ?>
+                                            <option value="<?php echo $company_name['userid']; ?>" selected><?php echo $company_name['company'] ; ?></option>
+                                        <?php } ?>
+                                        <option value=""></option>
+                                    </select>
+                                   
+                                </div>-->
+                                <div id="company_id_div">
+                                    <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                        <label for="company_id" class="control-label">Company Name</label>
+                                        <select id="company_id" name="company_id" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>                                      
+                                </div>
 
-                                <?php echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', (count($company_name) == 1) ? $company_name[0]['userid'] : '', array('required' => 'true')); ?>
+                                <?php //echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', (count($company_name) == 1) ? $company_name[0]['userid'] : '', array('required' => 'true')); ?>
 
                                 <div class="form-group select-placeholder" id="ticket_contact_w">
                                     <label for="contactid"><?php echo _l('contact'); ?></label>
@@ -186,23 +204,13 @@
     <?php hooks()->do_action('new_ticket_admin_page_loaded'); ?>
     <script>
         $(function () {
-$('#company_id').on('change',function (){
+$('body').on('change','#company_id',function (){
     var contactid = $(this).val();
             init_ajax_search('contact', '#contactid.ajax-search', {
                 tickets_contacts: true,
                 contact_userid: contactid
-                        
-//                        function () {
-//                    // when ticket is directly linked to project only search project client id contacts
-//                    var uid = $('select[data-auto-project="true"]').attr('data-project-userid');
-//                    if (uid) {
-//                        return uid;
-//                    } else {
-//                        return '';
-//                    }
-//                }
+                   
             });
-
             validate_new_ticket_form();
 
 <?php if (isset($project_id) || isset($contact)) { ?>
@@ -218,17 +226,34 @@ $('#company_id').on('change',function (){
                     $('body.ticket select[name="contactid"]').change();
                 });
 <?php } ?>
+          
      });
-        });
+     
+     
+$('#group_id').on('change',function (){
+    var group_id = $(this).val();
+    
+            $.ajax({
+                url: admin_url + 'tickets/get_contact_list_by_group',
+                type: 'POST',
+                data: {group_id: group_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#company_id_div').html(data.result);
+                        var group = $('select#company_id');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
         
-//        $('#company_name').on('change',function (){
-//            var contactid = $(this).val();
-//            
-//            init_ajax_search('contact','#contactid.ajax-search',{
-//			contact_userid:contactid
-//			});
-//        });
-        
+        });   
+});
+     
+      
+         
     </script>
 </body>
 </html>

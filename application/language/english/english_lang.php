@@ -3651,6 +3651,12 @@ $lang['meter_add_edit_name']               = 'Meter number';
 
 
 $lang['menu_title_ems_dash']               = 'EMS-DASH';
+$lang['ems_dash_cus_sat']                  = 'Customer satisfaction';
+$lang['ems_dash_view_details']             = 'View details';
+$lang['ems_dash_service_level']             = 'Service Levels';
+$lang['ems_dash_today_trends']             = 'Today’s Trends';
+$lang['ems_dash_overdue_tickets']             = 'Overdue Tickets';
+
 
 $lang['added_exited_record']   = '%s already exists.';
 

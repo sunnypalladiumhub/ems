@@ -291,7 +291,10 @@
                      <div class="col-md-6">
                          <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
                          <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type',$ticket->group_id ); ?>
-                         <?php echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', $ticket->company_id); ?>
+                         <div id="company_id_div">
+                             <?php echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', $ticket->company_id); ?>
+                         </div>
+                         
                         <?php if($ticket->userid > 0 ){ ?>
                          <div class="form-group select-placeholder">
                            <label for="contactid" class="control-label"><?php echo _l('contact'); ?></label>
@@ -929,6 +932,38 @@
 <?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
 <script>
    $(function(){
+       $('body').on('change','#company_id',function (){
+            var contactid = $(this).val();
+            init_ajax_search('contact', '#contactid.ajax-search', {
+                tickets_contacts: true,
+                contact_userid: contactid
+                   
+            });
+           
+     });
+
+       $('#group_id').on('change',function (){
+    var group_id = $(this).val();
+    
+            $.ajax({
+                url: admin_url + 'tickets/get_contact_list_by_group',
+                type: 'POST',
+                data: {group_id: group_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#company_id_div').html(data.result);
+                        var group = $('select#company_id');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });   
+
+
        $('#booking_date').datetimepicker({
         });
        $('#department').on('change',function (){
@@ -936,7 +971,7 @@
           show_selected_department(value);
        });
       $('#single-ticket-form').appFormValidator();
-      init_ajax_search('contact','#contactid.ajax-search',{tickets_contacts:true});
+      //init_ajax_search('contact','#contactid.ajax-search',{tickets_contacts:true});
       init_ajax_search('project', 'select[name="project_id"]', {
          customer_id: function() {
             return $('input[name="userid"]').val();

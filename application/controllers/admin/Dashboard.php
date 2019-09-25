@@ -7,6 +7,7 @@ class Dashboard extends AdminController {
     public function __construct() {
         parent::__construct();
         $this->load->model('dashboard_model');
+        $this->load->model('tickets_model');
     }
 
     /* This is admin dashboard view */
@@ -78,7 +79,9 @@ class Dashboard extends AdminController {
     }
 
     public function ems_dashboard() {
-        //$this->load->view('admin/dashboard/c_dashboard', $data);
+        $data=array();
+        add_admin_chat_js_assets();
+        $this->load->view('admin/ems_dashboard/dashboard', $data);
     }
 
     /* Chart weekly payments statistics on home page / ajax */
