@@ -14,6 +14,8 @@ $aColumns = [
     'priority',
     'lastreply',
     db_prefix() . 'tickets.date',
+    db_prefix() .'meter_number.number as meter_number',
+    db_prefix() .'tickets_channel_type.name as channel_type',
     ];
 
 $contactColumn = 6;
@@ -37,6 +39,8 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'tickets_status ON ' . db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status',
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.userid',
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
+    'LEFT JOIN ' . db_prefix() . 'meter_number ON ' . db_prefix() . 'meter_number.id = ' . db_prefix() . 'tickets.meter_number',
+     'LEFT JOIN ' . db_prefix() . 'tickets_channel_type ON ' . db_prefix() . 'tickets_channel_type.id = ' . db_prefix() . 'tickets.channel_type_id',
     ];
 
 $custom_fields = get_table_custom_fields('meter_number');
