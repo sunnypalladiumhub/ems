@@ -717,13 +717,19 @@ class Tickets extends AdminController
                 if (isset($post_data['ticket_area'])) {
                     unset($post_data['ticket_area']);
                 }
-                $id = $this->tickets_model->add_meter_number($post_data);
-                if (!$requestFromTicketArea) {
-                    if ($id) {
-                        set_alert('success', _l('added_successfully', _l('ticket_meter_number')));
-                    }
+                $record = $this->tickets_model->get_count_by_meter_number($post_data);
+                if (!empty($record)) {
+                   // set_alert('warning', _l('added_exited_record', _l('ticket_meter_number')));
+                    echo json_encode(['success' => false, 'id' => $record->id, 'name' => $record->number,'msg'=>_l('added_exited_record', _l('ticket_meter_number'))]);
                 } else {
-                    echo json_encode(['success' => $id ? true : false, 'id' => $id, 'name' => $post_data['number']]);
+                    $id = $this->tickets_model->add_meter_number($post_data);
+                    if (!$requestFromTicketArea) {
+                        if ($id) {
+                            set_alert('success', _l('added_successfully', _l('ticket_meter_number')));
+                        }
+                    } else {
+                        echo json_encode(['success' => $id ? true : false, 'id' => $id, 'name' => $post_data['number']]);
+                    }
                 }
             } else {
                 $id = $post_data['id'];

@@ -54,7 +54,9 @@
                                     echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_service');
                                 }
                                 ?>
+                                <div id="meter_number_msg"></div>
                                 <?php
+                                
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number', '', '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
                                 

@@ -3652,6 +3652,6 @@ $lang['meter_add_edit_name']               = 'Meter number';
 
 $lang['menu_title_ems_dash']               = 'EMS-DASH';
 
-
+$lang['added_exited_record']   = '%s already exists.';
 
 /**********************************************/

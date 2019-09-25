@@ -51,7 +51,16 @@
                 group.find('option:first').after('<option value="'+response.id+'">'+response.name+'</option>');
                 group.selectpicker('val',response.id);
                 group.selectpicker('refresh');
+            }else if (response.success == false) {
+                var group = $('select#meter_number');
+                group.selectpicker('val',response.id);
+                $('#meter_number_msg').css('color','red');
+                $('#meter_number_msg').html(response.msg);
+                setTimeout(function(){
+                    $('#meter_number_msg').html('');
+                }, 5000);
             }
+
             $('#ticket-meter-modal').modal('hide');
         } else {
             window.location.reload();

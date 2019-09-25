@@ -704,7 +704,10 @@ class Tickets_model extends App_Model
             }
             $data['status'] = 1;
         }
-
+        if (isset($data['email']) && $data['contactid'] == '' ) {
+                $data['userid']    = 0;
+                $data['contactid'] = 0;
+        }
         if (isset($data['custom_fields'])) {
             $custom_fields = $data['custom_fields'];
             unset($data['custom_fields']);
@@ -1419,6 +1422,12 @@ class Tickets_model extends App_Model
         }
 
         return $insert_id;
+    }
+    public function get_count_by_meter_number($data)
+    {
+        $this->db->where('number', $data['number']);
+
+        return $this->db->get(db_prefix() . 'meter_number')->row();
     }
     public function update_meter_number($data, $id)
     {
