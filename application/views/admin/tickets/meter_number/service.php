@@ -28,7 +28,7 @@
 </div><!-- /.modal -->
 <script>
     window.addEventListener('load',function(){
-        appValidateForm($('#ticket-meter-number-form'),{name:'required'},manage_ticket_services);
+        appValidateForm($('#ticket-meter-number-form'),{name:'required'},manage_meter_number_services);
         $('#ticket-meter-modal').on('hidden.bs.modal', function(event) {
             $('#additional').html('');
             $('#ticket-meter-modal input[name="name"]').val('');
@@ -36,7 +36,7 @@
             $('.edit-title').removeClass('hide');
         });
     });
-    function manage_ticket_services(form) {
+    function manage_meter_number_services(form) {
         var data = $(form).serialize();
         var url = form.action;
         var ticketArea = $('body').hasClass('ticket');

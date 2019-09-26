@@ -55,6 +55,18 @@
                               <?php echo _l('ticket_single_settings'); ?>
                            </a>
                         </li>
+                        <?php
+                        
+
+                        $now = time(); // or your date as well
+                        $your_date = strtotime($ticket->date);
+                        $datediff = $now - $your_date;
+
+                        $day = round($datediff / (60 * 60 * 24));
+
+
+                        ?>
+                        <p style="float: right;position: absolute;right: 25px;top: 30px;font-size: large;color: #82c426;">Ticket AGE : <?php echo $day; ?> Days</p>
                      </ul>
                   </div>
                </div>
@@ -331,7 +343,7 @@
                        <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category',$ticket->service,'<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
+                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category',$ticket->service,'<a href="#" onclick="new_service('.$ticket->department.');return false;"><i class="fa fa-plus"></i></a>');
                      } else {
                         echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$ticket->service);
                      }
@@ -377,154 +389,154 @@
                       <?php echo render_textarea('description','Description',$ticket->description,array(),array(),'',''); ?>
                   </div>
                </div>
-                  <div class="panel_s mtop20">
-                 <div class="panel-body" style="padding: 0;">
-                     <div class="row"  style="margin: 0;">
-                         <div id="accordion">
-                             <div class="card">
-                                 <div class="card-header" id="headingTwo">
-                                     <h5 class="m-0" style="margin: 0;background: #f7f9fa;">
-                                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#CustomerContact" aria-expanded="false" aria-controls="collapseTwo">
-                                             <h3 class="mtop4 mbot20 pull-left"><?php echo _l('ticket_customer_contact_info'); ?></h3>
-                                         </button>
-                                     </h5>
-                                 </div>
-                                 <div id="CustomerContact" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="padding: 3%;">
-                                     <?php if ($ticket->userid == 0) { ?>
-                                         <div class="card-body">
-                                             <div class="row">
-                                                <div class="col-md-6">
-                                                     <div class="row">
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('name', 'ticket_contact_name', $ticket->from_name, 'text'); ?>
-                                                             </div>
-                                                         </div>
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                <?php echo render_input('surname', 'ticket_contact_surname', $ticket->surname, 'text'); ?>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                <?php echo render_input('landline', 'ticket_contact_landline', $ticket->landline, 'number'); ?>
-                                                                 
-                                                             </div>
-                                                         </div>
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('mobile', 'ticket_contact_mobile', $ticket->mobile, 'number'); ?>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-12">
-                                                             <div class="form-group">
-                                                                <?php echo render_input('email', 'ticket_contact_email', $ticket->ticket_email, 'email'); ?>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('contact_id', 'ticket_contact_id', $ticket->contact_id, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                         </div>
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('passport', 'ticket_contact_passport', $ticket->passport, 'text'); ?>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                     <?php echo render_input('alternativecontact_name', 'ticket_contact_alt_name', $ticket->alternativecontact_name, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                         </div>
-                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                     <?php echo render_input('alternativecontact_number', 'ticket_contact_alt_number', $ticket->alternativecontact_number, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-12">
-                                                             <div class="form-group">
-                                                                     <?php echo render_input('booking_date', 'ticket_contact_booking_date', $ticket->booking_date, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                         </div>
-<!--                                                         <div class="col-md-6">
-                                                             <div class="form-group">
-                                                                 <label for="attachment" class="control-label">
-                                                                     <?php // echo _l('ticket_contact_mobile'); ?>
-                                                                 </label>
-                                                                 <input type="text" class="form-control" id="ticket_contact_name" name="ticket_contact_name" value="">
-                                                             </div>
-                                                         </div>-->
-                                                     </div>
-                                                 </div>
-                                                 <div class="col-md-6">
-                                                     <div class="row">
-                                                         <div class="col-md-12">
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('primary_address', 'ticket_contact_primary_address', $ticket->primary_address, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('alternative_address', 'ticket_contact_alt_address', $ticket->alternative_address, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('city', 'ticket_contact_city', $ticket->city, 'text'); ?>
-                                                                 
-                                                             </div>
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('province', 'ticket_contact_province', $ticket->province, 'text'); ?>
-                                                                 
-                                                                 
-                                                             </div>
-                                                             <div class="form-group">
-                                                                 <?php echo render_input('postal_code', 'ticket_contact_post_code', $ticket->postal_code, 'number'); ?>
-                                                             </div>
-                                                             <div class="form-group">
-                                                                  <?php echo render_input('country', 'ticket_contact_country', $ticket->country, 'text'); ?>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
+                  <div class="panel-group" role="tablist" aria-multiselectable="false">
+                      <div class="panel panel-default">
+                          <div class="panel-heading" role="tab" id="headingclickatell">
+                              <h4 class="panel-title">
+                                  <a role="button" data-toggle="collapse"  href="#CustomerContact" aria-expanded="false" aria-controls="sms_clickatell" class="collapsed">
+                                      <?php echo _l('ticket_customer_contact_info'); ?> <span class="pull-right"><i class="fa fa-sort-down"></i></span>
+                                  </a>
+                              </h4>
+                          </div>
+                          <div id="CustomerContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingclickatell" aria-expanded="false" style="height: 0px;">
+                              <div class="panel-body no-br-tlr no-border-color">
 
-                                             </div>
-                                         </div>
-                                     <?php } ?>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="panel_s mtop20" id="paycity" <?php echo strtolower($ticket->department_name) != 'paycity' ? "style='display:none;'" : ''; ?>>
-                 <div class="panel-body" style="padding: 0;">
-                     <div class="row" style="margin: 0;">
-                         <div id="accordion">
-                             <div class="card">
-                                 <div class="card-header" id="headingTwo">
-                                     <h5 class="mb-0"  style="margin: 0;background: #f7f9fa;">
-                                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#payCitySection" aria-expanded="false" aria-controls="collapseTwo">
-                                             <h3 class="mtop4 mbot20 pull-left"><?php echo _l('ticket_contact_paycity_title'); ?></h3>
-                                         </button>
-                                     </h5>
-                                 </div>
-                                 <div id="payCitySection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="padding: 3%;">
-                                     <div class="card-body">
+                                  <?php if ($ticket->userid == 0) { ?>
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col-md-6">
+                                                  <div class="row">
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('name', 'ticket_contact_name', $ticket->from_name, 'text'); ?>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('surname', 'ticket_contact_surname', $ticket->surname, 'text'); ?>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('landline', 'ticket_contact_landline', $ticket->landline, 'number'); ?>
 
-                                         <div class="row">
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('mobile', 'ticket_contact_mobile', $ticket->mobile, 'number'); ?>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-md-12">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('email', 'ticket_contact_email', $ticket->ticket_email, 'email'); ?>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('contact_id', 'ticket_contact_id', $ticket->contact_id, 'text'); ?>
+
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('passport', 'ticket_contact_passport', $ticket->passport, 'text'); ?>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('alternativecontact_name', 'ticket_contact_alt_name', $ticket->alternativecontact_name, 'text'); ?>
+
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('alternativecontact_number', 'ticket_contact_alt_number', $ticket->alternativecontact_number, 'text'); ?>
+
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-md-12">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('booking_date', 'ticket_contact_booking_date', $ticket->booking_date, 'text'); ?>
+
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                  <div class="row">
+                                                      <div class="col-md-12">
+                                                          <div class="form-group">
+                                                              <?php echo render_input('primary_address', 'ticket_contact_primary_address', $ticket->primary_address, 'text'); ?>
+
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <?php echo render_input('alternative_address', 'ticket_contact_alt_address', $ticket->alternative_address, 'text'); ?>
+
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <?php echo render_input('city', 'ticket_contact_city', $ticket->city, 'text'); ?>
+
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <?php echo render_input('province', 'ticket_contact_province', $ticket->province, 'text'); ?>
+
+
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <?php echo render_input('postal_code', 'ticket_contact_post_code', $ticket->postal_code, 'number'); ?>
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <?php echo render_input('country', 'ticket_contact_country', $ticket->country, 'text'); ?>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                                  <?php } ?>
+
+
+                              </div>    
+                          </div>
+                      </div>
+                      
+                      <div class="panel panel-default" id="networks" <?php echo strtolower($ticket->department_name) != 'networks' ? "style='display:none;'" : ''; ?>>
+                          <div class="panel-heading" role="tab" id="headingmsg92">
+                              <h4 class="panel-title">
+                                  <a role="button" data-toggle="collapse" href="#networksSection" aria-expanded="false" aria-controls="sms_msg91" class="collapsed">
+                                      <?php echo _l('ticket_contact_networks_title'); ?> <span class="pull-right"><i class="fa fa-sort-down"></i></span>
+                                  </a>
+                              </h4>
+                          </div>
+                          <div id="networksSection" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingmsg92" aria-expanded="false">
+                              <div class="panel-body no-br-tlr no-border-color">
+
+                                </div>
+                          </div>
+                      </div>
+                      <div class="panel panel-default" id="paycity" <?php echo strtolower($ticket->department_name) != 'paycity' ? "style='display:none;'" : ''; ?>>
+                          <div class="panel-heading" role="tab">
+                              <h4 class="panel-title">
+                                  <a role="button" data-toggle="collapse" href="#payCitySection" aria-expanded="false" aria-controls="sms_msg91" class="collapsed">
+                                      <?php echo _l('ticket_contact_paycity_title'); ?> <span class="pull-right"><i class="fa fa-sort-down"></i></span>
+                                  </a>
+                              </h4>
+                          </div>
+                          <div id="payCitySection" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingmsg91" aria-expanded="false">
+                              <div class="panel-body no-br-tlr no-border-color">
+                                    <div class="row">
                                              <div class="col-md-6">
                                                  <div class="row">
                                                      <div class="col-md-12">
@@ -586,124 +598,42 @@
                                                  </div>
                                              </div>
                                          </div>
+                                </div>
+                          </div>
+                      </div>
+                      <div class="panel panel-default" id="road_safety" <?php echo strtolower($ticket->department_name) != 'road safety' ? "style='display:none;'" : ''; ?>>
+                          <div class="panel-heading" role="tab" id="headingmsg93">
+                              <h4 class="panel-title">
+                                  <a role="button" data-toggle="collapse" href="#road_safetySection" aria-expanded="false" class="collapsed">
+                                      <?php echo _l('ticket_contact_road_safety_title'); ?> <span class="pull-right"><i class="fa fa-sort-down"></i></span>
+                                  </a>
+                              </h4>
+                          </div>
+                          <div id="road_safetySection" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingmsg93" aria-expanded="false">
+                              <div class="panel-body no-br-tlr no-border-color">
 
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             
-             <div class="panel_s mtop20" id="networks" <?php echo strtolower($ticket->department_name) != 'networks' ? "style='display:none;'" : ''; ?>>
-                 <div class="panel-body" style="padding: 0;">
-                     <div class="row" style="margin: 0;">
-                         <div id="accordion">
-                             <div class="card">
-                                 <div class="card-header" id="headingTwo">
-                                     <h5 class="mb-0"  style="margin: 0;background: #f7f9fa;">
-                                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#networksSection" aria-expanded="false" aria-controls="collapseTwo">
-                                             <h3 class="mtop4 mbot20 pull-left"><?php echo _l('ticket_contact_networks_title'); ?></h3>
-                                         </button>
-                                     </h5>
-                                 </div>
-                                 <div id="networksSection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="padding: 3%;">
-                                     <div class="card-body">
+                                </div>
+                          </div>
+                      </div>
+                      <div class="panel panel-default" id="traffic" <?php echo strtolower($ticket->department_name) != 'traffic' ? "style='display:none;'" : ''; ?>>
+                          <div class="panel-heading" role="tab" id="headingmsg94">
+                              <h4 class="panel-title">
+                                  <a role="button" data-toggle="collapse" href="#trafficSection" aria-expanded="false" class="collapsed">
+                                      <?php echo _l('ticket_contact_traffic_title'); ?> <span class="pull-right"><i class="fa fa-sort-down"></i></span>
+                                  </a>
+                              </h4>
+                          </div>
+                          <div id="trafficSection" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingmsg94" aria-expanded="false">
+                              <div class="panel-body no-br-tlr no-border-color">
 
-                                         <div class="row">
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                         </div>
+                                </div>
+                          </div>
+                      </div>
+                      <hr>
 
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="panel_s mtop20" id="road_safety" <?php echo strtolower($ticket->department_name) != 'road safety' ? "style='display:none;'" : ''; ?>>
-                 <div class="panel-body" style="padding: 0;">
-                     <div class="row" style="margin: 0;">
-                         <div id="accordion">
-                             <div class="card">
-                                 <div class="card-header" id="headingTwo">
-                                     <h5 class="mb-0"  style="margin: 0;background: #f7f9fa;">
-                                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#road_safetySection" aria-expanded="false" aria-controls="collapseTwo">
-                                             <h3 class="mtop4 mbot20 pull-left"><?php echo _l('ticket_contact_road_safety_title'); ?></h3>
-                                         </button>
-                                     </h5>
-                                 </div>
-                                 <div id="road_safetySection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="padding: 3%;">
-                                     <div class="card-body">
-
-                                         <div class="row">
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                         </div>
-
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="panel_s mtop20" id="traffic" <?php echo strtolower($ticket->department_name) != 'traffic' ? "style='display:none;'" : ''; ?>>
-                 <div class="panel-body" style="padding: 0;">
-                     <div class="row" style="margin: 0;">
-                         <div id="accordion">
-                             <div class="card">
-                                 <div class="card-header" id="headingTwo">
-                                     <h5 class="mb-0"  style="margin: 0;background: #f7f9fa;">
-                                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#trafficSection" aria-expanded="false" aria-controls="collapseTwo">
-                                             <h3 class="mtop4 mbot20 pull-left"><?php echo _l('ticket_contact_traffic_title'); ?></h3>
-                                         </button>
-                                     </h5>
-                                 </div>
-                                 <div id="trafficSection" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="padding: 3%;">
-                                     <div class="card-body">
-
-                                         <div class="row">
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                 <div class="row">
-                                                     
-                                                 </div>
-                                             </div>
-                                         </div>
-
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
                <div class="row">
                   <div class="col-md-12 text-center">
-                     <hr />
-                     <a href="#" class="btn btn-info save_changes_settings_single_ticket">
+                    <a href="#" class="btn btn-info save_changes_settings_single_ticket">
                         <?php echo _l('submit'); ?>
                      </a>
                   </div>

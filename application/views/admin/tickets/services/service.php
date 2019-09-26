@@ -63,7 +63,14 @@
     });
         return false;
     }
-    function new_service(){
+    function new_service(departmentid = 0){
+        
+        if(departmentid > 0 ){
+            var group = $('#ticket-service-modal select#departmentid');
+            group.selectpicker('val',departmentid);
+            group.selectpicker('refresh');
+            group.attr('disabled',true);
+        }
         $('#ticket-service-modal').modal('show');
         $('.edit-title').addClass('hide');
     }
