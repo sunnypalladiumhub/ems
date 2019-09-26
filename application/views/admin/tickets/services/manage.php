@@ -14,6 +14,7 @@
 						<div class="clearfix"></div>
 						<?php render_datatable(array(
 							_l('services_dt_name'),
+                                                        'Department',
 							_l('options'),
 							),'services'); ?>
 						</div>

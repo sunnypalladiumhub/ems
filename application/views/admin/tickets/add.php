@@ -65,11 +65,24 @@
                                     <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                                     <input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
                                 </div>
+                                <div id="service_div">
+                                    <div class="select-placeholder form-group form-group-select-input-service input-group-select">
+                                        <label for="service" class="control-label">Category</label>
+                                        <div class="input-group input-group-select select-service" app-field-wrapper="service">
+                                            <select id="service" name="service" class="selectpicker  _select_input_group" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                <option value=""></option>
+                                            </select>
+                                            <div class="input-group-addon">
+                                                <a href="#" onclick="return false;"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <?php
                                 if (is_admin() || get_option('staff_members_create_inline_ticket_services') == '1') {
-                                    echo render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_service', '', '<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
+                                   // echo render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
                                 } else {
-                                    echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_service');
+                                    echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category');
                                 }
                                 ?>
                                 <div id="meter_number_msg"></div>
@@ -249,7 +262,27 @@ $('#group_id').on('change',function (){
             });
 
         
-        });   
+        });
+        $('#department').on('change',function (){
+    var department_id = $(this).val();
+    
+            $.ajax({
+                url: admin_url + 'tickets/get_category_list_by_department',
+                type: 'POST',
+                data: {department_id: department_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#service_div').html(data.result);
+                        var group = $('select#service');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });
 });
      
       

@@ -1343,7 +1343,13 @@ class Tickets_model extends App_Model
 
         return false;
     }
+    public function get_service_by_department_id($department_id){
+        $this->db->select(db_prefix() . 'services.*',db_prefix() . 'departments.name');
+        $this->db->join(db_prefix() . 'departments', '' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'services.departmentid AND '.db_prefix().'departments.departmentid = '.$department_id);
+        $this->db->order_by('serviceid', 'asc');
 
+        return $this->db->get(db_prefix() . 'services')->result_array();
+    }
     // Ticket services
     public function get_service($id = '')
     {

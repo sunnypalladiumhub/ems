@@ -7,15 +7,19 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">
                     <span class="edit-title"><?php echo _l('ticket_service_edit'); ?></span>
-                    <span class="add-title"><?php echo _l('new_service'); ?></span>
+                    <span class="add-title"><?php echo _l('new_category'); ?></span>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div id="additional"></div>
-                        <?php echo render_input('name','service_add_edit_name'); ?>
+                        <?php echo render_input('name','category_add_edit_name'); ?>
                     </div>
+                    <div class="col-md-12">
+                        <?php echo render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true')); ?>
+                    </div>
+                    
                 </div>
             </div>
             <div class="modal-footer">
@@ -65,8 +69,12 @@
     }
     function edit_service(invoker,id){
         var name = $(invoker).data('name');
+        var departmentid = $(invoker).data('departmentid');
         $('#additional').append(hidden_input('id',id));
         $('#ticket-service-modal input[name="name"]').val(name);
+        var group = $('#ticket-service-modal select#departmentid');
+        group.selectpicker('val',departmentid);
+        group.selectpicker('refresh');
         $('#ticket-service-modal').modal('show');
         $('.add-title').addClass('hide');
     }

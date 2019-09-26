@@ -328,13 +328,15 @@
                         <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                         <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
                      </div>
+                       <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service,'<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
+                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category',$ticket->service,'<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
                      } else {
-                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_service',$ticket->service);
+                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$ticket->service);
                      }
                     ?>
+                           </div>
                        <div id="meter_number_msg"></div>
                        <?php
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number',$ticket->meter_number, '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
@@ -961,7 +963,27 @@
             });
 
         
-        });   
+        });  
+        $('#department').on('change',function (){
+    var department_id = $(this).val();
+    
+            $.ajax({
+                url: admin_url + 'tickets/get_category_list_by_department',
+                type: 'POST',
+                data: {department_id: department_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#service_div').html(data.result);
+                        var group = $('select#service');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });
 
 
        $('#booking_date').datetimepicker({
