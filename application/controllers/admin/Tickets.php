@@ -232,6 +232,10 @@ class Tickets extends AdminController
         //$data['services']           = $this->tickets_model->get_service();
         $data['services']           = $this->tickets_model->get_service_by_department_id($data['ticket']->department);
         $data['meter_number']       = $this->tickets_model->get_MeterNumber();
+        if(isset($data['ticket']->meter_number) && $data['ticket']->meter_number > 0){
+            $data['meter']          = $this->tickets_model->get_MeterNumber($data['ticket']->meter_number);
+            
+        }
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
             $whereStaff['is_not_staff'] = 0;
@@ -563,11 +567,13 @@ class Tickets extends AdminController
         if ($this->input->is_ajax_request()) {
             $aColumns = [
                 db_prefix() . 'services.name as name',
+                'IF('.db_prefix() .'services.parentid > 0, (SELECT name from tblservices as sub where sub.serviceid = tblservices.parentid), "Parent category") as parent_name',
                 db_prefix() . 'departments.name as department_name',
                 
             ];
             $join = [
                 'LEFT JOIN ' . db_prefix() . 'departments ON ' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'services.departmentid',
+                'LEFT JOIN ' . db_prefix() . 'services as b ON b.parentid = ' . db_prefix() . 'services.serviceid',
             ];
 
 
@@ -577,20 +583,25 @@ class Tickets extends AdminController
                 
                 db_prefix() . 'services.serviceid',
                 db_prefix() . 'services.departmentid',
+                db_prefix() . 'services.parentid',
                 
             ]);
+            
             $output  = $result['output'];
             $rResult = $result['rResult'];
             foreach ($rResult as $aRow) {
                 $row = [];
                 for ($i = 0; $i < count($aColumns); $i++) {
                    // $_data = $aRow[$aColumns[$i]];
+                    if($i == 1 ){
+                      $_data = $aRow['parent_name'];  
+                    }else{
                     if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
                         $_data = $aRow[strafter($aColumns[$i], 'as ')];
                     } else {
                         $_data = $aRow[$aColumns[$i]];
                     }
-
+                    }
                     if ($aColumns[$i] == 'name') {
                         $_data = '<a href="#" onclick="edit_service(this,' . $aRow['serviceid'] . ');return false" data-name="' . $aRow['name'] . '">' . $_data . '</a>';
                     }
@@ -599,6 +610,7 @@ class Tickets extends AdminController
                 $options = icon_btn('#', 'pencil-square-o', 'btn-default', [
                     'data-name' => $aRow['name'],
                     'data-departmentid' => $aRow['departmentid'],
+                    'data-parentid' => $aRow['parentid'],
                     'onclick'   => 'edit_service(this,' . $aRow['serviceid'] . '); return false;',
                 ]);
                 $row[]              = $options .= icon_btn('tickets/delete_service/' . $aRow['serviceid'], 'remove', 'btn-danger _delete');
@@ -609,6 +621,8 @@ class Tickets extends AdminController
         }
         $this->load->model('departments_model');
         $data['departments']        = $this->departments_model->get();
+        $data['parent_services']        = $this->tickets_model->get_services_list();
+        add_admin_tickets_js_assets();
         $data['title'] = _l('services');
         $this->load->view('admin/tickets/services/manage', $data);
     }
@@ -777,6 +791,27 @@ class Tickets extends AdminController
             $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
             
             $dropdown = render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service('.$this->input->post('department_id').');return false;"><i class="fa fa-plus"></i></a>');
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
+    public function get_category_list_by_department_bulk(){
+        if ($this->input->post()) {
+            $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
+            
+            $dropdown = render_select('move_to_service_tickets_bulk',$services,array('serviceid','name'),'Category');
+            
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
+    public function get_department_id_by_serviceid(){
+        if ($this->input->post()) {
+            $departments  = $this->tickets_model->get_department_data_by_service_id($this->input->post('serviceid'));
+            $dropdown = render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true'));;
+            
             $data['status']=1;
             $data['result'] = $dropdown;
         }

@@ -522,7 +522,248 @@
                           </div>
                           <div id="networksSection" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingmsg92" aria-expanded="false">
                               <div class="panel-body no-br-tlr no-border-color">
-
+                                  <div class="card-body">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <h3>Meter details</h3>
+                                              <hr>
+                                              
+                                                  <div class="row">
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                          <?php echo render_input('meter_section[number]', 'meter_section_number', isset($meter) ? $meter->number : '', 'text'); ?>
+                                                      </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                          <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_type" class="control-label"><?php echo _l('meter_section_type'); ?></label>
+                                                              <select id="meter_section_type" name="meter_section[type]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="Electricity" <?php  echo isset($meter) && $meter->type == 'Electricity' ? 'selected' : '' ?>>Electricity</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                      <!--<div class="form-group">-->
+                                                          <?php //echo render_input('meter_section[time_stamp]', 'meter_section_time_stamp', '', 'text'); ?>
+<!--                                                      </div>-->
+                                                          <div class="form-group" app-field-wrapper="meter_section[time_stamp]">
+                                                              <label for="meter_section[time_stamp]" class="control-label">TimeStamp</label>
+                                                              <input type="text" id="meter_section_time_stamp" name="meter_section[time_stamp]" class="form-control" value="<?php echo isset($meter) ? $meter->time_stamp : '' ?>">
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_machine" class="control-label"><?php echo _l('meter_section_machine'); ?></label>
+                                                              <select id="meter_section_machine" name="meter_section[machine_id]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->machine_id == '1' ? 'selected' : '' ?>>1</option>
+                                                                  <option value="2" <?php  echo isset($meter) && $meter->machine_id == '2' ? 'selected' : '' ?>>2</option>
+                                                                  <option value="3" <?php  echo isset($meter) && $meter->machine_id == '3' ? 'selected' : '' ?>>3</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_building_type" class="control-label"><?php echo _l('meter_section_building_type'); ?></label>
+                                                              <select id="meter_section_building_type" name="meter_section[building_type]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="residential" <?php  echo isset($meter) && $meter->building_type == 'residential' ? 'selected' : '' ?>>Residential</option>
+                                                                  <option value="commercial" <?php  echo isset($meter) && $meter->building_type == 'commercial' ? 'selected' : '' ?>>Commercial</option>
+                                                                  <option value="industrial" <?php  echo isset($meter) && $meter->building_type == 'industrial' ? 'selected' : '' ?>>Industrial</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_accessible" class="control-label"><?php echo _l('meter_section_meter_accessible'); ?></label>
+                                                              <select id="meter_section_meter_accessible" name="meter_section[meter_accessible]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->meter_accessible == '1' ? 'selected' : '' ?>>Yes</option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->meter_accessible == '0' ? 'selected' : '' ?>>No</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_location" class="control-label"><?php echo _l('meter_section_meter_location'); ?></label>
+                                                              <select id="meter_section_meter_location" name="meter_section[meter_location]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="inside" <?php  echo isset($meter) && $meter->meter_location == 'inside' ? 'selected' : '' ?>>Inside</option>
+                                                                  <option value="outside" <?php  echo isset($meter) && $meter->meter_location == 'outside' ? 'selected' : '' ?>>Outside</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_serial_number" class="control-label"><?php echo _l('meter_section_meter_serial_number'); ?></label>
+                                                              <select id="meter_section_meter_serial_number" name="meter_section[meter_serial_number]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_seals_on_arrival" class="control-label"><?php echo _l('meter_section_seals_on_arrival'); ?></label>
+                                                              <select id="meter_section_seals_on_arrival" name="meter_section[seals_on_arrival]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->seals_on_arrival == '1' ? 'selected' : '' ?>>Yes</option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->seals_on_arrival == '0' ? 'selected' : '' ?>>No</option>
+                                                                  
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_type" class="control-label"><?php echo _l('meter_section_meter_type'); ?></label>
+                                                              <select id="meter_section_meter_type" name="meter_section[meter_type]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="prepaid" <?php  echo isset($meter) && $meter->meter_type == 'prepaid' ? 'selected' : '' ?>>Prepaid</option>
+                                                                  <option value="postpaid" <?php  echo isset($meter) && $meter->meter_type == 'postpaid' ? 'selected' : '' ?>>Postpaid</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                      
+                                                  </div>
+                                              
+                                              
+                                                  
+                                                      
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_manufacturer" class="control-label"><?php echo _l('meter_section_meter_manufacturer'); ?></label>
+                                                              <select id="meter_section_meter_manufacturer" name="meter_section[meter_manufacturer]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="E Kard" <?php  echo isset($meter) && $meter->meter_manufacturer == 'E Kard' ? 'selected' : '' ?>>E Kard</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <?php echo render_input('meter_section[meter_reading]', 'meter_section_meter_reading', isset($meter)  ? $meter->meter_reading : '', 'text'); ?>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_phase" class="control-label"><?php echo _l('meter_section_phase'); ?></label>
+                                                              <select id="meter_section_phase" name="meter_section[phase]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->phase == '1' ? 'selected' : '' ?>>1 Phase</option>
+                                                                  <option value="2" <?php  echo isset($meter) && $meter->phase == '2' ? 'selected' : '' ?>>2 Phase</option>
+                                                                  <option value="3" <?php  echo isset($meter) && $meter->phase == '3' ? 'selected' : '' ?>>3 Phase</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_trip_test_done" class="control-label"><?php echo _l('meter_section_trip_test_done'); ?></label>
+                                                              <select id="meter_section_trip_test_done" name="meter_section[trip_test_done]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->trip_test_done == '1' ? 'selected' : '' ?>>Yes</option>
+                                                                  <option value="2" <?php  echo isset($meter) && $meter->trip_test_done == '2' ? 'selected' : '' ?>>No</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_trip_test_results" class="control-label"><?php echo _l('meter_section_trip_test_results'); ?></label>
+                                                              <select id="meter_section_trip_test_results" name="meter_section[trip_test_results]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->trip_test_results == '1' ? 'selected' : '' ?>>Successful</option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->trip_test_results == '0' ? 'selected' : '' ?>>Cancel</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_meter_condition" class="control-label"><?php echo _l('meter_section_meter_condition'); ?></label>
+                                                              <select id="meter_section_meter_condition" name="meter_section[meter_condition]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="2" <?php  echo isset($meter) && $meter->meter_condition == '2' ? 'selected' : '' ?>>Good</option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->meter_condition == '1' ? 'selected' : '' ?>>Average</option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->meter_condition == '0' ? 'selected' : '' ?>>Bad</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_other_illegal_connection" class="control-label"><?php echo _l('meter_section_other_illegal_connection'); ?></label>
+                                                              <select id="meter_section_other_illegal_connection" name="meter_section[other_illegal_connection]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->other_illegal_connection == '0' ? 'selected' : '' ?>>No</option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->other_illegal_connection == '1' ? 'selected' : '' ?>>Yes</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_sgc_number" class="control-label"><?php echo _l('meter_section_sgc_number'); ?></label>
+                                                              <select id="meter_section_sgc_number" name="meter_section[sgc_number]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="402" <?php  echo isset($meter) && $meter->sgc_number == '402' ? 'selected' : '' ?>>402</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_new_seals_fitted" class="control-label"><?php echo _l('meter_section_new_seals_fitted'); ?></label>
+                                                              <select id="meter_section_new_seals_fitted" name="meter_section[new_seals_fitted]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="1" <?php  echo isset($meter) && $meter->new_seals_fitted == '1' ? 'selected' : '' ?>>Yes</option>
+                                                                  <option value="0" <?php  echo isset($meter) && $meter->new_seals_fitted == '0' ? 'selected' : '' ?>>No</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                                              <label for="meter_section_new_seal_numbers" class="control-label"><?php echo _l('meter_section_new_seal_numbers'); ?></label>
+                                                              <select id="meter_section_new_seal_numbers" name="meter_section[new_seal_numbers]" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                                                  <option value=""></option>
+                                                                  <option value="MQ0032978" <?php  echo isset($meter) && $meter->new_seal_numbers == 'MQ0032978' ? 'selected' : '' ?>>MQ0032978</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                          </div>
+                                                      
+                                                  
+                                              </div>
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
                                 </div>
                           </div>
                       </div>
@@ -918,6 +1159,9 @@
 
        $('#booking_date').datetimepicker({
         });
+        $('#meter_section_time_stamp').datetimepicker({
+        });
+        
        $('#department').on('change',function (){
           var value = $('#department :selected').text(); 
           show_selected_department(value);

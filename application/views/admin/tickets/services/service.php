@@ -13,11 +13,18 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
+                        
                         <div id="additional"></div>
+                        
+                        <?php echo render_select('parentid', $parent_services, array('serviceid', 'name'), 'parent_category_services', ''); ?>
+                        
                         <?php echo render_input('name','category_add_edit_name'); ?>
                     </div>
                     <div class="col-md-12">
-                        <?php echo render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true')); ?>
+                        <div id="departmentid_div">
+                            <?php echo render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true')); ?>
+                        </div>
+                        
                     </div>
                     
                 </div>
@@ -77,12 +84,18 @@
     function edit_service(invoker,id){
         var name = $(invoker).data('name');
         var departmentid = $(invoker).data('departmentid');
+        var parentid = $(invoker).data('parentid');
+        
         $('#additional').append(hidden_input('id',id));
         $('#ticket-service-modal input[name="name"]').val(name);
         var group = $('#ticket-service-modal select#departmentid');
         group.selectpicker('val',departmentid);
         group.selectpicker('refresh');
+        
+        var groupparent = $('#ticket-service-modal select#parentid');
+        groupparent.selectpicker('val',parentid);
+        groupparent.selectpicker('refresh');
         $('#ticket-service-modal').modal('show');
         $('.add-title').addClass('hide');
     }
-</script>
+    </script>

@@ -97,7 +97,10 @@
           <input type="text" class="tagsinput" id="tags_bulk" name="tags_bulk" value="" data-role="tagsinput">
         </div>
         <?php if(get_option('services') == 1){ ?>
-        <?php echo render_select('move_to_service_tickets_bulk',$services,array('serviceid','name'),'service'); ?>
+            <div id="service_div">
+                <?php echo render_select('move_to_service_tickets_bulk',$services,array('serviceid','name'),'Category'); ?>
+            </div>
+        
         <?php } ?>
 
       </div>

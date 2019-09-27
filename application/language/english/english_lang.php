@@ -3659,9 +3659,35 @@ $lang['ems_dash_overdue_tickets']          = 'Overdue Tickets';
 $lang['ticket_table_edit_btn']             = 'Ticket Information';
 $lang['ticket_settings_category']          = 'Category';
 $lang['new_category']                      = 'New Category';
-$lang['category_add_edit_name']            = 'Category Name';
+$lang['category_add_edit_name']            = 'SubCategory / Category Name';
+
+$lang['parent_category_services']          = 'Parent Category';
 
 
-$lang['added_exited_record']   = '%s already exists.';
+$lang['meter_section_number']              = 'Number';
+$lang['meter_section_type']                = 'Type';
+$lang['meter_section_time_stamp']          = 'TimeStamp';
+$lang['meter_section_user']                = 'User';
+$lang['meter_section_machine']             = 'Machine';
+$lang['meter_section_building_type']       = 'Building Type';
+$lang['meter_section_meter_accessible']    = 'Meter accessible';
+$lang['meter_section_meter_location']      = 'Meter Location';
+$lang['meter_section_meter_serial_number'] = 'Meter Serial Number';
+$lang['meter_section_seals_on_arrival']    = 'Seals on Arrival';
+$lang['meter_section_meter_type']          = 'Meter Type';
+$lang['meter_section_meter_manufacturer']  = 'Meter Manufacturer';
+$lang['meter_section_meter_reading']       = 'Meter reading';
+$lang['meter_section_phase']               = 'Phase';
+$lang['meter_section_trip_test_done']      = 'Trip Test Done';
+$lang['meter_section_trip_test_results']   = 'Trip Test Results';
+$lang['meter_section_meter_condition']     = 'Meter condition';
+$lang['meter_section_other_illegal_connection']            = 'Other Illegal Connection';
+$lang['meter_section_sgc_number']          = 'SGC Number';
+$lang['meter_section_new_seals_fitted']    = 'New Seals Fitted';
+$lang['meter_section_new_seal_numbers']    = 'New Seal Numbers';
+$lang['meter_section_visit']               = 'Visit';
+
+
+$lang['added_exited_record']               = '%s already exists.';
 
 /**********************************************/

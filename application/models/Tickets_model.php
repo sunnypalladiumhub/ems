@@ -969,6 +969,13 @@ class Tickets_model extends App_Model
             }
             unset($data['custom_fields']);
         }
+        if (isset($data['meter_section']) && count($data['meter_section']) > 0) {
+            $this->load->helper('meter_helper');
+            if (handle_meter_fields_post($data['meter_number'], $data['meter_section'])) {
+                $affectedRows++;
+            }
+            unset($data['meter_section']);
+        }
 
         $tags = '';
         if (isset($data['tags'])) {
@@ -1363,7 +1370,7 @@ class Tickets_model extends App_Model
 
         return $this->db->get(db_prefix() . 'services')->result_array();
     }
-
+    
     public function add_service($data)
     {
         $this->db->insert(db_prefix() . 'services', $data);
@@ -1574,5 +1581,28 @@ class Tickets_model extends App_Model
                 ]);
 
         return true;
+    }
+    
+    public function get_services_list(){
+        $this->db->select("*");
+        $this->db->from(db_prefix() . 'services');
+        $this->db->where('parentid',0);
+        $this->db->order_by("serviceid");
+        $q = $this->db->get();
+        return $q->result_array();
+    }
+    public function get_department_data_by_service_id($service_id){
+        if($service_id > 0){
+        $this->db->select(db_prefix() . 'departments.*');
+        $this->db->join(db_prefix() . 'departments', '' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'services.departmentid');
+        
+            $this->db->where('serviceid',$service_id);
+        
+        $this->db->group_by(db_prefix() . 'departments.departmentid');
+        return $this->db->get(db_prefix() . 'services')->result_array();
+        }else{
+            $this->db->select(db_prefix() . 'departments.*');
+            return $this->db->get(db_prefix() . 'departments')->result_array();
+        }
     }
 }
