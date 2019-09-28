@@ -78,19 +78,28 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="sub_service_div">
+                                    <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                        <label for="sub_category" class="control-label">Sub category</label>
+                                        <select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>                                      
+                                </div>
                                 <?php
                                 if (is_admin() || get_option('staff_members_create_inline_ticket_services') == '1') {
                                    // echo render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
                                 } else {
-                                    echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category');
+                                   // echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category');
                                 }
                                 ?>
                                 <div id="meter_number_msg"></div>
+                                <div id="meter_number_div">
                                 <?php
                                 
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number', '', '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
-                                
+                                </div>
                                 <?php //echo render_custom_fields('meter_number'); ?>
                                 <?php //echo render_custom_fields('channel_type'); ?>
                                 <div class="row">
@@ -217,6 +226,7 @@
     <?php hooks()->do_action('new_ticket_admin_page_loaded'); ?>
     <script>
         $(function () {
+            $('#meter_number_div').hide();
 $('body').on('change','#company_id',function (){
     var contactid = $(this).val();
             init_ajax_search('contact', '#contactid.ajax-search', {
@@ -264,8 +274,19 @@ $('#group_id').on('change',function (){
         
         });
         $('#department').on('change',function (){
-    var department_id = $(this).val();
-    
+            $('#sub_service_div').html('<div class="select-placeholder form-group" app-field-wrapper="company_id"><label for="sub_category" class="control-label">Sub category</label><select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true"><option value=""></option></select></div>');
+            var groupsub = $('select#sub_category');
+            groupsub.selectpicker('refresh');
+            var department_id = $(this).val();
+            var department_text = $( "#department option:selected" ).text();
+            if(department_text.toLowerCase() == 'networks' || department_text.toLowerCase() == 'network'){
+                $('#meter_number_div').show();
+            }else{
+                $('#meter_number_div').hide();
+                var groupmeter_number = $('select#meter_number');
+                groupmeter_number.selectpicker('val','');
+            }
+            
             $.ajax({
                 url: admin_url + 'tickets/get_category_list_by_department',
                 type: 'POST',
@@ -275,6 +296,27 @@ $('#group_id').on('change',function (){
                     if (data.status == 1) {
                         $('#service_div').html(data.result);
                         var group = $('select#service');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });
+        
+        $('body').on('change','#service',function (){
+            var service_id = $(this).val();
+            
+            $.ajax({
+                url: admin_url + 'tickets/get_sub_category_by_service_id',
+                type: 'POST',
+                data: {service_id: service_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#sub_service_div').html(data.result);
+                        var group = $('select#sub_category');
                         group.selectpicker('refresh');
                     }
                 }

@@ -3660,6 +3660,7 @@ $lang['ticket_table_edit_btn']             = 'Ticket Information';
 $lang['ticket_settings_category']          = 'Category';
 $lang['new_category']                      = 'New Category';
 $lang['category_add_edit_name']            = 'SubCategory / Category Name';
+$lang['tickets_sub_category_name']         = 'SubCategory Name';
 
 $lang['parent_category_services']          = 'Parent Category';
 
@@ -3687,6 +3688,7 @@ $lang['meter_section_new_seals_fitted']    = 'New Seals Fitted';
 $lang['meter_section_new_seal_numbers']    = 'New Seal Numbers';
 $lang['meter_section_visit']               = 'Visit';
 
+$lang['menu_customer_sub_sla_manager']     = 'SLA Manager';
 
 $lang['added_exited_record']               = '%s already exists.';
 

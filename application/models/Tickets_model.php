@@ -1352,6 +1352,7 @@ class Tickets_model extends App_Model
     }
     public function get_service_by_department_id($department_id){
         $this->db->select(db_prefix() . 'services.*',db_prefix() . 'departments.name');
+        $this->db->where('parentid',0);
         $this->db->join(db_prefix() . 'departments', '' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'services.departmentid AND '.db_prefix().'departments.departmentid = '.$department_id);
         $this->db->order_by('serviceid', 'asc');
 
@@ -1604,5 +1605,23 @@ class Tickets_model extends App_Model
             $this->db->select(db_prefix() . 'departments.*');
             return $this->db->get(db_prefix() . 'departments')->result_array();
         }
+    }
+    public function get_sub_category_by_service_id($service_id){
+        
+        if($service_id > 0){
+            $this->db->select("*");
+            $this->db->from(db_prefix() . 'services');
+            $this->db->where('parentid',$service_id);
+            $this->db->order_by("serviceid");
+            $q = $this->db->get();
+            return $q->result_array();
+        }
+    }
+    public function get_service_details_by_id($service_id){
+        $this->db->select("IF(parentid > 0 , parentid,serviceid) as service_id, IF(parentid > 0 , serviceid,'') as sub_category");
+        $this->db->from(db_prefix() . 'services');
+        $this->db->where('serviceid',$service_id);
+        $q = $this->db->get();
+        return $q->row();
     }
 }

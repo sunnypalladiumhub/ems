@@ -73,6 +73,10 @@ class Tickets extends AdminController
         if ($this->input->post()) {
             $data            = $this->input->post();
             $data['message'] = $this->input->post('message', false);
+            if(isset($data['sub_category']) && $data['sub_category'] != ''){
+                $data['service'] = $data['sub_category'];
+                unset($data['sub_category']);
+            }
             $id              = $this->tickets_model->add($data, get_staff_user_id());
             if ($id) {
                 set_alert('success', _l('new_ticket_added_successfully', $id));
@@ -95,7 +99,8 @@ class Tickets extends AdminController
         $data['priorities']         = $this->tickets_model->get_priority();
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['services']           = $this->tickets_model->get_service();
-        $data['meter_number']           = $this->tickets_model->get_MeterNumber();
+        $data['meter_number']       = $this->tickets_model->get_MeterNumber();
+        $data['parent_services']    = $this->tickets_model->get_services_list();
         
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
@@ -229,8 +234,13 @@ class Tickets extends AdminController
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
+        
         //$data['services']           = $this->tickets_model->get_service();
         $data['services']           = $this->tickets_model->get_service_by_department_id($data['ticket']->department);
+        $data['service_detals']     = $this->tickets_model->get_service_details_by_id($data['ticket']->serviceid);
+        if($data['service_detals']->sub_category > 0){
+        $data['sub_category']       = $this->tickets_model->get_sub_category_by_service_id($data['service_detals']->service_id);
+        }
         $data['meter_number']       = $this->tickets_model->get_MeterNumber();
         if(isset($data['ticket']->meter_number) && $data['ticket']->meter_number > 0){
             $data['meter']          = $this->tickets_model->get_MeterNumber($data['ticket']->meter_number);
@@ -641,13 +651,14 @@ class Tickets extends AdminController
                 if (isset($post_data['ticket_area'])) {
                     unset($post_data['ticket_area']);
                 }
+                
                 $id = $this->tickets_model->add_service($post_data);
                 if (!$requestFromTicketArea) {
                     if ($id) {
                         set_alert('success', _l('added_successfully', _l('service')));
                     }
                 } else {
-                    echo json_encode(['success' => $id ? true : false, 'id' => $id, 'name' => $post_data['name']]);
+                    echo json_encode(['success' => $id ? true : false, 'parentid'=>$post_data['parentid'], 'id' => $id, 'name' => $post_data['name']]);
                 }
             } else {
                 $id = $post_data['id'];
@@ -789,8 +800,11 @@ class Tickets extends AdminController
     public function get_category_list_by_department(){
         if ($this->input->post()) {
             $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
-            
+            if($this->input->post('service')){
+                $dropdown = render_select_with_input_group('parentid', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '');
+            }else{
             $dropdown = render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service('.$this->input->post('department_id').');return false;"><i class="fa fa-plus"></i></a>');
+            }
             $data['status']=1;
             $data['result'] = $dropdown;
         }
@@ -810,8 +824,17 @@ class Tickets extends AdminController
     public function get_department_id_by_serviceid(){
         if ($this->input->post()) {
             $departments  = $this->tickets_model->get_department_data_by_service_id($this->input->post('serviceid'));
-            $dropdown = render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true'));;
+            $dropdown = render_select('departmentid', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true'));
             
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
+    public function get_sub_category_by_service_id(){
+        if ($this->input->post()) {
+            $sub_category  = $this->tickets_model->get_sub_category_by_service_id($this->input->post('service_id'));
+            $dropdown = render_select('sub_category', $sub_category, array('serviceid', 'name'), 'tickets_sub_category_name', (count($sub_category) == 1) ? $sub_category[0]['serviceid'] : '');
             $data['status']=1;
             $data['result'] = $dropdown;
         }

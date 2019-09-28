@@ -1069,4 +1069,15 @@ class Clients extends AdminController
 
         echo json_encode($viewData);
     }
+    
+    
+    /************************************ This is for SLA manager ***/
+    
+    public function sla_manager(){
+        $this->load->view('admin/clients/sla_manager/manage');
+    }
+
+
+    /****************************************************************/
+    
 }

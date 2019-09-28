@@ -16,7 +16,10 @@
                         
                         <div id="additional"></div>
                         
-                        <?php echo render_select('parentid', $parent_services, array('serviceid', 'name'), 'parent_category_services', ''); ?>
+                        <div id="service_sub_div">
+                            <?php echo render_select('parentid', $parent_services, array('serviceid', 'name'), 'parent_category_services', ''); ?>
+                        </div>
+                        
                         
                         <?php echo render_input('name','category_add_edit_name'); ?>
                     </div>
@@ -59,9 +62,18 @@
                response = JSON.parse(response);
                if(response.success == true && typeof(response.id) != 'undefined'){
                 var group = $('select#service');
-                group.find('option:first').after('<option value="'+response.id+'">'+response.name+'</option>');
-                group.selectpicker('val',response.id);
-                group.selectpicker('refresh');
+                if(response.parentid > 0){
+                    group.selectpicker('val',response.parentid);
+                    group.selectpicker('refresh');
+                    var sub_category = $('select#sub_category');
+                    sub_category.find('option:first').after('<option value="'+response.id+'">'+response.name+'</option>');
+                    sub_category.selectpicker('val',response.id);
+                    sub_category.selectpicker('refresh');
+                }else{
+                    group.find('option:first').after('<option value="'+response.id+'">'+response.name+'</option>');
+                    group.selectpicker('val',response.id);
+                    group.selectpicker('refresh');
+                }
             }
             $('#ticket-service-modal').modal('hide');
         } else {
@@ -73,10 +85,25 @@
     function new_service(departmentid = 0){
         
         if(departmentid > 0 ){
+            
             var group = $('#ticket-service-modal select#departmentid');
             group.selectpicker('val',departmentid);
             group.selectpicker('refresh');
             group.attr('disabled',true);
+            $.ajax({
+                url: admin_url + 'tickets/get_category_list_by_department',
+                type: 'POST',
+                data: {department_id: departmentid,service:1},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#service_sub_div').html(data.result);
+                        var groupparentid = $('select#parentid');
+                        groupparentid.selectpicker('refresh');
+                    }
+                }
+
+            });
         }
         $('#ticket-service-modal').modal('show');
         $('.edit-title').addClass('hide');

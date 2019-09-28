@@ -28,8 +28,21 @@ function app_init_admin_sidebar_menu_items()
             'position' => 5,
             'icon'     => 'fa fa-user-o',
         ]);
+        
+        $CI->app_menu->add_sidebar_children_item('customers', [
+                'slug'     => 'customer-groups',
+                'name'     => _l('als_clients'),
+                'href'     => admin_url('clients'),
+                'position' => 5,
+        ]);
+        $CI->app_menu->add_sidebar_children_item('customers', [
+                    'slug'     => 'customer-groups',
+                    'name'     => _l('menu_customer_sub_sla_manager'),
+                    'href'     => admin_url('clients/sla_manager'),
+                    'position' => 10,
+            ]);
     }
-
+    
     $CI->app_menu->add_sidebar_menu_item('sales', [
             'collapse' => true,
             'name'     => _l('als_sales'),
@@ -290,6 +303,7 @@ function app_init_admin_sidebar_menu_items()
                     'href'     => admin_url('clients/groups'),
                     'position' => 5,
             ]);
+        
         $CI->app_menu->add_setup_menu_item('support', [
                     'collapse' => true,
                     'name'     => _l('support'),
