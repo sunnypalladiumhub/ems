@@ -31,6 +31,7 @@ class Staff extends AdminController
             $data = $this->input->post();
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
+            $data['coffee_report'] = isset($_POST['coffee_report']) ? 1 : 0 ;
             $data['email_signature'] = html_entity_decode($data['email_signature']);
 
             if ($data['email_signature'] == strip_tags($data['email_signature'])) {
@@ -55,6 +56,7 @@ class Staff extends AdminController
                     access_denied('staff');
                 }
                 handle_staff_profile_image_upload($id);
+                
                 $response = $this->staff_model->update($data, $id);
                 if (is_array($response)) {
                     if (isset($response['cant_remove_main_admin'])) {

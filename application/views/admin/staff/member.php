@@ -203,6 +203,10 @@
                                  <label for="send_welcome_email"><?php echo _l('staff_send_welcome_email'); ?></label>
                               </div>
                            <?php } ?>
+                            <div class="checkbox checkbox-primary">
+                                <input type="checkbox" name="coffee_report" id="coffee_report" <?php echo isset($member->coffee_report) && $member->coffee_report == 1 ? 'checked' : ''; ?>>
+                                <label for="coffee_report"><?php echo _l('staff_add_edit_coffee_report'); ?></label>
+                            </div>
                         </div>
                      </div>
                      <?php if(!isset($member) || is_admin() || !is_admin() && $member->admin == 0) { ?>

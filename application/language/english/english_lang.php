@@ -3700,6 +3700,8 @@ $lang['ems_dahsboard_summary_overdue']               = 'Overdue';
 $lang['ems_dahsboard_summary_due_today']             = 'Due Today';
 $lang['ems_dahsboard_summary_tickets_open']          = 'Tickets Open';
 $lang['ems_dahsboard_summary_in_progress']           = 'In Progress';
-$lang['ems_dahsboard_summary_unassigned']           = 'Unassigned';
+$lang['ems_dahsboard_summary_unassigned']            = 'Unassigned';
+
+$lang['staff_add_edit_coffee_report']                = 'Coffee Report';
 
 /**********************************************/
