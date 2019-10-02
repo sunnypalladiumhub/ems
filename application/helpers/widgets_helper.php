@@ -288,9 +288,4 @@ function render_ems_dashboard_widgets($container)
     }
     
 }
-function overdue_tickets_details(){
-        $CI = &get_instance();
-        $CI->load->model('clients_model');
-        return $CI->clients_model->get_groups();
-        
-    }
+

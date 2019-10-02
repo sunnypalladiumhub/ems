@@ -17,7 +17,9 @@
                             <h4 class="bold no-mbot"><?php echo $question['question']; ?></h4>
                             <hr />
                             <?php $x = 0;
-                                foreach($question['box_descriptions'] as $box_description){ ?>
+                                foreach($question['box_descriptions'] as $box_description){ 
+                                    
+                                    ?>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">

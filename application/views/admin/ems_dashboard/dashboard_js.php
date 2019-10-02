@@ -11,13 +11,7 @@
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
 					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor()
+						<?php echo $today_tickets; ?>
 					],
 					fill: false,
 				}, {
@@ -26,25 +20,7 @@
 					backgroundColor: window.chartColors.blue,
 					borderColor: window.chartColors.blue,
 					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
-                                                randomScalingFactor(),
+						<?php echo $yesterday_tickets; ?>
                                                 
 					],
 				}]

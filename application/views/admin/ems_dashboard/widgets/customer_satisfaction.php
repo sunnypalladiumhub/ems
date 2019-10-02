@@ -18,19 +18,32 @@
 
                     <div class="col-md-6" style="text-align: center;">
                         <p>Response Received</p>
-                        <h3>300</h3>
+                        <?php $total_box_answers = total_rows(db_prefix().'form_results',array('rel_type'=>'survey')); ?>
+                        <h3><?php echo $total_box_answers; ?></h3>
                     </div>
                     <div class="col-md-6" style="text-align: center;">
-                        <p>Positive</p>
-                        <h3>90%</h3>
+                        <p> Extremely Satisfied </p>
+                        <?php
+                            $total_box_description_answers = total_rows(db_prefix().'form_results',array('boxdescriptionid'=>1,'rel_type'=>'survey'));
+                            $percent = ($total_box_description_answers > 0 ? number_format(($total_box_description_answers * 100) / $total_box_answers,2) : 0);
+                        ?>
+                        <h3><?php echo $percent; ?>%</h3>
                     </div>
                     <div class="col-md-6" style="text-align: center;">
-                        <p>Neutral</p>
-                        <h3>6%</h3>
+                        <p> Moderately Satisfied </p>
+                        <?php
+                            $total_box_Moderately = total_rows(db_prefix().'form_results',array('boxdescriptionid'=>4,'rel_type'=>'survey'));
+                            $percent_Moderately = ($total_box_Moderately > 0 ? number_format(($total_box_Moderately * 100) / $total_box_answers,2) : 0);
+                        ?>
+                        <h3><?php echo $percent_Moderately; ?>%</h3>
                     </div>
                     <div class="col-md-6" style="text-align: center;">
-                        <p>Negative</p>
-                        <h3>4%</h3>
+                        <p> Not happy at all </p>
+                        <?php
+                            $total_box_not = total_rows(db_prefix().'form_results',array('boxdescriptionid'=>5,'rel_type'=>'survey'));
+                            $percent_not = ($total_box_not > 0 ? number_format(($total_box_not * 100) / $total_box_answers,2) : 0);
+                        ?>
+                        <h3><?php echo $percent_not; ?>%</h3>
                     </div>
                         
                     

@@ -80,7 +80,7 @@
                                 </div>
                                 <div id="sub_service_div">
                                     <div class="select-placeholder form-group" app-field-wrapper="company_id">
-                                        <label for="sub_category" class="control-label">Sub category</label>
+                                        <label for="sub_category" class="control-label"><?php echo _l('tickets_sub_category_name'); ?></label>
                                         <select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
                                             <option value=""></option>
                                         </select>
@@ -114,7 +114,7 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <?php echo render_input('name', 'ticket_settings_to', '', 'text', array('disabled' => true)); ?>
+                                        <?php echo render_input('name', 'ticket_settings_to_new', '', 'text', array('disabled' => true)); ?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo render_input('email', 'ticket_settings_email', '', 'email', array('disabled' => true)); ?>
@@ -274,7 +274,7 @@ $('#group_id').on('change',function (){
         
         });
         $('#department').on('change',function (){
-            $('#sub_service_div').html('<div class="select-placeholder form-group" app-field-wrapper="company_id"><label for="sub_category" class="control-label">Sub category</label><select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true"><option value=""></option></select></div>');
+            $('#sub_service_div').html('<div class="select-placeholder form-group" app-field-wrapper="company_id"><label for="sub_category" class="control-label">Sub Category Name</label><select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true"><option value=""></option></select></div>');
             var groupsub = $('select#sub_category');
             groupsub.selectpicker('refresh');
             var department_id = $(this).val();

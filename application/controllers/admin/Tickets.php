@@ -230,7 +230,10 @@ class Tickets extends AdminController
 
         $data['departments']        = $this->departments_model->get();
         $data['company_groups']     = $this->clients_model->get_groups();
+        $data['company_name'] = array();
+        if($data['ticket']->group_id > 0){
         $data['company_name']       = $this->clients_model->get_customer_by_group_id($data['ticket']->group_id);
+        }
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
@@ -238,8 +241,10 @@ class Tickets extends AdminController
         //$data['services']           = $this->tickets_model->get_service();
         $data['services']           = $this->tickets_model->get_service_by_department_id($data['ticket']->department);
         $data['service_detals']     = $this->tickets_model->get_service_details_by_id($data['ticket']->serviceid);
+        $data['sub_category'] = array();
         if($data['service_detals']->sub_category > 0){
         $data['sub_category']       = $this->tickets_model->get_sub_category_by_service_id($data['service_detals']->service_id);
+        
         }
         $data['meter_number']       = $this->tickets_model->get_MeterNumber();
         if(isset($data['ticket']->meter_number) && $data['ticket']->meter_number > 0){

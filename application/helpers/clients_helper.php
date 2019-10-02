@@ -122,6 +122,7 @@ function filter_client_visible_tabs($tabs)
     $newTabs = [];
 
     $visible = get_option('visible_customer_profile_tabs');
+    
     if ($visible != 'all') {
         $visible = unserialize($visible);
     }
@@ -314,6 +315,12 @@ function app_init_customer_profile_tabs()
         'icon'     => 'fa fa-map-marker',
         'view'     => 'admin/clients/groups/map',
         'position' => 95,
+    ]);
+    $CI->app_tabs->add_customer_profile_tab('sla_manager', [
+        'name'     => _l('menu_customer_sub_sla_manager'),
+        'icon'     => 'fa fa-tasks',
+        'view'     => 'admin/clients/groups/sla_manager',
+        'position' => 100,
     ]);
 }
 

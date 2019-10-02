@@ -1624,4 +1624,71 @@ class Tickets_model extends App_Model
         $q = $this->db->get();
         return $q->row();
     }
+    public function ticket_detail_by_time($type){
+        $date = new DateTime("now");
+        if($type == '1'){
+        $oYesterday = clone $date;
+        $oYesterday->modify('-1 day');
+        $curr_date = $oYesterday->format('Y-m-d');
+        }else{
+        $curr_date = $date->format('Y-m-d');
+        }
+        
+        $this->db->select('extract(hour from date) as the_hour, count(*) as number_of_ticket');
+        $this->db->from(db_prefix() . 'tickets');
+        $this->db->where('DATE(date)',$curr_date);
+        $this->db->group_by('extract(hour from date)');
+        $q = $this->db->get();
+        return $q->result_array();
+        
+    }
+    
+    
+    
+    /**************************** Dashboard Status ********/
+    public function get_ems_dashboard_status() {
+        $statuses = hooks()->apply_filters('before_get_ems_dashboard_status', [
+            [
+                'id' => 1,
+                'color' => 'red',
+                'name' => _l('ems_dahsboard_summary_overdue'),
+                'order' => 1,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 2,
+                'color' => 'orange',
+                'name' => _l('ems_dahsboard_summary_due_today'),
+                'order' => 2,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 3,
+                'color' => 'black',
+                'name' => _l('ems_dahsboard_summary_tickets_open'),
+                'order' => 3,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 4,
+                'color' => 'green',
+                'name' => _l('ems_dahsboard_summary_in_progress'),
+                'order' => 4,
+                'filter_default' => true,
+            ],
+            [
+                'id' => 5,
+                'color' => 'red',
+                'name' => _l('ems_dahsboard_summary_unassigned'),
+                'order' => 5,
+                'filter_default' => true,
+            ],
+        ]);
+
+        usort($statuses, function ($a, $b) {
+            return $a['order'] - $b['order'];
+        });
+
+        return $statuses;
+    }
 }

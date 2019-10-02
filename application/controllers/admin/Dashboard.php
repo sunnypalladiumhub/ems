@@ -81,6 +81,28 @@ class Dashboard extends AdminController {
     public function ems_dashboard() {
         $data=array();
         add_admin_chat_js_assets();
+        $this->load->model('tickets_model');
+        $today_hours_records = $this->tickets_model->ticket_detail_by_time('0');
+        $yesterday_hours_records = $this->tickets_model->ticket_detail_by_time('1');
+        $today_array = array();
+        $yesterday_array = array();
+        for ($x = 0; $x <= 23; $x++) {
+            $today_array[$x]=0;
+            $yesterday_array[$x]=0;
+        }
+        if(!empty($today_hours_records)){
+            foreach ($today_hours_records as $key=>$value){
+                $today_array[$value['the_hour']] = $value['number_of_ticket'];
+            }
+        }
+        if(!empty($yesterday_hours_records)){
+            foreach ($yesterday_hours_records as $key=>$value){
+                $yesterday_array[$value['the_hour']] = $value['number_of_ticket'];
+            }
+        }
+        
+        $data['today_tickets'] = implode(',',$today_array);
+        $data['yesterday_tickets'] = implode(',',$yesterday_array);
         $this->load->view('admin/ems_dashboard/dashboard', $data);
     }
 

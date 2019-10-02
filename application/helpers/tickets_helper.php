@@ -200,7 +200,77 @@ function can_change_ticket_status_in_clients_area($status = null)
 
     return true;
 }
+function ticket_ems_dashboard_summary_data($rel_id = null, $rel_type = null) {
+    $CI = &get_instance();
+    $CI->load->model('tickets_model');
+    $tasks_summary = [];
+    $statuses = $CI->tickets_model->get_ems_dashboard_status();
 
+    foreach ($statuses as $status) {
+        $ticket_where = [];
+        if ($status['id'] == 1) {
+            $ticket_where['status'] = 5;
+        } elseif ($status['id'] == 2) {
+            $ticket_where['status'] = 5;
+            $date = new DateTime("now");
+            $curr_date = $date->format('Y-m-d');
+            $ticket_where['DATE(date)'] = $curr_date;
+            
+        } elseif ($status['id'] == 3) {
+            $ticket_where['status NOT IN (5,3)']='';
+            //$ticket_where['status !='] = 3;
+        }elseif ($status['id'] == 4) {
+            $ticket_where['status'] = 2;
+        }
+        elseif ($status['id'] == 5) {
+            $ticket_where['status'] = 1;
+        }
+
+        $summary = [];
+        if($status['id'] == 3){
+            $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3)');
+        }else{
+        $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', $ticket_where);
+        }
+        //$summary['total_my_tasks'] = total_rows(db_prefix() . 'stock', $tasks_my_where);
+        $summary['color'] = $status['color'];
+        $summary['name'] = $status['name'];
+        $summary['status_id'] = $status['id'];
+        $tasks_summary[] = $summary;
+    }
+    
+    return $tasks_summary;
+}
+function overdue_tickets_details(){
+        $CI = &get_instance();
+        $CI->load->model('clients_model');
+        $statuses =  $CI->clients_model->get_groups();
+        $date = new DateTime("now");
+        $curr_date = $date->format('Y-m-d');
+        
+        
+        foreach ($statuses as $key=>$value){
+            $CI->db->select('COUNT(ticketid) as Overdue_today');
+            $CI->db->from(db_prefix() . 'tickets');
+            $CI->db->where('DATE(date)',$curr_date);
+            $CI->db->where('status',5);
+            $CI->db->where('group_id',$value['id']);
+            $q = $CI->db->get()->row();
+            
+            
+            $CI->db->select('COUNT(ticketid) as Overdue');
+            $CI->db->from(db_prefix() . 'tickets');
+            $CI->db->where('status',5);
+            $CI->db->where('group_id',$value['id']);
+            $Overdue = $CI->db->get()->row();
+            
+            $summary['name'] = $value['name'];
+            $summary['Overdue_today'] = $q->Overdue_today;
+            $summary['Overdue'] = $Overdue->Overdue;
+            $tasks_summary[] = $summary;
+        }
+       return $tasks_summary;
+    }
 /**
  * For html5 form accepted attributes
  * This function is used for the tickets form attachments

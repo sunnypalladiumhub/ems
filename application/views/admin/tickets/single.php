@@ -52,7 +52,7 @@
                         </li>
                         <li role="presentation" class="<?php if($this->session->flashdata('active_tab_settings')){echo 'active';} ?>">
                            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
-                              <?php echo _l('ticket_single_settings'); ?>
+                              <?php echo _l('ticket_single_settings_new'); ?>
                            </a>
                         </li>
                         <?php
@@ -322,7 +322,7 @@
                         <?php }else{ ?>
                             <div class="row">
                                     <div class="col-md-6">
-                                        <?php echo render_input('name', 'ticket_settings_to', $ticket->from_name, 'text', array('disabled' => true)); ?>
+                                        <?php echo render_input('name', 'ticket_settings_to_new', $ticket->from_name, 'text', array('disabled' => true)); ?>
                                     </div>
                                     <div class="col-md-6">
                                         <?php echo render_input('email', 'ticket_settings_email',  $ticket->ticket_email, 'email', array('disabled' => true)); ?>
@@ -410,16 +410,16 @@
                                           <div class="row">
                                               <div class="col-md-6">
                                                   <div class="row">
-                                                      <div class="col-md-6">
+                                                      <div class="col-md-12">
                                                           <div class="form-group">
-                                                              <?php echo render_input('name', 'ticket_contact_name', $ticket->from_name, 'text'); ?>
+                                                              <?php echo render_input('name', 'ticket_settings_to_new', $ticket->from_name .''. $ticket->surname, 'text'); ?>
                                                           </div>
                                                       </div>
-                                                      <div class="col-md-6">
+<!--                                                      <div class="col-md-6">
                                                           <div class="form-group">
-                                                              <?php echo render_input('surname', 'ticket_contact_surname', $ticket->surname, 'text'); ?>
+                                                              <?php //echo render_input('surname', 'ticket_contact_surname', $ticket->surname, 'text'); ?>
                                                           </div>
-                                                      </div>
+                                                      </div>-->
                                                   </div>
                                                   <div class="row">
                                                       <div class="col-md-6">

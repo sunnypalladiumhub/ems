@@ -5,33 +5,16 @@
     <div class="panel_s">
         <div class="panel-body">
             <div class="row">
-                <?php
-                $statuses = $this->tickets_model->get_ticket_status();
-                ?>
-                <div class="col-md-12">
-                    <h4 class="no-margin"><?php echo _l('tickets_summary'); ?></h4>
-                </div>
-                <?php
-                $where = '';
-
-                foreach ($statuses as $status) {
-                    $_where = '';
-                    if ($where == '') {
-                        $_where = 'status=' . $status['ticketstatusid'];
-                    } else {
-                        $_where = 'status=' . $status['ticketstatusid'] . ' ' . $where;
-                    }
-                    if (isset($project_id)) {
-                        $_where = $_where . ' AND project_id=' . $project_id;
-                    }
-                    ?>
-                    <div class="col-md-2 col-xs-6 mbot15 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix() . 'tickets', $_where); ?></h3>
-                        <span style="color:<?php echo $status['statuscolor']; ?>">
-                            <?php echo ticket_status_translate($status['ticketstatusid']); ?>
-                        </span>
+                <?php $this->load->helper('tickets_helper'); ?>
+                <?php foreach(ticket_ems_dashboard_summary_data((isset($rel_id) ? $rel_id : null),(isset($rel_type) ? $rel_type : null)) as $summary){ ?>
+                    <div class="col-md-2 col-xs-2 border-right">
+                      <h3 class="bold no-mtop"><?php echo $summary['total_tasks']; ?></h3>
+                      <p style="color:<?php echo $summary['color']; ?>" class="font-medium no-mbot">
+                        <?php echo $summary['name']; ?>
+                      </p>
                     </div>
                 <?php } ?>
+                
             </div>
         </div>
     </div>

@@ -544,6 +544,7 @@ $lang['ticket_lowercase']                                    = 'ticket';
 $lang['support_tickets']                                     = 'Support Tickets';
 $lang['support_ticket']                                      = 'Support Ticket';
 $lang['ticket_settings_to']                                  = 'Name';
+$lang['ticket_settings_to_new']                              = 'Full Name';
 $lang['ticket_settings_email']                               = 'Email address';
 $lang['ticket_settings_departments']                         = 'Department';
 $lang['ticket_settings_service']                             = 'Service';
@@ -568,6 +569,7 @@ $lang['ticket_single_add_reply']                             = 'Add Reply';
 $lang['ticket_single_add_note']                              = 'Add Note';
 $lang['ticket_single_other_user_tickets']                    = 'Other Tickets';
 $lang['ticket_single_settings']                              = 'Settings';
+$lang['ticket_single_settings_new']                          = 'Ticket Information';
 $lang['ticket_single_priority']                              = 'Priority: %s';
 $lang['ticket_single_last_reply']                            = 'Last Reply: %s';
 $lang['ticket_single_ticket_note_by']                        = 'Ticket note by %s';
@@ -3660,7 +3662,7 @@ $lang['ticket_table_edit_btn']             = 'Ticket Information';
 $lang['ticket_settings_category']          = 'Category';
 $lang['new_category']                      = 'New Category';
 $lang['category_add_edit_name']            = 'SubCategory / Category Name';
-$lang['tickets_sub_category_name']         = 'SubCategory Name';
+$lang['tickets_sub_category_name']         = 'Sub Category Name';
 
 $lang['parent_category_services']          = 'Parent Category';
 
@@ -3691,5 +3693,13 @@ $lang['meter_section_visit']               = 'Visit';
 $lang['menu_customer_sub_sla_manager']     = 'SLA Manager';
 
 $lang['added_exited_record']               = '%s already exists.';
+
+
+
+$lang['ems_dahsboard_summary_overdue']               = 'Overdue';
+$lang['ems_dahsboard_summary_due_today']             = 'Due Today';
+$lang['ems_dahsboard_summary_tickets_open']          = 'Tickets Open';
+$lang['ems_dahsboard_summary_in_progress']           = 'In Progress';
+$lang['ems_dahsboard_summary_unassigned']           = 'Unassigned';
 
 /**********************************************/

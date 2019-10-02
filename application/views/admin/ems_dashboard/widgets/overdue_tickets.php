@@ -25,8 +25,8 @@
                             ?>
                             <tr>
                                 <td><?php echo $value['name']; ?></td>
-                                <td style="color: red;">2</td>
-                                <td style="color: orange;">3</td>
+                                <td style="color: red;"><?php echo $value['Overdue']; ?></td>
+                                <td style="color: orange;"><?php echo $value['Overdue_today']; ?></td>
                             </tr>
                                 <?php } ?>
                             
