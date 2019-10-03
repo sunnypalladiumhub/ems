@@ -279,6 +279,12 @@ function app_init_admin_sidebar_menu_items()
                     'href'     => admin_url('reports/knowledge_base_articles'),
                     'position' => 30,
             ]);
+        $CI->app_menu->add_sidebar_children_item('reports', [
+                    'slug'     => 'meter-number',
+                    'name'     => _l('als_meter_number_submenu'),
+                    'href'     => admin_url('meter_number'),
+                    'position' => 35,
+            ]);
     }
 
     // Setup menu

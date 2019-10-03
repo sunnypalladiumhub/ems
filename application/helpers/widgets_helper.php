@@ -72,15 +72,15 @@ function get_ems_dashboard_widgets()
         ],
         [
             'path'      => 'admin/ems_dashboard/widgets/overdue_tickets',
-            'container' => 'left-4',
+            'container' => 'bottom-12',
         ],
         [
             'path'      => 'admin/ems_dashboard/widgets/customer_satisfaction',
-            'container' => 'center-4',
+            'container' => 'left-6',
         ],
         [
             'path'      => 'admin/ems_dashboard/widgets/service_levels',
-            'container' => 'right-4',
+            'container' => 'right-6',
         ],
         
     ];

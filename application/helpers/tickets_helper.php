@@ -53,6 +53,35 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
     return $table;
 }
 
+function AdminMeterNumberStructure($name = '', $bulk_action = false)
+{
+    $table = '<table class="table customizable-table dt-table-loading ' . ($name == '' ? 'meter_number-table' : $name) . ' table-meter_number" id="table-meter_number" data-last-order-identifier="meter_number" data-default-order="' . get_table_last_order('tickets') . '">';
+    $table .= '<thead>';
+    $table .= '<tr>';
+
+//    $table .= '<th class="' . ($bulk_action == true ? '' : 'not_visible') . '">';
+//    $table .= '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="tickets"><label></label></div>';
+//    $table .= '</th>';
+
+    $table .= '<th class="toggleable" id="th-number">' . _l('meter_section_number') . '</th>';
+    $table .= '<th class="toggleable" id="th-type">' . _l('meter_section_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-building_type">' . _l('meter_section_building_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_type">' . _l('meter_section_meter_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-phase">' . _l('meter_section_phase') . '</th>';
+    
+    
+    $table .= '</tr>';
+    $table .= '</thead>';
+    $table .= '<tbody></tbody>';
+    $table .= '</table>';
+
+    $table .= '<script id="hidden-columns-table-tickets" type="text/json">';
+    //$table .= get_staff_meta(get_staff_user_id(), 'hidden-columns-table-tickets');
+    $table .= '</script>';
+
+    return $table;
+}
+
 /**
  * Function to translate ticket status
  * The app offers ability to translate ticket status no matter if they are stored in database

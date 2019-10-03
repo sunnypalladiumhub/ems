@@ -55,7 +55,12 @@ $where  = [];
 $filter = [];
 
 if (isset($userid) && $userid != '') {
-    array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $userid);
+    if($userid == 3){
+        array_push($where, 'AND (' . db_prefix() . 'tickets.userid = ' . $userid.' OR ' . db_prefix() . 'tickets.userid = NULL OR ' . db_prefix() . 'tickets.userid = 0 )');
+    }else{
+        array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $userid);
+    }
+    
 } elseif (isset($by_email)) {
     array_push($where, 'AND ' . db_prefix() . 'tickets.email = "' . $by_email . '"');
 }
