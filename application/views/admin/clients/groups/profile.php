@@ -65,7 +65,7 @@
                   <div id="company_exists_info" class="hide"></div>
                   <?php if(get_option('company_requires_vat_number_field') == 1){
                      $value=( isset($client) ? $client->vat : '');
-                     echo render_input( 'vat', 'client_vat_number',$value);
+                     echo render_input( 'vat', 'client_vat_number_new',$value);
                      } ?>
                   <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
                   <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>

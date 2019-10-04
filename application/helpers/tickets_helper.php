@@ -229,7 +229,7 @@ function can_change_ticket_status_in_clients_area($status = null)
 
     return true;
 }
-function ticket_ems_dashboard_summary_data($rel_id = null, $rel_type = null) {
+function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null) {
     $CI = &get_instance();
     $CI->load->model('tickets_model');
     $tasks_summary = [];
@@ -254,10 +254,26 @@ function ticket_ems_dashboard_summary_data($rel_id = null, $rel_type = null) {
         elseif ($status['id'] == 5) {
             $ticket_where['status'] = 1;
         }
-
+        if($customer_id > 0){
+            if($customer_id == 3){
+                $ticket_where['userid'] = 0;
+            }else{
+            $ticket_where['userid'] = $customer_id;
+            }
+        }
+        
         $summary = [];
+        $ticket_where_new=array();
         if($status['id'] == 3){
-            $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3)');
+            if($customer_id > 0){
+                if($customer_id == 3){
+                    $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = 0');
+                }else{
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = '.$customer_id);
+                }
+            }else{
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3)');
+            }
         }else{
         $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', $ticket_where);
         }
@@ -270,7 +286,7 @@ function ticket_ems_dashboard_summary_data($rel_id = null, $rel_type = null) {
     
     return $tasks_summary;
 }
-function overdue_tickets_details(){
+function overdue_tickets_details($customer_id = null){
         $CI = &get_instance();
         $CI->load->model('clients_model');
         $statuses =  $CI->clients_model->get_groups();
@@ -284,6 +300,13 @@ function overdue_tickets_details(){
             $CI->db->where('DATE(date)',$curr_date);
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
+            if($customer_id > 0){
+                if($customer_id == 3){
+                    $CI->db->where('userid',0);
+                }else{
+                    $CI->db->where('userid',$customer_id);
+                }
+            }
             $q = $CI->db->get()->row();
             
             
@@ -291,6 +314,13 @@ function overdue_tickets_details(){
             $CI->db->from(db_prefix() . 'tickets');
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
+            if($customer_id > 0){
+                if($customer_id == 3){
+                    $CI->db->where('userid',0);
+                }else{
+                    $CI->db->where('userid',$customer_id);
+                }
+            }
             $Overdue = $CI->db->get()->row();
             
             $summary['name'] = $value['name'];

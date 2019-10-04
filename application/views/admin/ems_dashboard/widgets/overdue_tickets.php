@@ -20,7 +20,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $data_groups =  overdue_tickets_details(); 
+                            <?php $data_groups =  overdue_tickets_details(isset($customer_id) ? $customer_id : null); 
                                 foreach ($data_groups as $key=>$value){
                             ?>
                             <tr>

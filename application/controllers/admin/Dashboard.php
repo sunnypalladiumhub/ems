@@ -82,8 +82,17 @@ class Dashboard extends AdminController {
         $data=array();
         add_admin_chat_js_assets();
         $this->load->model('tickets_model');
-        $today_hours_records = $this->tickets_model->ticket_detail_by_time('0');
-        $yesterday_hours_records = $this->tickets_model->ticket_detail_by_time('1');
+        $this->load->model('clients_model');
+        $customer = 0;
+        if($this->input->post()){
+            $customer = $this->input->post('customer_id');
+            $data['customer_id'] = $customer;
+        }
+        $customer_results = $this->clients_model->get();
+        $data['customer_results'] = $customer_results;
+        
+        $today_hours_records = $this->tickets_model->ticket_detail_by_time('0',$customer);
+        $yesterday_hours_records = $this->tickets_model->ticket_detail_by_time('1',$customer);
         $today_array = array();
         $yesterday_array = array();
         for ($x = 0; $x <= 23; $x++) {

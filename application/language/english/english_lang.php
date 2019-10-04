@@ -3705,4 +3705,5 @@ $lang['ems_dahsboard_summary_unassigned']            = 'Unassigned';
 $lang['staff_add_edit_coffee_report']                = 'Coffee Report';
 
 $lang['als_meter_number_submenu']                = 'Meter Number';
+$lang['client_vat_number_new']                       = 'Unique ID';
 /**********************************************/

@@ -1624,7 +1624,7 @@ class Tickets_model extends App_Model
         $q = $this->db->get();
         return $q->row();
     }
-    public function ticket_detail_by_time($type){
+    public function ticket_detail_by_time($type,$customerid = null){
         $date = new DateTime("now");
         if($type == '1'){
         $oYesterday = clone $date;
@@ -1637,6 +1637,13 @@ class Tickets_model extends App_Model
         $this->db->select('extract(hour from date) as the_hour, count(*) as number_of_ticket');
         $this->db->from(db_prefix() . 'tickets');
         $this->db->where('DATE(date)',$curr_date);
+        if($customerid > 0){
+            if($customerid == 3){
+                $this->db->where('userid',0);
+            }else{
+                $this->db->where('userid',$customerid);
+            }
+        }
         $this->db->group_by('extract(hour from date)');
         $q = $this->db->get();
         return $q->result_array();

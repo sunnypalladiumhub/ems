@@ -54,6 +54,7 @@ function app_init_sms_gateways()
         'sms/sms_clickatell',
         'sms/sms_msg91',
         'sms/sms_twilio',
+       // 'sms/Sms_SMSPortal',
     ];
 
     $gateways = hooks()->apply_filters('sms_gateways', $gateways);
