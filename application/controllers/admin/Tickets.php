@@ -60,8 +60,7 @@ class Tickets extends AdminController
     public function get_contact_list_by_group(){
         if ($this->input->post()) {
             $company_name  = $this->clients_model->get_customer_by_group_id($this->input->post('group_id'));
-            
-            $dropdown = render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', '', array('required' => 'true')); 
+            $dropdown = render_select_for_company_name('company_id', $company_name, array('userid', array('company','vat')), 'ticket_drp_company_name', '', array('required' => 'true')); 
             $data['status']=1;
             $data['result'] = $dropdown;
         }

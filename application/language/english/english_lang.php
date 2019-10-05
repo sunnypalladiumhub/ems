@@ -3706,4 +3706,10 @@ $lang['staff_add_edit_coffee_report']                = 'Coffee Report';
 
 $lang['als_meter_number_submenu']                = 'Meter Number';
 $lang['client_vat_number_new']                       = 'Unique ID';
+$lang['client_sla_mager_resolution']                       = 'Time to Resolution';
+$lang['client_sla_mager_response']                       = 'Time to Response';
+$lang['client_profile_default_email']                       = 'Default Email';
+
+
+
 /**********************************************/

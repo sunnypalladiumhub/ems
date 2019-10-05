@@ -935,7 +935,7 @@ class Misc_model extends App_Model
                     OR vat LIKE "%' . $q . '%"
                     OR ' . db_prefix() . 'contacts.phonenumber LIKE "%' . $q . '%"
                     OR ' . db_prefix() . 'clients.phonenumber LIKE "%' . $q . '%"
-                    OR city LIKE "%' . $q . '%"
+                    OR ' . db_prefix() . 'tickets.city LIKE "%' . $q . '%"
                     OR state LIKE "%' . $q . '%"
                     OR address LIKE "%' . $q . '%"
                     OR ' . db_prefix() . 'departments.name LIKE "%' . $q . '%"

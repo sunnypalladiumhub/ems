@@ -18,6 +18,7 @@ class Tasks_model extends App_Model
     {
         parent::__construct();
         $this->load->model('projects_model');
+        $this->load->model('tickets_model');
         $this->load->model('staff_model');
     }
 
@@ -1509,18 +1510,26 @@ class Tasks_model extends App_Model
                 ]);
             }
 
-            if ($task->rel_type == 'project') {
-                $project_activity_log = $status == self::STATUS_COMPLETE ? 'project_activity_task_marked_complete' : 'not_project_activity_task_status_changed';
+                if ($task->rel_type == 'project') {
+                    $project_activity_log = $status == self::STATUS_COMPLETE ? 'project_activity_task_marked_complete' : 'not_project_activity_task_status_changed';
 
-                $project_activity_desc = $task->name;
+                    $project_activity_desc = $task->name;
 
-                if ($status != self::STATUS_COMPLETE) {
-                    $project_activity_desc .= ' - ' . format_task_status($status);
+                    if ($status != self::STATUS_COMPLETE) {
+                        $project_activity_desc .= ' - ' . format_task_status($status);
+                    }
+
+                    $this->projects_model->log_activity($task->rel_id, $project_activity_log, $project_activity_desc, $task->visible_to_client);
                 }
-
-                $this->projects_model->log_activity($task->rel_id, $project_activity_log, $project_activity_desc, $task->visible_to_client);
+                
+                if ($task->rel_type == 'ticket') {
+                    $tickets_status = $status;
+                    $tickets_id = $task->rel_id;
+                   // $this->tickets_model->change_ticket_status($tickets_id, $tickets_status);
+                    
             }
 
+                
             $this->_send_task_responsible_users_notification($description, $task_id, false, 'task_status_changed_to_staff', serialize($not_data));
 
             $this->_send_customer_contacts_notification($task_id, 'task_status_changed_to_customer');

@@ -20,6 +20,7 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
     $table .= '<th class="toggleable" id="th-number">' . _l('the_number_sign') . '</th>';
     $table .= '<th class="toggleable" id="th-subject">' . _l('ticket_dt_subject') . '</th>';
     $table .= '<th class="toggleable" id="th-tags">' . _l('tags') . '</th>';
+    $table .= '<th class="toggleable" id="th-company">' . _l('settings_general_company_name') . '</th>';
     $table .= '<th class="toggleable" id="th-department">' . _l('ticket_dt_department') . '</th>';
     $services_th_attrs = '';
     if (get_option('services') == 0) {
@@ -255,7 +256,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
             $ticket_where['status'] = 1;
         }
         if($customer_id > 0){
-            if($customer_id == 3){
+            if($customer_id == ENDUSER_ID){
                 $ticket_where['userid'] = 0;
             }else{
             $ticket_where['userid'] = $customer_id;
@@ -266,7 +267,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
         $ticket_where_new=array();
         if($status['id'] == 3){
             if($customer_id > 0){
-                if($customer_id == 3){
+                if($customer_id == ENDUSER_ID){
                     $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = 0');
                 }else{
                 $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = '.$customer_id);
@@ -301,7 +302,7 @@ function overdue_tickets_details($customer_id = null){
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
             if($customer_id > 0){
-                if($customer_id == 3){
+                if($customer_id == ENDUSER_ID){
                     $CI->db->where('userid',0);
                 }else{
                     $CI->db->where('userid',$customer_id);
@@ -315,7 +316,7 @@ function overdue_tickets_details($customer_id = null){
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
             if($customer_id > 0){
-                if($customer_id == 3){
+                if($customer_id == ENDUSER_ID){
                     $CI->db->where('userid',0);
                 }else{
                     $CI->db->where('userid',$customer_id);

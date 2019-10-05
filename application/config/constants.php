@@ -201,3 +201,4 @@ define('APP_MODULES_PATH', FCPATH . 'modules/');
  * Helper libraries path
  */
 define('LIBSPATH', APPPATH . 'libraries/');
+define('ENDUSER_ID', 3);

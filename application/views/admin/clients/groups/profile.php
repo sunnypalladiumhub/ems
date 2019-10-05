@@ -146,6 +146,7 @@
                      $selected =( isset($client) ? $client->country : $customer_default_country);
                      echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                      ?>
+                   <?php echo render_input('default_email', 'client_profile_default_email', isset($client->default_email) ? $client->default_email : '' , 'email'); ?>
                </div>
             </div>
          </div>
