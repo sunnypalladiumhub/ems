@@ -75,15 +75,14 @@
                </div>
                <?php } ?>
                <div class="checkbox checkbox-primary no-mtop checkbox-inline task-add-edit-public">
-<!--                  <input type="checkbox" id="task_is_public" name="is_public" <?php //if((isset($task) && $task->is_public == 1) || (!isset($task))){echo 'checked';}; ?>>-->
-                   <input type="checkbox" id="task_is_public" name="is_public" <?php if((isset($task) && $task->is_public == 1) ){echo 'checked';}; ?>>
+                  <input type="checkbox" id="task_is_public" name="is_public" <?php if((isset($task) && $task->is_public == 1) || (!isset($task))){echo 'checked';}; ?>>
+
                   <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('task_public_help'); ?>"><?php echo _l('task_public'); ?></label>
                </div>
                <div class="checkbox checkbox-primary checkbox-inline task-add-edit-billable">
-<!--                  <input type="checkbox" id="task_is_billable" name="billable"
-                     <?php //if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 1)) {echo ' checked'; }?>>-->
-                     <input type="checkbox" id="task_is_billable" name="billable"
-                     <?php if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 0)) {echo ' checked'; }?>>
+                  <input type="checkbox" id="task_is_billable" name="billable"
+                     <?php if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 1)) {echo ' checked'; }?>>
+                     
                   <label for="task_is_billable"><?php echo _l('task_billable'); ?></label>
                </div>
                <div class="task-visible-to-customer checkbox checkbox-inline checkbox-primary<?php if((isset($task) && $task->rel_type != 'project') || !isset($task) || (isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'project_settings',array('project_id'=>$task->rel_id,'name'=>'view_tasks','value'=>0)) > 0)){echo ' hide';} ?>">

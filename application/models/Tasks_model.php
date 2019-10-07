@@ -1525,7 +1525,7 @@ class Tasks_model extends App_Model
                 if ($task->rel_type == 'ticket') {
                     $tickets_status = $status;
                     $tickets_id = $task->rel_id;
-                   // $this->tickets_model->change_ticket_status($tickets_id, $tickets_status);
+                    $this->tickets_model->change_ticket_status($tickets_id, $tickets_status);
                     
             }
 
