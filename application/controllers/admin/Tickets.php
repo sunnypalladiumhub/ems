@@ -314,7 +314,12 @@ class Tickets extends AdminController
         if ($this->input->post()) {
             $this->session->mark_as_flash('active_tab');
             $this->session->mark_as_flash('active_tab_settings');
-            $success = $this->tickets_model->update_single_ticket_settings($this->input->post());
+            $data = $this->input->post();
+            if(isset($data['sub_category']) && $data['sub_category'] != ''){
+                $data['service'] = $data['sub_category'];
+                unset($data['sub_category']);
+            }
+            $success = $this->tickets_model->update_single_ticket_settings($data);
             if ($success) {
                 $this->session->set_flashdata('active_tab', true);
                 $this->session->set_flashdata('active_tab_settings', true);

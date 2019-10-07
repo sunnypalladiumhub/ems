@@ -79,6 +79,12 @@ class Clients_model extends App_Model
 
         return $this->db->get(db_prefix() . 'contacts')->row();
     }
+    public function get_client($id)
+    {
+        $this->db->where('userid', $id);
+
+        return $this->db->get(db_prefix() . 'clients')->row();
+    }
 
     /**
      * @param array $_POST data
