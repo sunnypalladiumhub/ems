@@ -800,7 +800,7 @@ class Tickets_model extends App_Model
             if(isset($data['company_id']) && $data['company_id'] > 0){
                 $email     = $this->clients_model->get_client($data['company_id'])->default_email;
                 if(!empty($email) && $email != ''){
-                     $template = 'ticket_autoresponse';
+                     $template = 'ticket_created_to_customer';
                       $ticket = $this->get_ticket_by_id($ticketid);
                      send_mail_template($template, $ticket, $email, [],$email);
                 }
