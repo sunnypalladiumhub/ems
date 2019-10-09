@@ -18,7 +18,7 @@ function app_init_admin_sidebar_menu_items()
         'position' => 2,
         'icon'     => 'fa fa-home',
     ]);
-
+    
     if (has_permission('customers', '', 'view')
         || (have_assigned_customers()
         || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
@@ -29,18 +29,6 @@ function app_init_admin_sidebar_menu_items()
             'icon'     => 'fa fa-user-o',
         ]);
         
-//        $CI->app_menu->add_sidebar_children_item('customers', [
-//                'slug'     => 'customer-groups',
-//                'name'     => _l('als_clients'),
-//                'href'     => admin_url('clients'),
-//                'position' => 5,
-//        ]);
-//        $CI->app_menu->add_sidebar_children_item('customers', [
-//                    'slug'     => 'customer-groups',
-//                    'name'     => _l('menu_customer_sub_sla_manager'),
-//                    'href'     => admin_url('clients/sla_manager'),
-//                    'position' => 10,
-//            ]);
     }
     
     $CI->app_menu->add_sidebar_menu_item('sales', [
@@ -125,7 +113,7 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 20,
         ]);
     }
-
+    
     if (has_permission('contracts', '', 'view') || has_permission('contracts', '', 'view_own')) {
         $CI->app_menu->add_sidebar_menu_item('contracts', [
                 'name'     => _l('contracts'),
@@ -285,6 +273,79 @@ function app_init_admin_sidebar_menu_items()
                     'href'     => admin_url('meter_number'),
                     'position' => 35,
             ]);
+    }
+    if(ems_report_access()){
+        $CI->app_menu->add_sidebar_menu_item('ems-reports', [
+                    'collapse' => true,
+                    'name'     => 'EMS Reports',
+                    'position' => 61,
+                    'icon'     => 'fa fa-area-chart menu-icon',
+            ]);
+       if(has_report_permission('full_report', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'Full report',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('network', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'Network Report',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('trafic_road_safety', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'Trafic/Road Safety',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('paycity', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'PayCity Report',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('paycitySLA', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'PayCitySLA',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('trafic_road_safetySLA', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'Trafic/RS SLA',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('networkSLA', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'NetworkSLA',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       if(has_report_permission('full_reportSLA', '', '')){
+           $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                    'slug'     => 'knowledge-base-reports',
+                    'name'     => 'SLA full Report',
+                    'href'     => admin_url('reports/full_report'),
+                    'position' => 5,
+            ]);
+       }
+       
     }
 
     // Setup menu
@@ -479,4 +540,5 @@ function app_init_admin_sidebar_menu_items()
                     'position' => 40,
             ]);
     }
+    
 }

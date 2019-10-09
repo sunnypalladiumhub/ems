@@ -90,7 +90,7 @@ function admin_url($url = '')
 function staff_can($capability, $feature = null, $staff_id = '')
 {
     $staff_id = $staff_id == '' ? get_staff_user_id() : $staff_id;
-
+    
     /**
      * Maybe permission is function?
      * Example is_admin or is_staff_member
@@ -182,6 +182,42 @@ function has_permission($permission, $staffid = '', $can = '')
 {
     return staff_can($can, $permission, $staffid);
 }
+function has_report_permission($permission, $staffid = '', $can = '')
+{
+    $staff_id =  get_staff_user_id();
+    
+    $CI          = &get_instance();
+    $role_id = $CI->staff_model->get($staff_id)->role;
+    if($role_id > 0){
+        $permissions = $CI->roles_model->get($role_id)->ems_reports;
+        $unserialize_permision = unserialize($permissions);
+        if(!empty($unserialize_permision)){
+            $unserialize_permision_array = $unserialize_permision['ems_reports'];
+            if(in_array($permission, $unserialize_permision_array)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+function ems_report_access($staff_id = ''){
+    $staff_id = $staff_id == '' ? get_staff_user_id() : $staff_id;
+    
+    $CI          = &get_instance();
+    $role_id = $CI->staff_model->get($staff_id)->role;
+    if($role_id > 0){
+        $permissions = $CI->roles_model->get($role_id)->ems_reports;
+        if(!empty($permissions) && $permissions != ''){
+            $unserialize_record = unserialize($permissions);
+            if(!empty($unserialize_record)){
+                return true;
+            }
+        }
+    }
+    return false;
+    
+}
+
 /**
  * @since  1.0.0
  * Load language in admin area
