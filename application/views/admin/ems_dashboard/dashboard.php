@@ -39,14 +39,14 @@
 <!--            <div class="col-md-12" data-container="top-12">
                 <?php //render_ems_dashboard_widgets('top-12'); ?>
             </div>-->
-            <div class="col-md-6" data-container="left-6">
-                <?php render_ems_dashboard_widgets('left-6'); ?>
+            <div class="col-md-8" data-container="left-8">
+                <?php render_ems_dashboard_widgets('left-8'); ?>
             </div>
-            <div class="col-md-6" data-container="right-6">
-                <?php render_ems_dashboard_widgets('right-6'); ?>
+            <div class="col-md-4" data-container="right-4">
+                <?php render_ems_dashboard_widgets('right-4'); ?>
             </div>
             <div class="col-md-12" data-container="bottom-12">
-                <?php render_ems_dashboard_widgets('bottom-12'); ?>
+                <?php //render_ems_dashboard_widgets('bottom-12'); ?>
             </div>
             <div class="clearfix"></div>
             

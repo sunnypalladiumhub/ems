@@ -200,6 +200,11 @@ class Clients extends AdminController
                         ],
                         ]);
                 }
+            }elseif($group == 'sla_manager'){
+                $sla_manager = $this->clients_model->get_sla_manager();   
+                if(!empty($sla_manager)){
+                    $data['sla_manager'] = $sla_manager[0];
+                }
             }
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
@@ -260,6 +265,36 @@ class Clients extends AdminController
         $data['title']     = $title;
 
         $this->load->view('admin/clients/client', $data);
+    }
+    public function sla_manager($id = ''){
+       if ($this->input->post()) {
+           $data = $this->input->post();
+           
+            if ($data['id'] == '') {
+                if (isset($data['id'])) {
+                    unset($data['id']);
+                }
+                
+                $sla_manager_id = $this->clients_model->sla_manager_add($data);
+                if($sla_manager_id > 0){
+                    set_alert('success', _l('added_successfully', _l('menu_customer_sub_sla_manager')));
+                    if ($save_and_add_contact == false) {
+                        redirect(admin_url('clients/client/' . $id));
+                    } else {
+                        redirect(admin_url('clients/client/' . $id . '?group=sla_manager'));
+                    }
+                }else{
+                    
+                }
+            }else {
+                
+                $success = $this->clients_model->sla_manager_update($this->input->post(), $id);
+                if ($success == true) {
+                    set_alert('success', _l('updated_successfully', _l('menu_customer_sub_sla_manager')));
+                }
+                redirect(admin_url('clients/client/' . $id. '?group=sla_manager'));
+            } 
+       }
     }
 
     public function export($contact_id)
@@ -1073,9 +1108,7 @@ class Clients extends AdminController
     
     /************************************ This is for SLA manager ***/
     
-    public function sla_manager(){
-        $this->load->view('admin/clients/sla_manager/manage');
-    }
+    
 
 
     /****************************************************************/

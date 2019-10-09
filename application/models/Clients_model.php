@@ -185,6 +185,30 @@ class Clients_model extends App_Model
 
         return $userid;
     }
+    public function sla_manager_add($data){
+        $id =0;
+        if(!empty($data)){
+            $this->db->insert(db_prefix() . 'sla_manager_setting', $data);
+
+            $id = $this->db->insert_id();
+        }
+        return $id;
+    }
+    public function sla_manager_update($data, $id)
+    {
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'sla_manager_setting', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    public function get_sla_manager(){
+        return $this->db->get(db_prefix() . 'sla_manager_setting')->result_array();
+    }
 
     /**
      * @param  array $_POST data
