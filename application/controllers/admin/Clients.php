@@ -201,7 +201,7 @@ class Clients extends AdminController
                         ]);
                 }
             }elseif($group == 'sla_manager'){
-                $sla_manager = $this->clients_model->get_sla_manager();   
+                $sla_manager = $this->clients_model->get_sla_manager($id);   
                 if(!empty($sla_manager)){
                     $data['sla_manager'] = $sla_manager[0];
                 }
@@ -274,6 +274,7 @@ class Clients extends AdminController
                 if (isset($data['id'])) {
                     unset($data['id']);
                 }
+                $data['client_id'] = $id;
                 
                 $sla_manager_id = $this->clients_model->sla_manager_add($data);
                 if($sla_manager_id > 0){

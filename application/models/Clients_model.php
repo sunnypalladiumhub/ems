@@ -206,7 +206,8 @@ class Clients_model extends App_Model
 
         return false;
     }
-    public function get_sla_manager(){
+    public function get_sla_manager($client_id){
+        $this->db->where('client_id', $client_id);
         return $this->db->get(db_prefix() . 'sla_manager_setting')->result_array();
     }
 
