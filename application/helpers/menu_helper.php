@@ -277,71 +277,71 @@ function app_init_admin_sidebar_menu_items()
     if(ems_report_access()){
         $CI->app_menu->add_sidebar_menu_item('ems-reports', [
                     'collapse' => true,
-                    'name'     => 'EMS Reports',
+                    'name'     => _l('menu_ems_report'),
                     'position' => 61,
                     'icon'     => 'fa fa-area-chart menu-icon',
             ]);
        if(has_report_permission('full_report', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'Full report',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_full_report'),
+                    'href'     => admin_url('ems_report/full_report'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('network', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'Network Report',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_network_report'),
+                    'href'     => admin_url('ems_report/network'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('trafic_road_safety', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'Trafic/Road Safety',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_trafic_road_safety'),
+                    'href'     => admin_url('ems_report/trafic_road_safety'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('paycity', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'PayCity Report',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_paycity'),
+                    'href'     => admin_url('ems_report/paycity'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('paycitySLA', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'PayCitySLA',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_paycitySLA'),
+                    'href'     => admin_url('ems_report/paycitySLA'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('trafic_road_safetySLA', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'Trafic/RS SLA',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_trafic_road_safetySLA'),
+                    'href'     => admin_url('ems_report/trafic_road_safetySLA'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('networkSLA', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'NetworkSLA',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_networkSLA'),
+                    'href'     => admin_url('ems_report/networkSLA'),
                     'position' => 5,
             ]);
        }
        if(has_report_permission('full_reportSLA', '', '')){
            $CI->app_menu->add_sidebar_children_item('ems-reports', [
                     'slug'     => 'knowledge-base-reports',
-                    'name'     => 'SLA full Report',
-                    'href'     => admin_url('reports/full_report'),
+                    'name'     => _l('menu_full_reportSLA'),
+                    'href'     => admin_url('ems_report/full_reportSLA'),
                     'position' => 5,
             ]);
        }
