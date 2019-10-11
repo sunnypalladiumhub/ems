@@ -1102,12 +1102,20 @@ class Tickets_model extends App_Model
         $alert   = 'warning';
         $message = _l('ticket_status_changed_fail');
         if ($this->db->affected_rows() > 0) {
-            $alert   = 'success';
-            $message = _l('ticket_status_changed_successfully');
-            hooks()->do_action('after_ticket_status_changed', [
-                'id'     => $id,
-                'status' => $status,
-            ]);
+            $data_insert['ticket_id'] = $id;
+            $data_insert['status_id'] = $status;
+            $data_insert['date'] = date('Y-m-d H:i:s');
+            $data_insert['description'] = 'Status change of ticket id : '.$id.' New status set : '.$status;
+            $this->db->insert(db_prefix() . 'tickets_activity_log',$data_insert);
+            $insert_id = $this->db->insert_id();
+            if($insert_id > 0){
+                $alert   = 'success';
+                $message = _l('ticket_status_changed_successfully');
+                hooks()->do_action('after_ticket_status_changed', [
+                    'id'     => $id,
+                    'status' => $status,
+                ]);
+            }
         }
 
         return [

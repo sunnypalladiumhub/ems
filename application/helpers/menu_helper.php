@@ -267,12 +267,7 @@ function app_init_admin_sidebar_menu_items()
                     'href'     => admin_url('reports/knowledge_base_articles'),
                     'position' => 30,
             ]);
-        $CI->app_menu->add_sidebar_children_item('reports', [
-                    'slug'     => 'meter-number',
-                    'name'     => _l('als_meter_number_submenu'),
-                    'href'     => admin_url('meter_number'),
-                    'position' => 35,
-            ]);
+     
     }
     if(ems_report_access()){
         $CI->app_menu->add_sidebar_menu_item('ems-reports', [
@@ -345,7 +340,14 @@ function app_init_admin_sidebar_menu_items()
                     'position' => 5,
             ]);
        }
-       
+       if(has_report_permission('meter_number', '', '')){
+            $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                        'slug'     => 'meter-number',
+                        'name'     => _l('als_meter_number_submenu'),
+                        'href'     => admin_url('meter_number'),
+                        'position' => 5,
+                ]);
+       }
     }
 
     // Setup menu

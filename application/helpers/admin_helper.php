@@ -193,6 +193,7 @@ function has_report_permission($permission, $staffid = '', $can = '')
         $unserialize_permision = unserialize($permissions);
         if(!empty($unserialize_permision)){
             $unserialize_permision_array = $unserialize_permision['ems_reports'];
+           
             if(in_array($permission, $unserialize_permision_array)){
                 return true;
             }
