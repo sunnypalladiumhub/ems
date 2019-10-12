@@ -18,6 +18,13 @@ foreach ($table_field_list as $key=>$value){
 }
 
 if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
+    $assigned_name = 19;
+}elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
+    $assigned_name = 17;
+}elseif($table_name == 'full_report'){
+    $assigned_name = 20;
+}
+if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $response_hours = 21;
     $resolve_hours = 22;    
 }elseif ($table_name == 'full_report') {
@@ -69,8 +76,9 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
     'LEFT JOIN ' . db_prefix() . 'meter_number ON ' . db_prefix() . 'meter_number.id = ' . db_prefix() . 'tickets.meter_number',
     'LEFT JOIN ' . db_prefix() . 'customers_groups ON ' . db_prefix() . 'customers_groups.id = ' . db_prefix() . 'tickets.group_id',
-     'LEFT JOIN ' . db_prefix() . 'tickets_channel_type ON ' . db_prefix() . 'tickets_channel_type.id = ' . db_prefix() . 'tickets.channel_type_id',
+    'LEFT JOIN ' . db_prefix() . 'tickets_channel_type ON ' . db_prefix() . 'tickets_channel_type.id = ' . db_prefix() . 'tickets.channel_type_id',
     'LEFT JOIN ' . db_prefix() . 'services as b ON b.parentid = ' . db_prefix() . 'services.serviceid',
+    'LEFT JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.assigned',
     ];
 
 
@@ -109,6 +117,8 @@ foreach ($rResult as $aRow) {
             
             $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'resolution',$aRow['resolve_hours']),2).'%'; 
             
+        }elseif($i == $assigned_name){
+            $_data = $aRow['assigned_name'];  
         }
         else{
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
