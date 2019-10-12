@@ -196,8 +196,11 @@ class Clients_model extends App_Model
     }
     public function sla_manager_update($data, $id)
     {
-
-        $this->db->where('id', $id);
+        if (isset($data['id'])) {
+            $data_id = $data['id'];
+            unset($data['id']);
+        }
+        $this->db->where('id', $data_id);
         $this->db->update(db_prefix() . 'sla_manager_setting', $data);
 
         if ($this->db->affected_rows() > 0) {

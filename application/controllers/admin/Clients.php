@@ -288,7 +288,6 @@ class Clients extends AdminController
                     
                 }
             }else {
-                
                 $success = $this->clients_model->sla_manager_update($this->input->post(), $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('menu_customer_sub_sla_manager')));

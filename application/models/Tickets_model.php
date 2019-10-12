@@ -862,7 +862,17 @@ class Tickets_model extends App_Model
 
             hooks()->do_action('ticket_created', $ticketid);
             log_activity('New Ticket Created [ID: ' . $ticketid . ']');
+            if($ticketid > 0){
+                
+                $data_insert['ticket_id'] = $ticketid;
+                $data_insert['status_id'] = 1;
+                $data_insert['user_id'] = get_staff_user_id();
+                $data_insert['date'] = date('Y-m-d H:i:s');
+                $data_insert['description'] = 'New Ticket Created ticket id : '.$ticketid.' New status set : 1';
+                $this->db->insert(db_prefix() . 'tickets_activity_log',$data_insert);
+                $insert_id = $this->db->insert_id();
 
+            }
             return $ticketid;
         }
 
@@ -1104,6 +1114,7 @@ class Tickets_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             $data_insert['ticket_id'] = $id;
             $data_insert['status_id'] = $status;
+            $data_insert['user_id'] = get_staff_user_id();
             $data_insert['date'] = date('Y-m-d H:i:s');
             $data_insert['description'] = 'Status change of ticket id : '.$id.' New status set : '.$status;
             $this->db->insert(db_prefix() . 'tickets_activity_log',$data_insert);

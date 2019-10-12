@@ -16,15 +16,40 @@ foreach ($table_field_list as $key=>$value){
     }
    
 }
+
+if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
+    $response_hours = 21;
+    $resolve_hours = 22;    
+}elseif ($table_name == 'full_report') {
+    $response_hours = 24;
+    $resolve_hours = 25;    
+}elseif ($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA') {
+    $response_hours = 19;
+    $resolve_hours = 20;    
+}elseif ($table_name == 'full_reportSLA') {
+    $response_hours = 18;
+    $resolve_hours = 19;    
+}
 $parent_Category_col_number = 8;
     $sub_parent_Category_col_number = 9;
 if($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
     $parent_Category_col_number = 7;
     $sub_parent_Category_col_number = 8;
 }
+$department_id=[];
+if($table_name == 'network' || $table_name == 'networkSLA'){
+    array_push($department_id,NETWORKS); 
+    
+}elseif($table_name == 'trafic_road_safety' || $table_name == 'trafic_road_safetySLA'){
+    array_push($department_id,TRAFFIC); 
+    array_push($department_id,ROADSAFETY); 
+}elseif($table_name == 'paycity' || $table_name == 'paycitySLA'){
+    array_push($department_id,PAYCITY); 
+}
 $additionalSelect = [
     'adminread',
     db_prefix() . 'tickets.userid',
+    db_prefix() . 'tickets.company_id',
     'statuscolor',
     db_prefix() . 'tickets.name as ticket_opened_by_name',
     db_prefix() . 'tickets.email',
@@ -52,7 +77,10 @@ $join = [
 $where  = [];
 $filter = [];
 $statusIds = [];
-
+if(!empty($department_id)){
+    array_push($where, 'AND ' . db_prefix() . 'tickets.department IN (' . implode(',',$department_id)  . ')');
+}
+ 
 foreach ($this->ci->projects_model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);
@@ -60,7 +88,6 @@ foreach ($this->ci->projects_model->get_project_statuses() as $status) {
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,$additionalSelect);
-
 //var_dump($result);exit;
 
 $output  = $result['output'];
@@ -75,6 +102,13 @@ foreach ($rResult as $aRow) {
             $_data = $aRow['parent_name'];  
         }elseif ($i == $sub_parent_Category_col_number) {
              $_data = $aRow['sub_parent_name'];  
+        }elseif ($i== $response_hours) {
+            
+            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'response',$aRow['response_hours']), 2).'%';
+        }elseif ($i == $resolve_hours) {
+            
+            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'resolution',$aRow['resolve_hours']),2).'%'; 
+            
         }
         else{
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {

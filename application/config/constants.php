@@ -202,3 +202,9 @@ define('APP_MODULES_PATH', FCPATH . 'modules/');
  */
 define('LIBSPATH', APPPATH . 'libraries/');
 define('ENDUSER_ID', 3);
+
+
+define('NETWORKS', 3);
+define('ROADSAFETY', 4);
+define('PAYCITY', 5);
+define('TRAFFIC', 6);
