@@ -77,7 +77,7 @@ class Dashboard extends AdminController {
         $data = hooks()->apply_filters('before_dashboard_render', $data);
         $this->load->view('admin/dashboard/dashboard', $data);
     }
-
+    /* Start New Code This is admin Ems dashboard view */
     public function ems_dashboard() {
         $data=array();
         add_admin_chat_js_assets();
@@ -114,7 +114,7 @@ class Dashboard extends AdminController {
         $data['yesterday_tickets'] = implode(',',$yesterday_array);
         $this->load->view('admin/ems_dashboard/dashboard', $data);
     }
-
+    /* End New Code This is admin Ems dashboard view */
     /* Chart weekly payments statistics on home page / ajax */
 
     public function weekly_payments_statistics($currency) {

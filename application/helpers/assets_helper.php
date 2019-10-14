@@ -185,16 +185,10 @@ function add_google_api_js_assets($group = 'admin')
         ], $group);
     }
 }
-
+/*** start new function for add js on Ems dashboard */
 function add_admin_chat_js_assets()
 {
     $CI = &get_instance();
-//    $CI->app_scripts->add(
-//        'chart-js',
-//        base_url($CI->app_scripts->core_file('assets/plugins/Chart.js', 'Chart.js')),
-//        'admin',
-//        ['app-js']
-//    );
     $CI->app_scripts->add(
         'Chart.bundle-js',
         base_url($CI->app_scripts->core_file('assets/plugins/Chart.js', 'Chart.bundle.js')),
@@ -210,6 +204,8 @@ function add_admin_chat_js_assets()
 
 }
 
+/*** End new function for add js on Ems dashboard */
+
 
 function add_admin_tickets_js_assets()
 {
@@ -220,12 +216,14 @@ function add_admin_tickets_js_assets()
         'admin',
         ['app-js']
     );
+    /*** start new function for add js on Ticket Page */
     $CI->app_scripts->add(
         'datetime',
         base_url($CI->app_scripts->core_file('assets/plugins/datetimepicker', 'jquery.datetimepicker.full.js')),
         'admin',
         ['app-js']
     );
+    /*** End new function for add js on Ticket Page */
 }
 
 function add_datatables_js_assets($group = 'admin')

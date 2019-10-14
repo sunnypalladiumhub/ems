@@ -32,9 +32,10 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
     $table .= '<th class="toggleable" id="th-priority">' . _l('ticket_dt_priority') . '</th>';
     $table .= '<th class="toggleable" id="th-last-reply">' . _l('ticket_dt_last_reply') . '</th>';
     $table .= '<th class="toggleable ticket_created_column" id="th-created">' . _l('ticket_date_created') . '</th>';
+    /*** Start New Code Add New two filed in datatable */
     $table .= '<th class="toggleable " id="th-meter-number">' . _l('ticket_meter_number') . '</th>';
     $table .= '<th class="toggleable " id="th-channel-type">' . _l('ticket_drp_channel_type') . '</th>';
-
+    /*** End New Code Add New two filed in datatable */
     $custom_fields = get_table_custom_fields('meter_number');
 
     foreach ($custom_fields as $field) {
@@ -53,7 +54,7 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
 
     return $table;
 }
-
+/*** Start New Code Add New Fuction For Meter number datatabel */
 function AdminMeterNumberStructure($name = '', $bulk_action = false)
 {
     $table = '<table class="table customizable-table dt-table-loading ' . ($name == '' ? 'meter_number-table' : $name) . ' table-meter_number" id="table-meter_number" data-last-order-identifier="meter_number" data-default-order="' . get_table_last_order('tickets') . '">';
@@ -82,6 +83,7 @@ function AdminMeterNumberStructure($name = '', $bulk_action = false)
 
     return $table;
 }
+/*** End New Code Add New Fuction For Meter number datatabel */
 
 /**
  * Function to translate ticket status
@@ -230,6 +232,7 @@ function can_change_ticket_status_in_clients_area($status = null)
 
     return true;
 }
+/*** Start New Code Add New Fuction For Ems Dashboard Summary Data */
 function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null) {
     $CI = &get_instance();
     $CI->load->model('tickets_model');
@@ -287,6 +290,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
     
     return $tasks_summary;
 }
+/*** End New Code Add New Fuction For Ems Dashboard Summary Data */
 function overdue_tickets_details($customer_id = null){
         $CI = &get_instance();
         $CI->load->model('clients_model');
@@ -294,7 +298,7 @@ function overdue_tickets_details($customer_id = null){
         $date = new DateTime("now");
         $curr_date = $date->format('Y-m-d');
         
-        
+        /*** Start New Code For find OverDue Today */
         foreach ($statuses as $key=>$value){
             $CI->db->select('COUNT(ticketid) as Overdue_today');
             $CI->db->from(db_prefix() . 'tickets');
@@ -329,6 +333,7 @@ function overdue_tickets_details($customer_id = null){
             $summary['Overdue'] = $Overdue->Overdue;
             $tasks_summary[] = $summary;
         }
+        /*** End New Code For find OverDue Today */
        return $tasks_summary;
     }
 /**

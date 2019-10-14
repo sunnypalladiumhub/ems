@@ -6,10 +6,13 @@
                 <div class="widget-dragger ui-sortable-handle"></div>
                 <div class="row home-summary">
                     <div class="col-md-12">
-                        <h4 class="pull-left padding-5" style="margin: 0; color: red;">
-                            <?php echo _l('ems_dash_overdue_tickets'); ?>
-                        </h4>
-                        <a href="#" class="pull-right padding-5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                        <p class="pull-left mtop5"><?php echo _l('ems_dash_overdue_tickets'); ?></p>
+                        <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                    </div>
+                    <div class="col-md-12">
+                        
+                        <hr class="hr-panel-heading-dashboard">
+                     
                     </div>
                     <table class="table table-borderless">
                         <thead>

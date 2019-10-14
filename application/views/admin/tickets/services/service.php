@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        
+<!--                   Start New Code For Add 2 New Filed -->
                         <div id="additional"></div>
                         
                         <div id="service_sub_div">
@@ -29,7 +29,7 @@
                         </div>
                         
                     </div>
-                    
+<!--                   End New Code For Add 2 New Filed -->
                 </div>
             </div>
             <div class="modal-footer">
@@ -50,6 +50,7 @@
             $('.edit-title').removeClass('hide');
         });
     });
+//    Start New code Changes for two new filed
     function manage_ticket_services(form) {
         var data = $(form).serialize();
         var url = form.action;
@@ -125,4 +126,5 @@
         $('#ticket-service-modal').modal('show');
         $('.add-title').addClass('hide');
     }
+//    End New code Changes for two new filed
     </script>

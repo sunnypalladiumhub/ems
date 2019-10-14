@@ -200,13 +200,14 @@ class Clients extends AdminController
                         ],
                         ]);
                 }
+                /*** Start New code for Sla manager */
             }elseif($group == 'sla_manager'){
                 $sla_manager = $this->clients_model->get_sla_manager($id);   
                 if(!empty($sla_manager)){
                     $data['sla_manager'] = $sla_manager[0];
                 }
             }
-
+            /*** end New code for Sla manager */
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
 
             $data['client'] = $client;
@@ -266,6 +267,7 @@ class Clients extends AdminController
 
         $this->load->view('admin/clients/client', $data);
     }
+    /*** Start New code for Sla manager */
     public function sla_manager($id = ''){
        if ($this->input->post()) {
            $data = $this->input->post();
@@ -296,7 +298,7 @@ class Clients extends AdminController
             } 
        }
     }
-
+/*** End New code for Sla manager */
     public function export($contact_id)
     {
         if (is_admin()) {
@@ -1104,13 +1106,5 @@ class Clients extends AdminController
 
         echo json_encode($viewData);
     }
-    
-    
-    /************************************ This is for SLA manager ***/
-    
-    
-
-
-    /****************************************************************/
     
 }

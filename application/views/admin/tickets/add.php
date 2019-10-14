@@ -24,8 +24,9 @@
                                 <?php } ?>
 
                                 <?php echo render_select('department', $departments, array('departmentid', 'name'), 'ticket_settings_departments', (count($departments) == 1) ? $departments[0]['departmentid'] : '', array('required' => 'true')); ?>
-
+                                <!-- Start new Code For System -->                                
                                 <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type', (count($company_groups) == 1) ? $company_groups[0]['id'] : '', array('required' => 'true')); ?>
+                                <!-- End new Code For System -->                                
 <!--                                    <div class="form-group select-placeholder">
                                     <label for="contactid"><?php echo _l('ticket_drp_company_name'); ?></label>
                                     <select name="company_id" required="true" id="company_id" class="ajax-search" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -36,6 +37,7 @@
                                     </select>
                                    
                                 </div>-->
+                                <!-- Start new Code For Company -->                                
                                 <div id="company_id_div">
                                     <div class="select-placeholder form-group" app-field-wrapper="company_id">
                                         <label for="company_id" class="control-label">Company Name</label>
@@ -44,7 +46,7 @@
                                         </select>
                                     </div>                                      
                                 </div>
-
+                                <!-- End new Code For Company -->                                
                                 <?php //echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', (count($company_name) == 1) ? $company_name[0]['userid'] : '', array('required' => 'true')); ?>
 
                                 <div class="form-group select-placeholder" id="ticket_contact_w">
@@ -65,6 +67,7 @@
                                     <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                                     <input type="text" class="tagsinput" id="tags" name="tags" data-role="tagsinput">
                                 </div>
+                                <!-- Start new Code For Category and sub category -->                                
                                 <div id="service_div">
                                     <div class="select-placeholder form-group form-group-select-input-service input-group-select">
                                         <label for="service" class="control-label">Category</label>
@@ -86,6 +89,7 @@
                                         </select>
                                     </div>                                      
                                 </div>
+                                <!-- End new Code For Category and sub category -->                                
                                 <?php
                                 if (is_admin() || get_option('staff_members_create_inline_ticket_services') == '1') {
                                    // echo render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service();return false;"><i class="fa fa-plus"></i></a>');
@@ -93,6 +97,7 @@
                                    // echo render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category');
                                 }
                                 ?>
+                                <!-- Start new Code For Meter number -->                                
                                 <div id="meter_number_msg"></div>
                                 <div id="meter_number_div">
                                 <?php
@@ -100,6 +105,7 @@
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number', '', '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
                                 </div>
+                                <!-- End new Code For Meter number -->                                
                                 <?php //echo render_custom_fields('meter_number'); ?>
                                 <?php //echo render_custom_fields('channel_type'); ?>
                                 <div class="row">
@@ -139,10 +145,12 @@
                                     </select>
                                 </div>
                             </div>
+                                <!-- Start new Code For Message -->                                
                             <div class="col-md-12">
                                 <?php// echo render_custom_fields('tickets_des'); ?>
                                 <?php echo render_textarea('description','Description','',array(),array(),'',''); ?>
                             </div>
+                            <!-- End new Code For Message -->                                
                         </div>
                     </div>
                 </div>
@@ -224,6 +232,7 @@
     <?php $this->load->view('admin/tickets/meter_number/service'); ?>
     <?php init_tail(); ?>
     <?php hooks()->do_action('new_ticket_admin_page_loaded'); ?>
+        <!-- Start new Code -->                                
     <script>
         $(function () {
             $('#meter_number_div').hide();
@@ -330,5 +339,6 @@ $('#group_id').on('change',function (){
       
          
     </script>
+    <!-- End new Code -->                                
 </body>
 </html>

@@ -55,6 +55,7 @@
                               <?php echo _l('ticket_single_settings_new'); ?>
                            </a>
                         </li>
+                        <!-- Start new Code For Calculation  Ticket AGE -->                                
                         <?php
                         
 
@@ -67,6 +68,7 @@
 
                         ?>
                         <p style="float: right;position: absolute;right: 25px;top: 30px;font-size: large;color: #82c426;">Ticket AGE : <?php echo $day; ?> Days</p>
+                        <!-- End new Code For Calculation Ticket AGE -->                                
                      </ul>
                   </div>
                </div>
@@ -340,6 +342,7 @@
                         <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                         <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo prep_tags_input(get_tags_in($ticket->ticketid,'ticket')); ?>" data-role="tagsinput">
                      </div>
+                       <!-- Start new code for service and sub service list -->
                        <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
@@ -352,16 +355,21 @@
                        <div id="sub_service_div">
                            <?php echo render_select('sub_category',$sub_category,array('serviceid','name'),'tickets_sub_category_name', isset($service_detals->sub_category) ? $service_detals->sub_category : ''); ?>
                        </div>
+                       <!-- Start new code for service and sub service list -->
+                       <!-- Start new code for Meter number -->
                        <div id="meter_number_msg"></div>
                        <div id="meter_number_div">
                        <?php
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number',$ticket->meter_number, '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
                                 </div>
+                       <!-- End new code for Meter number -->
                        <?php // echo render_custom_fields('meter_number',$ticket->ticketid); ?>
                        <div class="row">
                             <div class="col-md-6">
+                                <!-- Start new code for channel type -->
                                 <?php echo render_select('channel_type_id', $channel_type, array('id', 'name'), 'ticket_drp_channel_type',$ticket->channel_type_id); ?>
+                                <!-- Start new code for channel type -->
                             </div>
                             <div class="col-md-6">
                                 <?php
@@ -389,10 +397,13 @@
                      </div>
                   </div>
                   <div class="col-md-12">
+                      <!-- Start new code for description -->
                      <?php //echo render_custom_fields('tickets_des',$ticket->ticketid); ?>
                       <?php echo render_textarea('description','Description',$ticket->description,array(),array(),'',''); ?>
+                      <!-- End new code for description -->
                   </div>
                </div>
+                  <!-- Start new code for Sub Tab pannel for customer and other -->
                   <div class="panel-group" role="tablist" aria-multiselectable="false">
                       <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingclickatell">
@@ -916,6 +927,7 @@
                   
                   
             </div>
+                  <!-- End new code for Sub Tab pannel for customer and other -->
          </div>
       </div>
    </div>
@@ -1147,7 +1159,7 @@
             });
            
      });
-
+     // Start New Code 
        $('#group_id').on('change',function (){
     var group_id = $(this).val();
     
@@ -1231,6 +1243,8 @@
           var value = $('#department :selected').text(); 
           show_selected_department(value);
        });
+       
+       // End New Code
       $('#single-ticket-form').appFormValidator();
       //init_ajax_search('contact','#contactid.ajax-search',{tickets_contacts:true});
       init_ajax_search('project', 'select[name="project_id"]', {
@@ -1269,6 +1283,7 @@
       edit_ticket_message_additional.append(hidden_input('id',id));
       edit_ticket_message_additional.append(hidden_input('main_ticket',$('input[name="ticketid"]').val()));
    }
+   // Start New Code 
    function show_selected_department(string){
        var text = string.toLowerCase();
        if(text == 'paycity'){
@@ -1292,7 +1307,7 @@
            $('#traffic').hide();
        }
    }
-
+// End New Code 
    function init_ticket_edit_editor(){
       if(typeof(Ticket_message_editor) !== 'undefined'){
          return true;

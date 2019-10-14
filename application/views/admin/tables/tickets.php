@@ -7,7 +7,9 @@ $aColumns = [
     db_prefix() . 'tickets.ticketid',
     'subject',
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'tickets.ticketid and rel_type="ticket" ORDER by tag_order ASC) as tags',
+    /*** Start New code for add Comapny name */
     'CONCAT(' . db_prefix() . 'clients.company, \' \', ' . db_prefix() . 'clients.vat) as company_name',
+    /*** End New code for add Comapny name */
     db_prefix() . 'departments.name as department_name',
     db_prefix() . 'services.name as service_name',
     'CONCAT(' . db_prefix() . 'contacts.firstname, \' \', ' . db_prefix() . 'contacts.lastname) as contact_full_name',
@@ -15,11 +17,14 @@ $aColumns = [
     'priority',
     'lastreply',
     db_prefix() . 'tickets.date',
+    /*** Start New code for add Meter number and channel Type */
     db_prefix() .'meter_number.number as meter_number',
     db_prefix() .'tickets_channel_type.name as channel_type',
+    /*** End New code for add Meter number and channel Type */
     ];
-
+/*** Start New code Change conatct column number */
 $contactColumn = 7;
+/*** End New code Change conatct column number */
 $tagsColumns   = 3;
 
 $additionalSelect = [
@@ -38,10 +43,14 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'services ON ' . db_prefix() . 'services.serviceid = ' . db_prefix() . 'tickets.service',
     'LEFT JOIN ' . db_prefix() . 'departments ON ' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'tickets.department',
     'LEFT JOIN ' . db_prefix() . 'tickets_status ON ' . db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status',
+    /*** Start New code for add Comapny name */
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.company_id ',
+    /*** End New code for add Comapny name */
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
+    /*** Start New code for add Meter number and channel Type */
     'LEFT JOIN ' . db_prefix() . 'meter_number ON ' . db_prefix() . 'meter_number.id = ' . db_prefix() . 'tickets.meter_number',
      'LEFT JOIN ' . db_prefix() . 'tickets_channel_type ON ' . db_prefix() . 'tickets_channel_type.id = ' . db_prefix() . 'tickets.channel_type_id',
+    /*** End New code for add Meter number and channel Type */
     ];
 
 $custom_fields = get_table_custom_fields('meter_number');
@@ -56,12 +65,13 @@ $where  = [];
 $filter = [];
 
 if (isset($userid) && $userid != '') {
+    /*** Start New code for add ticket in End User If Ticket Created by without contact */
     if($userid == ENDUSER_ID){
         array_push($where, 'AND (' . db_prefix() . 'tickets.userid = ' . $userid.' OR ' . db_prefix() . 'tickets.userid = NULL OR ' . db_prefix() . 'tickets.userid = 0 )');
     }else{
         array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $userid);
     }
-    
+    /*** End New code for add ticket in End User If Ticket Created by without contact */
 } elseif (isset($by_email)) {
     array_push($where, 'AND ' . db_prefix() . 'tickets.email = "' . $by_email . '"');
 }

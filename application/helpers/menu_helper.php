@@ -12,13 +12,14 @@ function app_init_admin_sidebar_menu_items()
         'position' => 1,
         'icon'     => 'fa fa-home',
     ]);
+    /** Start new code This for Add EMS DASH menu **/
     $CI->app_menu->add_sidebar_menu_item('ems_dashboard', [
         'name'     => _l('menu_title_ems_dash'),
         'href'     => admin_url().'dashboard/ems_dashboard',
         'position' => 2,
         'icon'     => 'fa fa-home',
     ]);
-    
+    /** End new code This for Add EMS DASH menu **/
     if (has_permission('customers', '', 'view')
         || (have_assigned_customers()
         || (!have_assigned_customers() && has_permission('customers', '', 'create')))) {
@@ -269,7 +270,8 @@ function app_init_admin_sidebar_menu_items()
             ]);
      
     }
-    if(ems_report_access()){
+    /** Start new code This for Add EMS Report menu **/
+        if(ems_report_access()){
         $CI->app_menu->add_sidebar_menu_item('ems-reports', [
                     'collapse' => true,
                     'name'     => _l('menu_ems_report'),
@@ -349,7 +351,7 @@ function app_init_admin_sidebar_menu_items()
                 ]);
        }
     }
-
+    /** End new code This for Add EMS Report menu **/
     // Setup menu
     if (has_permission('staff', '', 'view')) {
         $CI->app_menu->add_setup_menu_item('staff', [

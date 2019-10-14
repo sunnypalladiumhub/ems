@@ -5,14 +5,21 @@
             <div class="panel-body">
                 <div class="widget-dragger ui-sortable-handle"></div>
                 <div class="row home-summary">
-                    <div class="col-12">
-                        <h4 class="pull-left padding-5" style="margin: 0;">
-                            <?php echo _l('ems_dash_today_trends'); ?>
-                        </h4>
-                        <a href="#" class="pull-right padding-5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                    <div class="col-md-12">
+                        <p class="pull-left mtop5"> <?php echo _l('ems_dash_today_trends'); ?></p>
+                        <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                        
+                    </div>
+                    <div class="col-md-12">
+                    
+                        <hr class="hr-panel-heading-dashboard">
+                    
+                    </div>
+                    <div class="relative" style="max-height:450px;">
+                        <canvas class="chart" id="canvas" height="350"></canvas>
                     </div>
 <!--                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>-->
-                    <canvas id="canvas"></canvas>
+                    <!--<canvas id="canvas"></canvas>-->
                 </div>
                 
             </div>

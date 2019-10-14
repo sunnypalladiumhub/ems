@@ -31,7 +31,9 @@ class Staff extends AdminController
             $data = $this->input->post();
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
+            /*** Start New code for Coffee Report */
             $data['coffee_report'] = isset($_POST['coffee_report']) ? 1 : 0 ;
+            /*** End New code for Coffee Report */
             $data['email_signature'] = html_entity_decode($data['email_signature']);
 
             if ($data['email_signature'] == strip_tags($data['email_signature'])) {

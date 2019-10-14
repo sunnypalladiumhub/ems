@@ -59,6 +59,7 @@ function get_dashboard_widgets()
 
     return hooks()->apply_filters('get_dashboard_widgets', $widgets);
 }
+/*** Start New code for Ems Dashboard Widget Files */
 function get_ems_dashboard_widgets()
 {
     $widgets = [
@@ -87,7 +88,7 @@ function get_ems_dashboard_widgets()
 
     return hooks()->apply_filters('get_ems_dashboard_widgets', $widgets);
 }
-
+/*** End New code for Ems Dashboard Widget Files */
 /**
  * Render widgets based on container
  * The function will check if staff have re-organized the dashboard and apply any order which is needed.
@@ -192,7 +193,7 @@ function render_dashboard_widgets($container)
 
 
 
-
+/*** Start New code for Ems Dashboard Widget Files */
 function render_ems_dashboard_widgets($container)
 {
     $widgets = get_ems_dashboard_widgets();
@@ -289,3 +290,4 @@ function render_ems_dashboard_widgets($container)
     
 }
 
+/*** End New code for Ems Dashboard Widget Files */

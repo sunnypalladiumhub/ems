@@ -988,6 +988,7 @@ class Tickets_model extends App_Model
             }
             unset($data['custom_fields']);
         }
+        /*** Start New Code For Insert Meter Details On Edit Ticket */
         if (isset($data['meter_section']) && count($data['meter_section']) > 0) {
             $this->load->helper('meter_helper');
             if (handle_meter_fields_post($data['meter_number'], $data['meter_section'])) {
@@ -995,7 +996,7 @@ class Tickets_model extends App_Model
             }
             unset($data['meter_section']);
         }
-
+        /*** End New Code For Insert Meter Details On Edit Ticket */
         $tags = '';
         if (isset($data['tags'])) {
             $tags = $data['tags'];
@@ -1378,6 +1379,7 @@ class Tickets_model extends App_Model
 
         return false;
     }
+    /*** Start New Code For Service by Department by parameter Department_id */
     public function get_service_by_department_id($department_id){
         $this->db->select(db_prefix() . 'services.*',db_prefix() . 'departments.name');
         $this->db->where('parentid',0);
@@ -1386,6 +1388,7 @@ class Tickets_model extends App_Model
 
         return $this->db->get(db_prefix() . 'services')->result_array();
     }
+    /*** End New Code For Service by Department by parameter Department_id */
     // Ticket services
     public function get_service($id = '')
     {
@@ -1441,7 +1444,7 @@ class Tickets_model extends App_Model
 
         return false;
     }
-
+    /*** Start New Code For Meter Number details */
     
         public function get_MeterNumber($id = '')
     {
@@ -1455,6 +1458,9 @@ class Tickets_model extends App_Model
 
         return $this->db->get(db_prefix() . 'meter_number')->result_array();
     }
+    /*** End New Code For Meter Number details */
+    
+    /*** Start New Code For Add meter number Details */
     public function add_meter_number($data)
     {
         $this->db->insert(db_prefix() . 'meter_number', $data);
@@ -1465,12 +1471,19 @@ class Tickets_model extends App_Model
 
         return $insert_id;
     }
+    /*** Start New Code For Add meter number Details */
+    
+    /*** Start New Code For Count Of meter number by number */
     public function get_count_by_meter_number($data)
     {
         $this->db->where('number', $data['number']);
 
         return $this->db->get(db_prefix() . 'meter_number')->row();
     }
+    /*** End New Code For Count Of meter number by number */
+    
+    
+    /*** Start New Code For update meter number details by id */
     public function update_meter_number($data, $id)
     {
         $this->db->where('id', $id);
@@ -1483,7 +1496,9 @@ class Tickets_model extends App_Model
 
         return false;
     }
-
+    /*** End New Code For update meter number details by id */
+    
+    /*** Start New Code For Delete meter number */
     public function delete_meter_number($id)
     {
         $this->db->where('id', $id);
@@ -1496,7 +1511,7 @@ class Tickets_model extends App_Model
 
         return false;
     }
-
+    /*** End New Code For Delete meter number */
     /**
      * @return array
      * Used in home dashboard page
@@ -1611,7 +1626,7 @@ class Tickets_model extends App_Model
 
         return true;
     }
-    
+    /*** Start New Code For Service List */
     public function get_services_list(){
         $this->db->select("*");
         $this->db->from(db_prefix() . 'services');
@@ -1620,6 +1635,8 @@ class Tickets_model extends App_Model
         $q = $this->db->get();
         return $q->result_array();
     }
+    /*** End New Code For Service List */
+    /*** Start New Code For Department data by service  */
     public function get_department_data_by_service_id($service_id){
         if($service_id > 0){
         $this->db->select(db_prefix() . 'departments.*');
@@ -1634,6 +1651,9 @@ class Tickets_model extends App_Model
             return $this->db->get(db_prefix() . 'departments')->result_array();
         }
     }
+    /*** End New Code For Department data by service  */
+    
+    /*** Start New Code For Sub Service by paret service  */
     public function get_sub_category_by_service_id($service_id){
         
         if($service_id > 0){
@@ -1645,6 +1665,9 @@ class Tickets_model extends App_Model
             return $q->result_array();
         }
     }
+    /*** End New Code For Sub Service by paret service  */
+    
+    /*** Start New Code For service Details by id  */
     public function get_service_details_by_id($service_id){
         $this->db->select("IF(parentid > 0 , parentid,serviceid) as service_id, IF(parentid > 0 , serviceid,'') as sub_category");
         $this->db->from(db_prefix() . 'services');
@@ -1652,6 +1675,7 @@ class Tickets_model extends App_Model
         $q = $this->db->get();
         return $q->row();
     }
+    /*** End New Code For service Details by id  */
     public function ticket_detail_by_time($type,$customerid = null){
         $date = new DateTime("now");
         if($type == '1'){
@@ -1680,7 +1704,7 @@ class Tickets_model extends App_Model
     
     
     
-    /**************************** Dashboard Status ********/
+    /* Start new Code for EMS Dashboard Status ********/
     public function get_ems_dashboard_status() {
         $statuses = hooks()->apply_filters('before_get_ems_dashboard_status', [
             [
@@ -1727,3 +1751,4 @@ class Tickets_model extends App_Model
         return $statuses;
     }
 }
+/* End new Code for EMS Dashboard Status ********/

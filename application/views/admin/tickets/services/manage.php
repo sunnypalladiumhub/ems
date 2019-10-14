@@ -12,12 +12,14 @@
 						<div class="clearfix"></div>
 						<hr class="hr-panel-heading" />
 						<div class="clearfix"></div>
+<!--                                                 Start New Code For Add 2 New Filed -->
 						<?php render_datatable(array(
 							_l('services_dt_name'),
                                                         'Parent category',
                                                         'Department',
 							_l('options'),
 							),'services'); ?>
+<!--                                                 End New Code For Add 2 New Filed -->
 						</div>
 					</div>
 				</div>

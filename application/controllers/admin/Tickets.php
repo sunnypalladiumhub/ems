@@ -57,6 +57,7 @@ class Tickets extends AdminController
         $data['default_tickets_list_statuses'] = hooks()->apply_filters('default_tickets_list_statuses', [1, 2, 4]);
         $this->load->view('admin/tickets/list', $data);
     }
+    /*********Start New Code For get droupdown Contact name by group ********/
     public function get_contact_list_by_group(){
         if ($this->input->post()) {
             $company_name  = $this->clients_model->get_customer_by_group_id($this->input->post('group_id'));
@@ -66,16 +67,18 @@ class Tickets extends AdminController
         }
         echo json_encode($data);
     }
-
+    /*********End New Code For get droupdown Contact name by group ********/
     public function add($userid = false)
     {
         if ($this->input->post()) {
             $data            = $this->input->post();
             $data['message'] = $this->input->post('message', false);
+            /*********Start New Code For Check Sub category is isset or not ********/
             if(isset($data['sub_category']) && $data['sub_category'] != ''){
                 $data['service'] = $data['sub_category'];
                 unset($data['sub_category']);
             }
+            /*********End New Code For Check Sub category is isset or not ********/
             $id              = $this->tickets_model->add($data, get_staff_user_id());
             if ($id) {
                 set_alert('success', _l('new_ticket_added_successfully', $id));
@@ -91,16 +94,18 @@ class Tickets extends AdminController
         $this->load->model('departments_model');
 
         $data['departments']        = $this->departments_model->get();
+        /*********Start New Code For Ticket  company group name ********/
         $data['company_groups']     = $this->clients_model->get_groups();
         $data['company_name']     = $this->clients_model->get();
-         
+        /*********End New Code For Ticket  company group name ********/ 
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();
+        /*********Start New Code For Ticket  Channel type,meter number,services and parent services ********/
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['services']           = $this->tickets_model->get_service();
         $data['meter_number']       = $this->tickets_model->get_MeterNumber();
         $data['parent_services']    = $this->tickets_model->get_services_list();
-        
+        /*********End New Code For Ticket  Channel type,meter number,services and parent services ********/
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
             $whereStaff['is_not_staff'] = 0;
@@ -228,6 +233,7 @@ class Tickets extends AdminController
         $data['statuses']['callback_translate'] = 'ticket_status_translate';
 
         $data['departments']        = $this->departments_model->get();
+        /*********Start New Code For Ticket Edit Form ********/
         $data['company_groups']     = $this->clients_model->get_groups();
         $data['company_name'] = array();
         if($data['ticket']->group_id > 0){
@@ -250,6 +256,7 @@ class Tickets extends AdminController
             $data['meter']          = $this->tickets_model->get_MeterNumber($data['ticket']->meter_number);
             
         }
+        /*********End New Code For Ticket Edit Form ********/
         $whereStaff                 = [];
         if (get_option('access_tickets_to_none_staff_members') == 0) {
             $whereStaff['is_not_staff'] = 0;
@@ -587,7 +594,9 @@ class Tickets extends AdminController
         if (!is_admin()) {
             access_denied('Ticket Services');
         }
+        /*********Start New Code For Ticket Services and sub services ********/
         if ($this->input->is_ajax_request()) {
+            
             $aColumns = [
                 db_prefix() . 'services.name as name',
                 'IF('.db_prefix() .'services.parentid > 0, (SELECT name from tblservices as sub where sub.serviceid = tblservices.parentid), "Parent category") as parent_name',
@@ -636,6 +645,7 @@ class Tickets extends AdminController
                     'data-parentid' => $aRow['parentid'],
                     'onclick'   => 'edit_service(this,' . $aRow['serviceid'] . '); return false;',
                 ]);
+                
                 $row[]              = $options .= icon_btn('tickets/delete_service/' . $aRow['serviceid'], 'remove', 'btn-danger _delete');
                 $output['aaData'][] = $row;
             }
@@ -648,6 +658,7 @@ class Tickets extends AdminController
         add_admin_tickets_js_assets();
         $data['title'] = _l('services');
         $this->load->view('admin/tickets/services/manage', $data);
+        /*********End New Code For Ticket Services and sub services ********/
     }
 
     /* Add new service od delete existing one */
@@ -775,7 +786,7 @@ class Tickets extends AdminController
             }
         }
     }
-    /* Add new Meter Number existing one */
+    /* start new code  Add new Meter Number replece custome file to database entry */
     public function meter_number($id = '')
     {
         if ($this->input->post()) {
@@ -810,6 +821,8 @@ class Tickets extends AdminController
             die;
         }
     }
+    /* End new code  Add new Meter Number replece custome file to database entry */
+    /* Start new code  category list by department */
     public function get_category_list_by_department(){
         if ($this->input->post()) {
             $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
@@ -823,6 +836,7 @@ class Tickets extends AdminController
         }
         echo json_encode($data);
     }
+    /* End new code  category list by department */
     public function get_category_list_by_department_bulk(){
         if ($this->input->post()) {
             $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
@@ -834,6 +848,7 @@ class Tickets extends AdminController
         }
         echo json_encode($data);
     }
+    /* Start new code department by services */
     public function get_department_id_by_serviceid(){
         if ($this->input->post()) {
             $departments  = $this->tickets_model->get_department_data_by_service_id($this->input->post('serviceid'));
@@ -844,6 +859,8 @@ class Tickets extends AdminController
         }
         echo json_encode($data);
     }
+    /* End new code  category list by department */
+    /* Start new code for sub category by parent category */
     public function get_sub_category_by_service_id(){
         if ($this->input->post()) {
             $sub_category  = $this->tickets_model->get_sub_category_by_service_id($this->input->post('service_id'));
@@ -853,5 +870,6 @@ class Tickets extends AdminController
         }
         echo json_encode($data);
     }
+    /* End new code for sub category by parent category */
 
 }
