@@ -241,7 +241,7 @@ class Tickets extends AdminController
         $data['services']           = $this->tickets_model->get_service_by_department_id($data['ticket']->department);
         $data['service_detals']     = $this->tickets_model->get_service_details_by_id($data['ticket']->serviceid);
         $data['sub_category'] = array();
-        if($data['service_detals']->sub_category > 0){
+        if(isset($data['service_detals']->sub_category) && $data['service_detals']->sub_category > 0){
         $data['sub_category']       = $this->tickets_model->get_sub_category_by_service_id($data['service_detals']->service_id);
         
         }
@@ -319,6 +319,10 @@ class Tickets extends AdminController
                 $data['service'] = $data['sub_category'];
                 unset($data['sub_category']);
             }
+            if(isset($data['sub_category']) && $data['sub_category'] == ''){
+                unset($data['sub_category']);
+            }
+            
             $success = $this->tickets_model->update_single_ticket_settings($data);
             if ($success) {
                 $this->session->set_flashdata('active_tab', true);

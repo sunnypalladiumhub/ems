@@ -343,14 +343,14 @@
                        <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category',$service_detals->service_id,'<a href="#" onclick="new_service('.$ticket->department.');return false;"><i class="fa fa-plus"></i></a>');
+                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category', isset($service_detals->service_id) ? $service_detals->service_id : '','<a href="#" onclick="new_service('.$ticket->department.');return false;"><i class="fa fa-plus"></i></a>');
                      } else {
                         echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$service_detals->service_id);
                      }
                     ?>
                            </div>
                        <div id="sub_service_div">
-                           <?php echo render_select('sub_category',$sub_category,array('serviceid','name'),'tickets_sub_category_name',$service_detals->sub_category); ?>
+                           <?php echo render_select('sub_category',$sub_category,array('serviceid','name'),'tickets_sub_category_name', isset($service_detals->sub_category) ? $service_detals->sub_category : ''); ?>
                        </div>
                        <div id="meter_number_msg"></div>
                        <div id="meter_number_div">
