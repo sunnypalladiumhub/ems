@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <script>
+    $(document).ready(function (){
+        init_tickets_weekly_chart();
+    })
     var presets = window.chartColors;
     var utils = Samples.utils;
     utils.srand(8);
@@ -11,10 +14,8 @@
 				labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12','13','14','15','16','17','18','19','20','21','22','23'],
 				datasets: [{
 					label: 'Today',
-					//backgroundColor: window.chartColors.red,
-                                        backgroundColor: utils.transparentize(presets.red),
+					backgroundColor: utils.transparentize(presets.red),
                                         borderColor: utils.transparentize(presets.red),
-					//borderColor: window.chartColors.red,
 					data: [
 						<?php echo $today_tickets; ?>
 					],
@@ -63,7 +64,7 @@
 					yAxes: [{
 						display: true,
 						scaleLabel: {
-							display: true,
+							display: false,
 							labelString: 'Value'
 						}
 					}]
@@ -81,6 +82,33 @@
 //			});
 		};
 		
+
+  var chart;
+  var chart_data = <?php echo $weekly_tickets_opening_statistics; ?>;
+  function init_tickets_weekly_chart() {
+    if (typeof(chart) !== 'undefined') {
+      chart.destroy();
+    }
+    // Weekly ticket openings statistics
+    chart = new Chart($('#weekly-ticket-openings-chart'),{
+    	type:'line',
+    	data:chart_data,
+    	options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+            }
+          }]
+        }
+      }
+    });
+  }
 
 	</script>
         

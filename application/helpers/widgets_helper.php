@@ -72,6 +72,10 @@ function get_ems_dashboard_widgets()
             'container' => 'left-8',
         ],
         [
+            'path'      => 'admin/ems_dashboard/widgets/weekly_chart',
+            'container' => 'left-8',
+        ],
+        [
             'path'      => 'admin/ems_dashboard/widgets/overdue_tickets',
             'container' => 'left-8',
         ],

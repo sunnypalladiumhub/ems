@@ -109,7 +109,7 @@ class Dashboard extends AdminController {
                 $yesterday_array[$value['the_hour']] = $value['number_of_ticket'];
             }
         }
-        
+        $data['weekly_tickets_opening_statistics'] = json_encode($this->tickets_model->get_weekly_tickets_opening_statistics());
         $data['today_tickets'] = implode(',',$today_array);
         $data['yesterday_tickets'] = implode(',',$yesterday_array);
         $this->load->view('admin/ems_dashboard/dashboard', $data);

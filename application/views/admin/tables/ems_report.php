@@ -2,7 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 $aColumns = [
-    1,
     ];
 
 $data_table_array = get_ems_table_records();
@@ -17,31 +16,32 @@ foreach ($table_field_list as $key=>$value){
    
 }
 
+
 if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
-    $assigned_name = 19;
-}elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
-    $assigned_name = 17;
-}elseif($table_name == 'full_report'){
     $assigned_name = 20;
+}elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
+    $assigned_name = 16;
+}elseif($table_name == 'full_report'){
+    $assigned_name = 21;
 }
 if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
-    $response_hours = 21;
-    $resolve_hours = 22;    
+    $response_hours = 7;
+    $resolve_hours = 8;    
 }elseif ($table_name == 'full_report') {
-    $response_hours = 24;
-    $resolve_hours = 25;    
+    $response_hours = 7;
+    $resolve_hours = 8;    
 }elseif ($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA') {
-    $response_hours = 19;
-    $resolve_hours = 20;    
+    $response_hours = 7;
+    $resolve_hours = 8;    
 }elseif ($table_name == 'full_reportSLA') {
-    $response_hours = 18;
-    $resolve_hours = 19;    
+    $response_hours = 7;
+    $resolve_hours = 8;    
 }
-$parent_Category_col_number = 8;
-    $sub_parent_Category_col_number = 9;
+$parent_Category_col_number = 3;
+    $sub_parent_Category_col_number = 13;
 if($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
-    $parent_Category_col_number = 7;
-    $sub_parent_Category_col_number = 8;
+    $parent_Category_col_number = 3;
+    $sub_parent_Category_col_number = 12;
 }
 $department_id=[];
 if($table_name == 'network' || $table_name == 'networkSLA'){
@@ -127,9 +127,7 @@ foreach ($rResult as $aRow) {
             $_data = $aRow[$aColumns[$i]];
         }
         }
-        if ($aColumns[$i] == '1') {
-            $_data = '<div class="checkbox"><input type="checkbox" value="' . $aRow['ticket_number'] . '"><label></label></div>';
-        }elseif($aColumns[$i] == '2'){
+        if($aColumns[$i] == '2'){
             $_data = '';
         }elseif ($aColumns[$i] == 'ans_date' || $aColumns[$i] == db_prefix() . 'tickets.ticketid') {
             if ($aRow[$aColumns[$i]] == null) {

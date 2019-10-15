@@ -435,13 +435,13 @@
                                                   <div class="row">
                                                       <div class="col-md-6">
                                                           <div class="form-group">
-                                                              <?php echo render_input('landline', 'ticket_contact_landline', $ticket->landline, 'number'); ?>
+                                                              <?php echo render_input('landline', 'ticket_contact_landline', $ticket->landline, 'number',array('onkeypress'=>'return isNumberKey(event)')); ?>
 
                                                           </div>
                                                       </div>
                                                       <div class="col-md-6">
                                                           <div class="form-group">
-                                                              <?php echo render_input('mobile', 'ticket_contact_mobile', $ticket->mobile, 'number'); ?>
+                                                              <?php echo render_input('mobile', 'ticket_contact_mobile', $ticket->mobile, 'number',array('onkeypress'=>'return isNumberKey(event)')); ?>
                                                           </div>
                                                       </div>
                                                   </div>
@@ -509,7 +509,7 @@
 
                                                           </div>
                                                           <div class="form-group">
-                                                              <?php echo render_input('postal_code', 'ticket_contact_post_code', $ticket->postal_code, 'number'); ?>
+                                                              <?php echo render_input('postal_code', 'ticket_contact_post_code', $ticket->postal_code, 'number',array('onkeypress'=>'return isNumberKey(event)')); ?>
                                                           </div>
                                                           <div class="form-group">
                                                               <?php echo render_input('country', 'ticket_contact_country', $ticket->country, 'text'); ?>
@@ -1325,6 +1325,14 @@
          new_task(new_task_url);
       }
    <?php } ?>
+      function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
 
 </script>
 </body>
