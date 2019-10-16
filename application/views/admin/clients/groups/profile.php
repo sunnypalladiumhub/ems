@@ -138,7 +138,11 @@
                   <?php $value=( isset($client) ? $client->city : ''); ?>
                   <?php echo render_input( 'city', 'client_city',$value); ?>
                   <?php $value=( isset($client) ? $client->state : ''); ?>
-                  <?php echo render_input( 'state', 'client_state',$value); ?>
+                   <?php 
+                    $states = get_all_states();
+                    echo render_select( 'state',$states,array( 'name',array( 'name')), 'client_province',$value);
+                   ?>
+                  <?php //echo render_input( 'state', 'client_province',$value); ?>
                   <?php $value=( isset($client) ? $client->zip : ''); ?>
                   <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
                   <?php $countries= get_all_countries();

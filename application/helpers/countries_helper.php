@@ -10,6 +10,10 @@ function get_all_countries()
 {
     return hooks()->apply_filters('all_countries', get_instance()->db->order_by('short_name', 'asc')->get(db_prefix().'countries')->result_array());
 }
+function get_all_states()
+{
+    return hooks()->apply_filters('all_states', get_instance()->db->order_by('id', 'asc')->get(db_prefix().'province')->result_array());
+}
 /**
  * Get country row from database based on passed country id
  * @param  mixed $id

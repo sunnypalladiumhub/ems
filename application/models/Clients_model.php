@@ -1510,6 +1510,10 @@ class Clients_model extends App_Model
     {
         return $this->db->query('SELECT DISTINCT(country_id), short_name FROM ' . db_prefix() . 'clients JOIN ' . db_prefix() . 'countries ON ' . db_prefix() . 'countries.country_id=' . db_prefix() . 'clients.country')->result_array();
     }
+    public function get_clients_distinct_provinces()
+    {
+        return $this->db->get(db_prefix() . 'province')->result_array();
+    }
 
     public function send_notification_customer_profile_file_uploaded_to_responsible_staff($contact_id, $customer_id)
     {

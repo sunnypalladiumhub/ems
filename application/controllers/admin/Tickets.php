@@ -33,6 +33,7 @@ class Tickets extends AdminController
                 'userid'              => $this->input->post('filters_userid'),
                 'where_not_ticket_id' => $this->input->post('filters_ticket_id'),
             ];
+                
                 if ($tableParams['userid'] == 0) {
                     unset($tableParams['userid']);
                     $tableParams['by_email'] = $this->input->post('filters_email');
@@ -76,6 +77,9 @@ class Tickets extends AdminController
             /*********Start New Code For Check Sub category is isset or not ********/
             if(isset($data['sub_category']) && $data['sub_category'] != ''){
                 $data['service'] = $data['sub_category'];
+                unset($data['sub_category']);
+            }
+            if(isset($data['sub_category']) && $data['sub_category'] == ''){
                 unset($data['sub_category']);
             }
             /*********End New Code For Check Sub category is isset or not ********/

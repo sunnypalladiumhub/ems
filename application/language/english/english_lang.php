@@ -3725,6 +3725,7 @@ $lang['menu_paycitySLA']                       = 'PayCitySLA';
 $lang['menu_trafic_road_safetySLA']                       = 'Trafic/RS SLA';
 $lang['menu_networkSLA']                       = 'NetworkSLA';
 $lang['menu_full_reportSLA']                       = 'SLA full Report';
+$lang['client_province']                            = 'Province';
 
 
 
