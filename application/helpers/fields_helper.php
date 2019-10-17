@@ -450,6 +450,7 @@ function render_select_for_company_name($name, $options, $option_attrs = [], $la
     if ($include_blank == true) {
         $select .= '<option value=""></option>';
     }
+    $select .= '<option value="'.UNASSIGNED.'">Unassigned</option>';
     foreach ($options as $option) {
         $val       = '';
         $_selected = '';

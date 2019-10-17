@@ -44,7 +44,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'departments ON ' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'tickets.department',
     'LEFT JOIN ' . db_prefix() . 'tickets_status ON ' . db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status',
     /*** Start New code for add Comapny name */
-    'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.company_id ',
+    'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = IF(' . db_prefix() . 'tickets.company_id > 0 ,  '. db_prefix() . 'tickets.company_id,-1 ) ',
     /*** End New code for add Comapny name */
     'LEFT JOIN ' . db_prefix() . 'tickets_priorities ON ' . db_prefix() . 'tickets_priorities.priorityid = ' . db_prefix() . 'tickets.priority',
     /*** Start New code for add Meter number and channel Type */
@@ -69,7 +69,7 @@ if (isset($userid) && $userid != '') {
     if($userid == ENDUSER_ID){
         array_push($where, 'AND (' . db_prefix() . 'tickets.userid = ' . $userid.' OR ' . db_prefix() . 'tickets.userid = NULL OR ' . db_prefix() . 'tickets.userid = 0 )');
     }else{
-        array_push($where, 'AND ' . db_prefix() . 'tickets.userid = ' . $userid);
+        array_push($where, 'AND ' . db_prefix() . 'tickets.company_id = ' . $userid);
     }
     /*** End New code for add ticket in End User If Ticket Created by without contact */
 } elseif (isset($by_email)) {

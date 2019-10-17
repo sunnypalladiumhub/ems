@@ -9,8 +9,8 @@
         <div class="col-md-12"><h4>High</h4></div>
         
         <div class="col-md-6">
-                   <?php echo render_input('high_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['high_resolution'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
-                   <?php echo render_input('high_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['high_response'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
+                   <?php echo render_input('high_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['high_resolution'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
+                   <?php echo render_input('high_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['high_response'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
             
         </div>
     </div>
@@ -18,8 +18,8 @@
         <div class="col-md-12"><h4>Medium</h4></div>
         
         <div class="col-md-6">
-                   <?php echo render_input('medium_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['medium_resolution'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
-                   <?php echo render_input('medium_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['medium_response'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
+                   <?php echo render_input('medium_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['medium_resolution'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
+                   <?php echo render_input('medium_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['medium_response'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
             
         </div>
     </div>
@@ -27,8 +27,8 @@
         <div class="col-md-12"><h4>Low</h4></div>
         
         <div class="col-md-6">
-                   <?php echo render_input('low_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['low_resolution'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
-                   <?php echo render_input('low_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['low_response'] : '', 'text',array('onkeypress'=>'return isNumberKey(event)','maxlength'=>'3')); ?>
+                   <?php echo render_input('low_resolution', 'client_sla_mager_resolution', isset($sla_manager) ? $sla_manager['low_resolution'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
+                   <?php echo render_input('low_response', 'client_sla_mager_response', isset($sla_manager) ? $sla_manager['low_response'] : '', 'number',array('onkeypress'=>'return isNumberKey(event,this.value)','maxlength'=>'3','min'=>"1", 'max'=>"999")); ?>
             
         </div>
     </div>
@@ -42,8 +42,12 @@
 </div>
  <SCRIPT language=Javascript>
       
-      function isNumberKey(evt)
+      function isNumberKey(evt,value)
       {
+          if(value > 99){
+              return false;
+          }
+          
          var charCode = (evt.which) ? evt.which : event.keyCode
          if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;

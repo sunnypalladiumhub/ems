@@ -240,9 +240,16 @@ class Tickets extends AdminController
         /*********Start New Code For Ticket Edit Form ********/
         $data['company_groups']     = $this->clients_model->get_groups();
         $data['company_name'] = array();
+        /**** Start New Code For Add Unassigned **/
         if($data['ticket']->group_id > 0){
-        $data['company_name']       = $this->clients_model->get_customer_by_group_id($data['ticket']->group_id);
+            $data['company_name']       = $this->clients_model->get_customer_by_group_id($data['ticket']->group_id);
+            $temp_array = array('userid'=> UNASSIGNED,'company'=>'Unassigned');
+            array_push($data['company_name'], $temp_array);
+        }else{
+            $temp_array = array('userid'=> UNASSIGNED,'company'=>'Unassigned');
+            array_push($data['company_name'], $temp_array);
         }
+        /**** End New Code For Add Unassigned **/
         $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['predefined_replies'] = $this->tickets_model->get_predefined_reply();
         $data['priorities']         = $this->tickets_model->get_priority();

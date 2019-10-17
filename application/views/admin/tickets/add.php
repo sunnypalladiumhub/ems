@@ -43,6 +43,7 @@
                                         <label for="company_id" class="control-label">Company Name</label>
                                         <select id="company_id" name="company_id" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
                                             <option value=""></option>
+                                            <option value="<?php echo UNASSIGNED; ?>">Unassigned</option>
                                         </select>
                                     </div>                                      
                                 </div>
@@ -114,7 +115,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <?php $priorities['callback_translate'] = 'ticket_priority_translate';
-                                                echo render_select('priority', $priorities, array('priorityid','name'), 'ticket_settings_priority', hooks()->apply_filters('new_ticket_priority_selected', 2), array('required'=>'true')); ?>
+                                                echo render_select('priority', $priorities, array('priorityid','name'), 'ticket_settings_priority', hooks()->apply_filters('new_ticket_priority_selected', 1), array('required'=>'true')); ?>
                                     </div>
                                 </div>
 

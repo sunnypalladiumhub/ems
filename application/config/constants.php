@@ -208,3 +208,4 @@ define('NETWORKS', 3);
 define('ROADSAFETY', 4);
 define('PAYCITY', 5);
 define('TRAFFIC', 6);
+define('UNASSIGNED',-1);
