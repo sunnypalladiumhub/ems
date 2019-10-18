@@ -31,6 +31,9 @@ class Ems_report extends AdminController
         if($this->input->post('table')){
             $this->app->get_table_data('ems_report', [
                 'table_name' => $this->input->post('table'),
+                'network' => $this->input->post('network'),
+                'trafic_road_safety' => $this->input->post('trafic_road_safety'),
+                'paycity' => $this->input->post('paycity')
             ]);
         }else{
             access_denied('reports');
@@ -133,5 +136,24 @@ class Ems_report extends AdminController
             access_denied('reports');
         }
         $this->load->view('admin/ems_report/manage', $data);
+    }
+    public function unassigned_companies(){
+        $permision_department = array();
+        if(has_report_permission('network', '', '')){
+            array_push($permision_department,'network');
+        }
+        if(has_report_permission('trafic_road_safety', '', '')){
+            array_push($permision_department,'trafic_road_safety');
+        }
+        if(has_report_permission('paycity', '', '')){
+            array_push($permision_department,'paycity');
+        }
+        $data = array();
+        $data_table = get_ems_table_records();
+        
+        $data['table'] = 'unassigned_companies';
+        $data['table_data_array'] = $data_table;
+        $data['permision_department'] = $permision_department;
+        $this->load->view('admin/ems_report/manage', $data);       
     }
 }

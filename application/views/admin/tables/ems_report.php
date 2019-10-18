@@ -16,15 +16,14 @@ foreach ($table_field_list as $key=>$value){
    
 }
 
-
-if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
+if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $assigned_name = 20;
 }elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
     $assigned_name = 16;
 }elseif($table_name == 'full_report'){
     $assigned_name = 21;
 }
-if($table_name == 'network' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
+if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $response_hours = 7;
     $resolve_hours = 8;    
 }elseif ($table_name == 'full_report') {
@@ -52,7 +51,19 @@ if($table_name == 'network' || $table_name == 'networkSLA'){
     array_push($department_id,ROADSAFETY); 
 }elseif($table_name == 'paycity' || $table_name == 'paycitySLA'){
     array_push($department_id,PAYCITY); 
+}elseif ($table_name == 'unassigned_companies') {
+    if(isset($network)){
+       array_push($department_id,NETWORKS); 
+    }
+    if(isset($trafic_road_safety)){
+        array_push($department_id,TRAFFIC); 
+        array_push($department_id,ROADSAFETY); 
+    }
+    if(isset($paycity)){
+        array_push($department_id,PAYCITY);  
+    }
 }
+
 $additionalSelect = [
     'adminread',
     db_prefix() . 'tickets.userid',
@@ -88,7 +99,9 @@ $statusIds = [];
 if(!empty($department_id)){
     array_push($where, 'AND ' . db_prefix() . 'tickets.department IN (' . implode(',',$department_id)  . ')');
 }
- 
+if($table_name == 'unassigned_companies'){
+    array_push($where, 'AND ' . db_prefix() . 'tickets.company_id = -1');
+} 
 foreach ($this->ci->projects_model->get_project_statuses() as $status) {
     if ($this->ci->input->post('project_status_' . $status['id'])) {
         array_push($statusIds, $status['id']);
@@ -96,6 +109,7 @@ foreach ($this->ci->projects_model->get_project_statuses() as $status) {
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,$additionalSelect);
+
 //var_dump($result);exit;
 
 $output  = $result['output'];

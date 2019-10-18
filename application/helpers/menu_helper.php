@@ -350,6 +350,12 @@ function app_init_admin_sidebar_menu_items()
                         'position' => 5,
                 ]);
        }
+       $CI->app_menu->add_sidebar_children_item('ems-reports', [
+                        'slug'     => 'meter-number',
+                        'name'     => 'Unassigned companies',
+                        'href'     => admin_url('ems_report/unassigned_companies'),
+                        'position' => 5,
+                ]);
     }
     /** End new code This for Add EMS Report menu **/
     // Setup menu
