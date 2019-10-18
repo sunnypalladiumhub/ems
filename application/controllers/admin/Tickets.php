@@ -838,9 +838,9 @@ class Tickets extends AdminController
         if ($this->input->post()) {
             $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
             if($this->input->post('service')){
-                $dropdown = render_select_with_input_group('parentid', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '');
+                $dropdown = render_select('parentid', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '');
             }else{
-            $dropdown = render_select_with_input_group('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '<a href="#" onclick="new_service('.$this->input->post('department_id').');return false;"><i class="fa fa-plus"></i></a>');
+            $dropdown = render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '');
             }
             $data['status']=1;
             $data['result'] = $dropdown;

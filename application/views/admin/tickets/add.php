@@ -70,17 +70,12 @@
                                 </div>
                                 <!-- Start new Code For Category and sub category -->                                
                                 <div id="service_div">
-                                    <div class="select-placeholder form-group form-group-select-input-service input-group-select">
+                                    <div class="select-placeholder form-group" app-field-wrapper="company_id">
                                         <label for="service" class="control-label">Category</label>
-                                        <div class="input-group input-group-select select-service" app-field-wrapper="service">
-                                            <select id="service" name="service" class="selectpicker  _select_input_group" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
-                                                <option value=""></option>
-                                            </select>
-                                            <div class="input-group-addon">
-                                                <a href="#" onclick="return false;"><i class="fa fa-plus"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <select id="service" name="service" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>                                      
                                 </div>
                                 <div id="sub_service_div">
                                     <div class="select-placeholder form-group" app-field-wrapper="company_id">

@@ -346,7 +346,7 @@
                        <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                        echo render_select_with_input_group('service',$services,array('serviceid','name'),'ticket_settings_category', isset($service_detals->service_id) ? $service_detals->service_id : '','<a href="#" onclick="new_service('.$ticket->department.');return false;"><i class="fa fa-plus"></i></a>');
+                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category', isset($service_detals->service_id) ? $service_detals->service_id : '');
                      } else {
                         echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$service_detals->service_id);
                      }
