@@ -1522,12 +1522,12 @@ class Tasks_model extends App_Model
                     $this->projects_model->log_activity($task->rel_id, $project_activity_log, $project_activity_desc, $task->visible_to_client);
                 }
                 
-                if ($task->rel_type == 'ticket') {
-                    $tickets_status = $status;
-                    $tickets_id = $task->rel_id;
-                    $this->tickets_model->change_ticket_status($tickets_id, $tickets_status);
-                    
-            }
+//                if ($task->rel_type == 'ticket') {
+//                    $tickets_status = $status;
+//                    $tickets_id = $task->rel_id;
+//                    $this->tickets_model->change_ticket_status($tickets_id, $tickets_status);
+//                    
+//            }
 
                 
             $this->_send_task_responsible_users_notification($description, $task_id, false, 'task_status_changed_to_staff', serialize($not_data));

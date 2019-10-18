@@ -3719,13 +3719,14 @@ $lang['client_profile_default_email']                       = 'Default Email';
 $lang['menu_ems_report']                       = 'EMS Reports';
 $lang['menu_full_report']                       = 'Full report';
 $lang['menu_network_report']                       = 'Network report';
-$lang['menu_trafic_road_safety']                       = 'Trafic/Road Safety';
+$lang['menu_trafic_road_safety']                       = 'Traffic/Road Safety';
 $lang['menu_paycity']                       = 'PayCity Report';
 $lang['menu_paycitySLA']                       = 'PayCitySLA';
-$lang['menu_trafic_road_safetySLA']                       = 'Trafic/RS SLA';
+$lang['menu_trafic_road_safetySLA']                       = 'Traffic/RS SLA';
 $lang['menu_networkSLA']                       = 'NetworkSLA';
 $lang['menu_full_reportSLA']                       = 'SLA full Report';
 $lang['client_province']                            = 'Province';
+$lang['notice_number_ticket']                            = 'Infringements/Notice Number';
 
 
 

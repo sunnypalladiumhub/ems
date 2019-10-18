@@ -808,6 +808,18 @@ class Tickets_model extends App_Model
             }
 
             $template = 'ticket_created_to_customer';
+            
+            /*** New Code For Send Email To Department-email id ****/
+            $this->load->model('departments_model');
+            $staff_departments = $this->departments_model->get($data['department']);
+            if(isset($staff_departments->email) && $staff_departments->email != ''){
+                $sendEmail = true;
+                $email = $staff_departments->email;
+                $ticket = $this->get_ticket_by_id($ticketid);
+                // $admin == null ? [] : $_attachments - Admin opened ticket from admin area add the attachments to the email
+                send_mail_template($template, $ticket, $email, $admin == null ? [] : $_attachments, $cc);
+            }
+            /***End New Code For Send Email To Department-email id ****/
             if ($admin == null) {
                 $template = 'ticket_autoresponse';
 
@@ -824,7 +836,6 @@ class Tickets_model extends App_Model
                         continue;
                     }
                     $staff_departments = $this->departments_model->get_staff_departments($member['staffid'], true);
-
                     if (in_array($data['department'], $staff_departments)) {
                         send_mail_template('ticket_created_to_staff', $ticketid, $data['userid'], $data['contactid'], $member, $_attachments);
 
@@ -847,7 +858,7 @@ class Tickets_model extends App_Model
                 }
                 pusher_trigger_notification($notifiedUsers);
             }
-
+            
             $sendEmail = true;
 
             if ($isContact && total_rows(db_prefix() . 'contacts', ['ticket_emails' => 1, 'id' => $data['contactid']]) == 0) {
@@ -1517,7 +1528,7 @@ class Tickets_model extends App_Model
      * Used in home dashboard page
      * Displays weekly ticket openings statistics (chart)
      */
-    public function get_weekly_tickets_opening_statistics()
+    public function get_weekly_tickets_opening_statistics($customer_id = '')
     {
         $departments_ids = [];
         if (!is_admin()) {
@@ -1570,6 +1581,9 @@ class Tickets_model extends App_Model
                 $this->db->like('DATE(date)', $weekDate, 'after');
                 if ($byDepartments) {
                     $this->db->where('department IN (SELECT departmentid FROM '.db_prefix().'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")');
+                }
+                if($customer_id != ''){
+                    $this->db->where('company_id',$customer_id);
                 }
                 $chart['datasets'][0]['data'][$i] = $this->db->count_all_results(db_prefix() . 'tickets');
 
@@ -1690,11 +1704,10 @@ class Tickets_model extends App_Model
         $this->db->from(db_prefix() . 'tickets');
         $this->db->where('DATE(date)',$curr_date);
         if($customerid > 0){
-            if($customerid == 3){
-                $this->db->where('userid',0);
-            }else{
-                $this->db->where('userid',$customerid);
-            }
+            $this->db->where('company_id',$customerid);
+        }elseif ($customerid == UNASSIGNED) {
+            $this->db->where('company_id',$customerid);
+            //$this->db->or_where('company_id',null);
         }
         $this->db->group_by('extract(hour from date)');
         $q = $this->db->get();

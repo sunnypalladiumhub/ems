@@ -363,6 +363,9 @@
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number',$ticket->meter_number, '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
                                 </div>
+                        <div id="notice_number_div" style="display: none;">
+                            <?php echo render_input('notice_number', 'notice_number_ticket', $ticket->notice_number, 'text'); ?>
+                        </div>
                        <!-- End new code for Meter number -->
                        <?php // echo render_custom_fields('meter_number',$ticket->ticketid); ?>
                        <div class="row">
@@ -1150,6 +1153,14 @@
 <?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
 <script>
    $(function(){
+     var department_name = '<?php echo strtolower($ticket->department_name); ?>';
+     if(department_name =='networks'){
+         $('#notice_number_div').hide();
+         $('#meter_number_div').show();
+     }else{
+         $('#notice_number_div').show();
+         $('#meter_number_div').hide();
+     }
        $('body').on('change','#company_id',function (){
             var contactid = $(this).val();
             init_ajax_search('contact', '#contactid.ajax-search', {

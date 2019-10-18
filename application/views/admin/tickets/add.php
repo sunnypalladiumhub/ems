@@ -106,6 +106,9 @@
                                     echo render_select_with_input_group('meter_number', $meter_number, array('id', 'number'), 'ticket_meter_number', '', '<a href="#" onclick="new_meter_number();return false;"><i class="fa fa-plus"></i></a>');
                                 ?>
                                 </div>
+                                <div id="notice_number_div" style="display: none;">
+                                    <?php echo render_input('notice_number', 'notice_number_ticket', '', 'text'); ?>
+                                </div>
                                 <!-- End new Code For Meter number -->                                
                                 <?php //echo render_custom_fields('meter_number'); ?>
                                 <?php //echo render_custom_fields('channel_type'); ?>
@@ -291,8 +294,10 @@ $('#group_id').on('change',function (){
             var department_text = $( "#department option:selected" ).text();
             if(department_text.toLowerCase() == 'networks' || department_text.toLowerCase() == 'network'){
                 $('#meter_number_div').show();
+                $('#notice_number_div').hide();
             }else{
                 $('#meter_number_div').hide();
+                $('#notice_number_div').show();
                 var groupmeter_number = $('select#meter_number');
                 groupmeter_number.selectpicker('val','');
             }

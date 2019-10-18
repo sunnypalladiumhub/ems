@@ -238,7 +238,11 @@ function render_ems_dashboard_widgets($container)
         if (isset($staff_dashboard[$container])) {
             foreach ($staff_dashboard[$container] as $widget) {
                 $tmp        = explode('widget-', $widget);
-                $widgetName = $tmp[1];
+                if(isset($tmp[1])){
+                    $widgetName = $tmp[1];
+                }else{
+                    $widgetName ='';
+                }
                 if (isset($widgetsIDS[$widgetName])) {
                     array_push($widgetsOutputted, $widgetName);
                     $allWidgetsHTML[$widgetName] = $CI->load->view($widgetsIDS[$widgetName]['widgetPath'], [], true);

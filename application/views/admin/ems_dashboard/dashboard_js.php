@@ -7,7 +7,7 @@
     var presets = window.chartColors;
     var utils = Samples.utils;
     utils.srand(8);
-		var MONTHS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12','13','14','15','16','17','18','19','20','21','22','23'];
+		//var MONTHS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12','13','14','15','16','17','18','19','20','21','22','23'];
 		var config = {
 			type: 'line',
 			data: {
@@ -62,6 +62,7 @@
 						}
 					}],
 					yAxes: [{
+                                            
 						display: true,
 						scaleLabel: {
 							display: false,
@@ -76,6 +77,12 @@
                 
 			var ctx = document.getElementById('canvas');
 			window.myLine = new Chart(ctx, config);
+                        var max = 0;
+Chart.each(Chart.charts, function(p, i) {
+if (p.yAxis[0].max > max) {
+max = p.yAxis[0].max;
+}
+})
 //                        Chart.helpers.each(Chart.instances, function(chart) {
 //				chart.options.elements.line.tension =  0.000001;
 //				chart.update();

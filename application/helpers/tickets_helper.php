@@ -258,23 +258,17 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
         elseif ($status['id'] == 5) {
             $ticket_where['status'] = 1;
         }
-        if($customer_id > 0){
-            if($customer_id == ENDUSER_ID){
-                $ticket_where['userid'] = 0;
-            }else{
-            $ticket_where['userid'] = $customer_id;
-            }
+        if($customer_id != ''){
+            $ticket_where['company_id'] = $customer_id;
         }
         
         $summary = [];
         $ticket_where_new=array();
         if($status['id'] == 3){
-            if($customer_id > 0){
-                if($customer_id == ENDUSER_ID){
-                    $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = 0');
-                }else{
-                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND userid = '.$customer_id);
-                }
+            if($customer_id != ''){
+                
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND company_id = '.$customer_id);
+                
             }else{
                 $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3)');
             }
@@ -305,12 +299,8 @@ function overdue_tickets_details($customer_id = null){
             $CI->db->where('DATE(date)',$curr_date);
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
-            if($customer_id > 0){
-                if($customer_id == ENDUSER_ID){
-                    $CI->db->where('userid',0);
-                }else{
-                    $CI->db->where('userid',$customer_id);
-                }
+            if($customer_id != ''){
+                $CI->db->where('company_id',$customer_id);
             }
             $q = $CI->db->get()->row();
             
@@ -319,12 +309,8 @@ function overdue_tickets_details($customer_id = null){
             $CI->db->from(db_prefix() . 'tickets');
             $CI->db->where('status',5);
             $CI->db->where('group_id',$value['id']);
-            if($customer_id > 0){
-                if($customer_id == ENDUSER_ID){
-                    $CI->db->where('userid',0);
-                }else{
-                    $CI->db->where('userid',$customer_id);
-                }
+            if($customer_id != ''){
+                $CI->db->where('company_id',$customer_id);
             }
             $Overdue = $CI->db->get()->row();
             
