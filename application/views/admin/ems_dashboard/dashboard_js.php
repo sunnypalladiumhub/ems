@@ -34,6 +34,7 @@
 				}]
 			},
 			options: {
+                                maintainAspectRatio:false,
 				responsive: true,
 				title: {
 					display: false,
@@ -64,6 +65,9 @@
 					yAxes: [{
                                             
 						display: true,
+                                                ticks: {
+                                                    beginAtZero:true,
+                                                },
 						scaleLabel: {
 							display: false,
 							labelString: 'Value'
@@ -77,16 +81,7 @@
                 
 			var ctx = document.getElementById('canvas');
 			window.myLine = new Chart(ctx, config);
-                        var max = 0;
-Chart.each(Chart.charts, function(p, i) {
-if (p.yAxis[0].max > max) {
-max = p.yAxis[0].max;
-}
-})
-//                        Chart.helpers.each(Chart.instances, function(chart) {
-//				chart.options.elements.line.tension =  0.000001;
-//				chart.update();
-//			});
+
 		};
 		
 

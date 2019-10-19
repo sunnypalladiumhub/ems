@@ -12,7 +12,7 @@
                     <hr class="hr-panel-heading-dashboard">
                 </div>
                 </div>
-            <div class="relative" >
+            <div class="relative" style="max-height: 350px">
               <canvas class="chart" id="canvas" height="350"></canvas>
             </div>
         </div>
