@@ -48,6 +48,8 @@ class Cron_model extends App_Model {
                 log_activity('Cron Invoked Manually');
             }
             
+            $this->staff_coffie_report();
+            
             $this->staff_reminders();
             $this->events();
             $this->tasks_reminders();
@@ -88,11 +90,29 @@ class Cron_model extends App_Model {
             $this->lockHandle();
         }
     }
+
     /** new Code For Coffee Report */
-    public function run_coffee_report(){
-        $this->staff_coffie_report();
+    public function run_coffee_report($manually = false) {
+        if ($this->can_cron_run()) {
+            hooks()->do_action('before_cron_run', $manually);
+
+            update_option('last_cron_run', time());
+
+            if ($manually == true) {
+                $this->manually = true;
+
+                if (!extension_loaded('suhosin')) {
+                    @ini_set('memory_limit', '-1');
+                }
+
+                log_activity('Cron Invoked Manually');
+            }
+            $this->staff_coffie_report();
+        }
     }
-    /**End new Code For Coffee Report */
+
+    /*     * End new Code For Coffee Report */
+
     private function events() {
         // User events
         $this->db->where('isstartnotified', 0);
@@ -888,40 +908,40 @@ class Cron_model extends App_Model {
 
         pusher_trigger_notification($notifiedUsers);
     }
-/** new Code For Coffee Report */
+
+    /** new Code For Coffee Report */
     private function staff_coffie_report() {
-        
+
         $this->db->select('' . db_prefix() . 'staff.*,GROUP_CONCAT(' . db_prefix() . 'staff_departments.departmentid) as staff_departments');
         $this->db->join(db_prefix() . 'staff_departments', '' . db_prefix() . 'staff_departments.staffid=' . db_prefix() . 'staff.staffid');
         $this->db->where('' . db_prefix() . 'staff.coffee_report = 1');
         $this->db->group_by('' . db_prefix() . 'staff.staffid');
         $staff_details = $this->db->get(db_prefix() . 'staff')->result_array();
         $tickets_status = $this->db->get(db_prefix() . 'tickets_status')->result_array();
-        
+
         foreach ($staff_details as $staff_detail) {
             $staffid = $staff_detail['staffid'];
             $staff_departments = explode(',', $staff_detail['staff_departments']);
-            $this->db->where_in(db_prefix() . 'departments.departmentid',$staff_departments);
-            
+            $this->db->where_in(db_prefix() . 'departments.departmentid', $staff_departments);
+
             $departments = $this->db->get(db_prefix() . 'departments')->result_array();
-            $temp_data =array();
+            $temp_data = array();
             $query_data = array();
             foreach ($tickets_status as $status) {
                 foreach ($departments as $department) {
-             
-                    $temp_data['statusid'] =  $status['ticketstatusid'];
-                    $temp_data['status'] =  $status['name'];
-                    $temp_data['department'] =  $department['name'];
-                    $temp_data['departmentid'] =  $department['departmentid'];
-             
+
+                    $temp_data['statusid'] = $status['ticketstatusid'];
+                    $temp_data['status'] = $status['name'];
+                    $temp_data['department'] = $department['name'];
+                    $temp_data['departmentid'] = $department['departmentid'];
+
                     $query_data[] = $temp_data;
-                    
                 }
             }
-             
+
             $data_final = array();
             $data_result = array();
-            foreach ($query_data as $query){
+            foreach ($query_data as $query) {
                 $this->db->select('COUNT(*) as count');
                 $this->db->join(db_prefix() . 'departments', '' . db_prefix() . 'departments.departmentid=' . db_prefix() . 'tickets.department');
                 $this->db->join(db_prefix() . 'tickets_status', '' . db_prefix() . 'tickets_status.ticketstatusid=' . db_prefix() . 'tickets.status');
@@ -929,27 +949,27 @@ class Cron_model extends App_Model {
                 $this->db->where(db_prefix() . 'tickets.status', $query['statusid']);
                 $this->db->where(db_prefix() . 'tickets.department', $query['departmentid']);
                 $temp_data = $this->db->get(db_prefix() . 'tickets')->row();
-                
+
                 $data_final[$query['department']][$query['status']] = $temp_data->count;
             }
             $data_result['report'] = $data_final;
             $data_result['staff_first_name'] = $staff_detail['firstname'];
             $data_result['staff_last_name'] = $staff_detail['lastname'];
-            
+
             $this->load->config('email');
             $this->load->library('email');
 
             $from = $this->config->item('smtp_user');
-           // $to = $staff_detail['email'];
-             $to ='sunnypatel477@gmail.com';
+            // $to = $staff_detail['email'];
+            $to = 'sunnypatel477@gmail.com';
             $subject = 'Report';
-            
+
             $this->email->set_newline("\r\n");
             $this->email->from($from);
             $this->email->to($to);
             $this->email->subject($subject);
-            $message =  $this->load->view('admin/email_template/report',$data_result,TRUE);
-            
+            $message = $this->load->view('admin/email_template/report', $data_result, TRUE);
+
             $this->email->message($message);
 
             if ($this->email->send()) {
@@ -957,11 +977,11 @@ class Cron_model extends App_Model {
             } else {
                 show_error($this->email->print_debugger());
             }
-            
         }
-        
     }
-/**End new Code For Coffee Report */
+
+    /*     * End new Code For Coffee Report */
+
     private function invoice_overdue() {
         $invoice_auto_operations_hour = get_option('invoice_auto_operations_hour');
         if ($invoice_auto_operations_hour == '') {
