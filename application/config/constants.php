@@ -209,3 +209,12 @@ define('ROADSAFETY', 4);
 define('PAYCITY', 5);
 define('TRAFFIC', 6);
 define('UNASSIGNED',-1);
+
+
+
+define('OPEN',1);
+define('IN_PROGRESS',2);
+define('ANSWERED',3);
+define('ON_HOLD',4);
+define('CLOSED',5);
+define('AFTER_CALL_WORK',6);

@@ -15,10 +15,17 @@ class Cron extends App_Controller
 
         $last_cron_run                  = get_option('last_cron_run');
         $seconds = hooks()->apply_filters('cron_functions_execute_seconds', 300);
-
+            
         if ($last_cron_run == '' || (time() > ($last_cron_run + $seconds))) {
             $this->load->model('cron_model');
             $this->cron_model->run();
+        }else{
+            $this->load->model('cron_model');
+            $this->cron_model->run_coffee_report();
         }
+    }
+    public function coffee_report(){
+        $this->load->model('cron_model');
+        $this->cron_model->run_coffee_report();
     }
 }
