@@ -17,21 +17,32 @@ Dear <?php echo $staff_first_name; ?> <?php echo $staff_last_name; ?><br /><br /
 
 
 <table>
+    <tr>
   <?php 
-      foreach ($report as $key=>$value){
+      $department = array()  ;
+      if(!empty($report)){
+          $index = 0;
+          foreach($report as $key=>$value){
+              if($index == 0){ ?>
+                  <th>#</th>
+                  <?php foreach($value as $key1 => $value1){ ?>
+                    <th style="padding: 5px;"><?php echo $key1; ?></th>
+                  <?php $index++; }
+              }
+          }
+      } ?>
+    </tr>
+      <?php foreach ($report as $key=>$value){
   
           ?>
-    <tr><th colspan="12"><?php echo $key ?></th></tr>
-  <tr>
+    <tr><td ><b><?php echo $key ?></b></td>
       <?php foreach ($value as $data_key=>$data){ ?>
       
-      <td style="padding: 10px;"><?php echo $data_key ?> -- <?php echo $data ?></td>
+      <td style="padding: 10px;"><?php echo $data ?></td>
       
       <?php } ?>
   </tr>
-<?php          
-      }
-      ?>
+<?php } ?>
 </table>
 
 
