@@ -953,7 +953,7 @@ class Cron_model extends App_Model {
             $this->email->message($message);
 
             if ($this->email->send()) {
-               // echo 'Your Email has successfully been sent.';
+                echo 'Your Email has successfully been sent.';
             } else {
                 show_error($this->email->print_debugger());
             }
