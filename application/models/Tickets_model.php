@@ -807,10 +807,11 @@ class Tickets_model extends App_Model
                 
             }
 
-            $template = 'ticket_created_to_customer';
+           
             
             /*** New Code For Send Email To Department-email id ****/
-            $this->load->model('departments_model');
+             $template = 'ticket_created_to_customer';
+           /* $this->load->model('departments_model');
             $staff_departments = $this->departments_model->get($data['department']);
             if(isset($staff_departments->email) && $staff_departments->email != ''){
                 $sendEmail = true;
@@ -818,7 +819,7 @@ class Tickets_model extends App_Model
                 $ticket = $this->get_ticket_by_id($ticketid);
                 // $admin == null ? [] : $_attachments - Admin opened ticket from admin area add the attachments to the email
                 send_mail_template($template, $ticket, $email, $admin == null ? [] : $_attachments, $cc);
-            }
+            } */
             /***End New Code For Send Email To Department-email id ****/
             if ($admin == null) {
                 $template = 'ticket_autoresponse';

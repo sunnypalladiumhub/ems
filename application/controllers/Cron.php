@@ -15,19 +15,9 @@ class Cron extends App_Controller
 
         $last_cron_run                  = get_option('last_cron_run');
         $seconds = hooks()->apply_filters('cron_functions_execute_seconds', 300);
-        /** this is for test */
-          $this->load->model('cron_model');
-           $this->cron_model->run();  
-        /** End this is for test */
         if ($last_cron_run == '' || (time() > ($last_cron_run + $seconds))) {
             $this->load->model('cron_model');
             $this->cron_model->run();
         }
-    }
-    public function coffee_report(){
-        update_option('cron_has_run_from_cli', 1);
-
-        $this->load->model('cron_model');
-        $this->cron_model->run_coffee_report();
     }
 }

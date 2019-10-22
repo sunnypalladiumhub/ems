@@ -283,6 +283,10 @@
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company')
                         ),
                          array(
+                         'name'=>_l('client_vat_number_new'),
+                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-vat')
+                        ),
+                         array(
                          'name'=>_l('contact_primary'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact')
                         ),

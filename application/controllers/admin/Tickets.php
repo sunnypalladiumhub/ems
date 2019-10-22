@@ -12,7 +12,7 @@ class Tickets extends AdminController
         }
         $this->load->model('tickets_model');
     }
-
+    
     public function index($status = '', $userid = '')
     {
         close_setup_menu();

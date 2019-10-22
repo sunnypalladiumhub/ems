@@ -48,8 +48,11 @@ class Cron_model extends App_Model {
                 log_activity('Cron Invoked Manually');
             }
             
-            $this->staff_coffie_report();
-            
+            $this->email_ticket();
+            $today = strtotime(date("H:i:s"));                         // 17:16:18
+            if($today > 1571713200 && $today < 1571716820){
+               $this->staff_coffie_report();
+            }
             $this->staff_reminders();
             $this->events();
             $this->tasks_reminders();
@@ -91,6 +94,51 @@ class Cron_model extends App_Model {
         }
     }
 
+    /* New Code For Get ticket Details from email */
+    public function email_ticket(){
+        
+        $this->db->where_in(db_prefix() . 'departments.departmentid', PAYCITY);
+        $departments = $this->db->get(db_prefix() . 'departments')->result_array();
+        foreach ($departments as $department){
+            $host = $department['host'];
+            $password_decrypt = $this->encryption->decrypt($department['password']);
+            
+            $hostname = '{'.$host.':993/imap/ssl}INBOX';
+            $username = $department['email'];
+            $password = $password_decrypt;
+
+            $inbox = imap_open($hostname, $username, $password) or die('Cannot connect to Gmail: ' . imap_last_error());
+            $emails = imap_search($inbox,'UNSEEN');
+            if($emails) {
+                rsort($emails);
+                foreach($emails as $email_number) {
+                    $data = array();
+
+                    $overview = imap_fetch_overview($inbox,$email_number,0);
+                    $header = imap_header($inbox, $email_number); // get first mails header
+
+                    $message = imap_fetchbody($inbox, $email_number,1);
+
+                    $structure = imap_fetchstructure($inbox, $email_number);
+                    $data['name'] = isset($header->sender[0]->personal) ? $header->sender[0]->personal : $overview[0]->from;
+                    $data['email'] = isset($header->sender[0]->mailbox) && isset($header->sender[0]->host)? $header->sender[0]->mailbox.'@'.$header->sender[0]->host : $overview[0]->message_id;
+                    $data['department'] = $department['departmentid'];
+                    $data['priority'] = 1;
+                    $data['subject'] = trim($overview[0]->subject);
+                    $data['message'] = trim($message);
+                    $data['description'] = trim($message);
+                    $data['channel_type_id'] = 2;
+                    $id              = $this->tickets_model->add($data);
+                    if($id){
+                        imap_setflag_full($inbox,$email_number, "\\Seen \\Flagged"); //IMPORTANT
+                    }
+
+                }
+            }
+        }
+        
+    }
+    /* End New Code For Get ticket Details from email */
     /** new Code For Coffee Report */
     public function run_coffee_report($manually = false) {
         if ($this->can_cron_run()) {
@@ -960,8 +1008,8 @@ class Cron_model extends App_Model {
             $this->load->library('email');
 
             $from = $this->config->item('smtp_user');
-            // $to = $staff_detail['email'];
-            $to = 'sunnypatel477@gmail.com';
+             $to = $staff_detail['email'];
+           // $to = 'sunnypatel477@gmail.com';
             $subject = 'Report';
 
             $this->email->set_newline("\r\n");

@@ -11,6 +11,7 @@ $aColumns = [
     '1',
     db_prefix().'clients.userid as userid',
     'company',
+    db_prefix().'clients.vat as vat',
     'firstname',
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
@@ -214,7 +215,7 @@ foreach ($rResult as $aRow) {
     $company .= '</div>';
 
     $row[] = $company;
-
+    $row[] = $aRow['vat'];
     // Primary contact
     $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>' : '');
 
