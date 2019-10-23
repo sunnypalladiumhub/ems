@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sms_smsportal extends App_sms {
+class Sms_SMSPortal extends App_sms {
 
     private $secret_key;
     private $client_id;
@@ -39,13 +39,13 @@ class Sms_smsportal extends App_sms {
                 'body' => json_encode([
                 ]),
                 'headers' => [
-                    'Authorization' => 'Basic ' . $auth,
+                    'Authorization' => 'BASIC ' . $auth,
                 ],
-                'version' => CURL_HTTP_VERSION_1_1,
-                'decode_content' => [CURLOPT_ENCODING => ''],
+                
             ]);
 
             $result = json_decode($response->getBody());
+            
             if (isset($result->token)) {
                 $data_result['status'] = '1';
                 $data_result['token'] = $result->token;
@@ -81,8 +81,6 @@ class Sms_smsportal extends App_sms {
                     'headers' => [
                         'Authorization' => 'Bearer ' . $access_token,
                     ],
-                    'version' => CURL_HTTP_VERSION_1_1,
-                    'decode_content' => [CURLOPT_ENCODING => ''],
                 ]);
 
                 $result = json_decode($response->getBody());
@@ -128,16 +126,20 @@ class Sms_smsportal extends App_sms {
                     'decode_content' => [CURLOPT_ENCODING => ''],
                 ]);
 
-                $result = json_decode($response->getBody());
-                if (isset($result->type) && $result->type == 'success') {
-                    log_activity('SMS sent via SMSPortal to ' . $number . ', Message: ' . $message);
+                $StatusCode = json_decode($response->getStatusCode());
+                if($StatusCode == 200){
+                    $result = json_decode($response->getBody());
+                    if (isset($result->eventId) && $result->eventId > 0) {
+                        log_activity('SMS sent via SMSPortal to ' . $number . ', Message: ' . $message);
 
-                    return true;
+                        return true;
+                    }
+                    $this->set_error('sms send successfully.');
                 }
-                $this->set_error($result->message);
+                
             } catch (\Exception $e) {
                 $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-                $this->set_error($response['message']);
+                $this->set_error('please try after some time there is some problem.');
             }
         }
         return false;

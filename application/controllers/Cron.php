@@ -20,4 +20,29 @@ class Cron extends App_Controller
             $this->cron_model->run();
         }
     }
+    public function sla()
+    {
+         $this->load->model('clients_model');
+       $clients = $this->clients_model->get();
+       if(!empty($clients)){
+           foreach ($clients as  $client){
+                $clientid = $client['userid'];
+               $record = $this->clients_model->get_sla_manager($clientid);
+               if(empty($record)){
+                    $sla_data['client_id'] = $clientid;
+                    $sla_data['high_resolution'] = 48;
+                    $sla_data['high_response'] = 24;
+                    
+                    $sla_data['medium_resolution'] = 48;
+                    $sla_data['medium_response'] = 24;
+                    
+                    $sla_data['low_resolution'] = 48;
+                    $sla_data['low_response'] = 24;
+                    $this->clients_model->sla_manager_add($sla_data);
+               }
+                
+           }
+       }
+       
+    }
 }

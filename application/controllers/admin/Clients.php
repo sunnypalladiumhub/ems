@@ -93,6 +93,20 @@ class Clients extends AdminController
                     $save_and_add_contact = true;
                 }
                 $id = $this->clients_model->add($data);
+                /*** This is new code for enter default time to response and resolve value */
+                if($id > 0){
+                    $sla_data['client_id'] = $id;
+                    $sla_data['high_resolution'] = 48;
+                    $sla_data['high_response'] = 24;
+                    
+                    $sla_data['medium_resolution'] = 48;
+                    $sla_data['medium_response'] = 24;
+                    
+                    $sla_data['low_resolution'] = 48;
+                    $sla_data['low_response'] = 24;
+                    $sla_manager_id = $this->clients_model->sla_manager_add($sla_data);
+                }
+                /*** End This is new code for enter default time to response and resolve value */
                 if (!has_permission('customers', '', 'view')) {
                     $assign['customer_admins']   = [];
                     $assign['customer_admins'][] = get_staff_user_id();
