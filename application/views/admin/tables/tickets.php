@@ -18,7 +18,8 @@ $aColumns = [
     'lastreply',
     db_prefix() . 'tickets.date',
     /*** Start New code for add Meter number and channel Type */
-    db_prefix() .'meter_number.number as meter_number',
+  //  db_prefix() .'meter_number.number as meter_number',
+    'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assign',
     db_prefix() .'tickets_channel_type.name as channel_type',
     /*** End New code for add Meter number and channel Type */
     ];
@@ -43,6 +44,7 @@ $join = [
     'LEFT JOIN ' . db_prefix() . 'services ON ' . db_prefix() . 'services.serviceid = ' . db_prefix() . 'tickets.service',
     'LEFT JOIN ' . db_prefix() . 'departments ON ' . db_prefix() . 'departments.departmentid = ' . db_prefix() . 'tickets.department',
     'LEFT JOIN ' . db_prefix() . 'tickets_status ON ' . db_prefix() . 'tickets_status.ticketstatusid = ' . db_prefix() . 'tickets.status',
+    'LEFT JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'tickets.assigned',
     /*** Start New code for add Comapny name */
     'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = IF(' . db_prefix() . 'tickets.company_id > 0 ,  '. db_prefix() . 'tickets.company_id,-1 ) ',
     /*** End New code for add Comapny name */

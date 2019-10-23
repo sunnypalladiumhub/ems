@@ -7,7 +7,7 @@
                 <div class="row home-summary">
                     <div class="col-md-12">
                         <p class="pull-left mtop5"> <?php echo _l('ems_dash_cus_sat'); ?></p>
-                        <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                        <!--<a href="#" class="pull-right mtop5">&nbsp;<?php //echo _l('ems_dash_view_details'); ?></a>-->
                     </div>
                     <br>
                     <div class="col-md-12">

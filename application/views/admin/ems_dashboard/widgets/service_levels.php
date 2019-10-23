@@ -4,7 +4,7 @@
         <div class="panel_s">
             <div class="panel-body">
                 <div class="widget-dragger ui-sortable-handle"></div>
-                <div class="row home-summary">
+                <div class="row">
                     <div class="col-md-12">
                         <p class="pull-left mtop5"> <?php echo _l('ems_dash_service_level'); ?></p>
                         <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>

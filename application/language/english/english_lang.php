@@ -3728,6 +3728,6 @@ $lang['menu_full_reportSLA']                       = 'SLA full Report';
 $lang['client_province']                            = 'Province';
 $lang['notice_number_ticket']                            = 'Infringements/Notice Number';
 
-
+$lang['ticket_summary_assigned']                 = 'Assigned';
 
 /**********************************************/

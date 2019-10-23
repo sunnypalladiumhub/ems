@@ -33,7 +33,7 @@ function AdminTicketsTableStructure($name = '', $bulk_action = false)
     $table .= '<th class="toggleable" id="th-last-reply">' . _l('ticket_dt_last_reply') . '</th>';
     $table .= '<th class="toggleable ticket_created_column" id="th-created">' . _l('ticket_date_created') . '</th>';
     /*** Start New Code Add New two filed in datatable */
-    $table .= '<th class="toggleable " id="th-meter-number">' . _l('ticket_meter_number') . '</th>';
+    $table .= '<th class="toggleable " id="th-assigned">' . _l('ticket_summary_assigned') . '</th>';
     $table .= '<th class="toggleable " id="th-channel-type">' . _l('ticket_drp_channel_type') . '</th>';
     /*** End New Code Add New two filed in datatable */
     $custom_fields = get_table_custom_fields('meter_number');
