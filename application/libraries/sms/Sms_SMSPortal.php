@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sms_SMSPortal extends App_sms {
+class Sms_smsportal extends App_sms {
 
     private $secret_key;
     private $client_id;
@@ -10,11 +10,11 @@ class Sms_SMSPortal extends App_sms {
 
     public function __construct() {
         parent::__construct();
-
+        
         $this->client_id = $this->get_option('SMSPortal', 'client_id');
         $this->secret_key = $this->get_option('SMSPortal', 'secret_key');
 
-        $this->add_gateway('SMSPortal', [
+        $this->add_gateway('smsportal', [
             'info' => "<p>SMSPortal SMS integration is one way messaging, means that your customers won't be able to reply to the SMS.</p><hr class='hr-10'>",
             'name' => 'SMSPortal',
             'options' => [
@@ -107,7 +107,9 @@ class Sms_SMSPortal extends App_sms {
     }
 
     public function send($number, $message) {
+        
         $token = $this->get_token();
+        
         $token = json_decode($token);
         $url = $this->requestURL.'/bulkmessages';
         if ($token->status == 1) {
@@ -127,7 +129,7 @@ class Sms_SMSPortal extends App_sms {
                 ]);
 
                 $result = json_decode($response->getBody());
-                if ($result->type == 'success') {
+                if (isset($result->type) && $result->type == 'success') {
                     log_activity('SMS sent via SMSPortal to ' . $number . ', Message: ' . $message);
 
                     return true;
