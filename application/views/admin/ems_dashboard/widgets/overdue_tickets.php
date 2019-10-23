@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="pull-left mtop5"><?php echo _l('ems_dash_overdue_tickets'); ?></p>
-                        <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                        <a href="<?php echo admin_url('tickets'); ?>" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
                     </div>
                     <div class="col-md-12">
                         
