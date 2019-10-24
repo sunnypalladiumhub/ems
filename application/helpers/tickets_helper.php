@@ -238,25 +238,14 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
     $CI->load->model('tickets_model');
     $tasks_summary = [];
     $statuses = $CI->tickets_model->get_ems_dashboard_status();
-
+    
     foreach ($statuses as $status) {
         $ticket_where = [];
-        if ($status['id'] == 1) {
-            $ticket_where['status'] = 5;
-        } elseif ($status['id'] == 2) {
-            $ticket_where['status'] = 5;
-            $date = new DateTime("now");
-            $curr_date = $date->format('Y-m-d');
-            $ticket_where['DATE(date)'] = $curr_date;
-            
-        } elseif ($status['id'] == 3) {
-            $ticket_where['status NOT IN (5,3)']='';
-            //$ticket_where['status !='] = 3;
-        }elseif ($status['id'] == 4) {
-            $ticket_where['status'] = 2;
-        }
-        elseif ($status['id'] == 5) {
-            $ticket_where['status'] = 1;
+//         if ($status['id'] == 1) {
+//            $ticket_where['status'] = 5;
+//        } else
+       if ($status['id'] == 5) {
+            $ticket_where['assigned'] = 0;
         }
         if($customer_id != ''){
             $ticket_where['company_id'] = $customer_id;
@@ -267,12 +256,116 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
         if($status['id'] == 3){
             if($customer_id != ''){
                 
-                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3) AND company_id = '.$customer_id);
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND company_id = '.$customer_id);
                 
             }else{
-                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,3)');
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0)');
             }
-        }else{
+        }elseif($status['id'] == 4){
+            if($customer_id != ''){
+                
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND assigned > 0 AND company_id = '.$customer_id);
+                
+            }else{
+                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND assigned > 0');
+            }
+        }elseif($status['id'] == 1){
+            $CI = & get_instance();
+            if($customer_id != ''){
+                $summary_result =     $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number, 
+                                            tbltickets.priority as priority, 
+                                            CASE priority
+                                              WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                              WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                              WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                              ELSE 48
+                                              END as expose,
+                                            TIME_TO_SEC(TIMEDIFF((now()),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours 
+
+                                             FROM tbltickets 
+                                             LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                             LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             WHERE tbltickets.status = 1 
+                                             AND tbltickets.company_id ='.$customer_id.'
+                                             GROUP BY tbltickets.ticketid
+                                             HAVING resolve_hours>expose
+                                             ORDER BY tbltickets.ticketid
+                                             ');
+            }else{
+                $summary_result =     $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number, 
+                                            tbltickets.priority as priority, 
+                                            CASE priority
+                                              WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                              WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                              WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                              ELSE 48
+                                              END as expose,
+                                            TIME_TO_SEC(TIMEDIFF((now()),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours 
+
+                                             FROM tbltickets 
+                                             LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                             LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             WHERE tbltickets.status = 1
+                                             GROUP BY tbltickets.ticketid
+                                             HAVING resolve_hours>expose
+                                             ORDER BY tbltickets.ticketid
+                                             ');
+                }
+                $summary_data = $summary_result->num_rows();
+            
+            $summary['total_tasks'] = $summary_data;
+            
+        }elseif($status['id'] == 2){
+            $CI = & get_instance();
+            if($customer_id != ''){
+                $summary_result =     $CI->db->query('SELECT 
+                                    tbltickets.ticketid as ticket_number, 
+                                    tbltickets.priority as priority, 
+                                    CASE priority
+                                      WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                      WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                      WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                      ELSE 48
+                                      END as expose,
+                                      tbltickets_activity_log.date as activity_date
+                                     FROM tbltickets 
+                                     LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                     LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                     LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     WHERE tbltickets.status = 1 
+                                     AND tbltickets.company_id ='.$customer_id.'
+                                     GROUP BY tbltickets.ticketid
+                                     HAVING DATE_FORMAT(DATE_ADD(activity_date, INTERVAL +expose HOUR), "%Y-%m-%d") = CURDATE()
+                                     ORDER BY tbltickets.ticketid');
+            }else{
+                $summary_result =     $CI->db->query('SELECT 
+                                    tbltickets.ticketid as ticket_number, 
+                                    tbltickets.priority as priority, 
+                                    CASE priority
+                                      WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                      WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                      WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                      ELSE 48
+                                      END as expose,
+                                      tbltickets_activity_log.date as activity_date
+                                     FROM tbltickets 
+                                     LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                     LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                     LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     WHERE tbltickets.status = 1 
+                                     GROUP BY tbltickets.ticketid
+                                     HAVING DATE_FORMAT(DATE_ADD(activity_date, INTERVAL +expose HOUR), "%Y-%m-%d") = CURDATE()
+                                     ORDER BY tbltickets.ticketid');
+            }
+                
+                $summary_data = $summary_result->num_rows();
+                    
+            $summary['total_tasks'] = $summary_data;
+            
+        }
+        else{
         $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', $ticket_where);
         }
         //$summary['total_my_tasks'] = total_rows(db_prefix() . 'stock', $tasks_my_where);
@@ -281,7 +374,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $rel_type = null
         $summary['status_id'] = $status['id'];
         $tasks_summary[] = $summary;
     }
-    
+   
     return $tasks_summary;
 }
 /*** End New Code Add New Fuction For Ems Dashboard Summary Data */
