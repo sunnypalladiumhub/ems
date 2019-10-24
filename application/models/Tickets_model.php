@@ -1530,8 +1530,17 @@ class Tickets_model extends App_Model
      * Used in home dashboard page
      * Displays weekly ticket openings statistics (chart)
      */
-    public function get_weekly_tickets_opening_statistics($customer_id = '')
+    public function get_weekly_tickets_opening_statistics($data_filter = [])
     {
+        $customerid = 0;
+        $groupid = 0;
+        $departmentsid = 0;
+        
+        if(!empty($data_filter)){
+          $customerid =  @$data_filter['customer_id'];
+          $groupid =  @$data_filter['group_id'];
+          $departmentsid =  @$data_filter['departments_id'];
+        }
         $departments_ids = [];
         if (!is_admin()) {
             if (get_option('staff_access_only_assigned_departments') == 1) {
@@ -1584,8 +1593,16 @@ class Tickets_model extends App_Model
                 if ($byDepartments) {
                     $this->db->where('department IN (SELECT departmentid FROM '.db_prefix().'staff_departments WHERE departmentid IN (' . implode(',', $departments_ids) . ') AND staffid="' . get_staff_user_id() . '")');
                 }
-                if($customer_id != ''){
-                    $this->db->where('company_id',$customer_id);
+                if($customerid > 0){
+                    $this->db->where('company_id',$customerid);
+                }elseif ($customerid == UNASSIGNED) {
+                    $this->db->where('company_id',$customerid);
+                }
+                if($groupid > 0){
+                    $this->db->where('group_id',$groupid);
+                }
+                if($departmentsid > 0){
+                    $this->db->where('department',$departmentsid);
                 }
                 $chart['datasets'][0]['data'][$i] = $this->db->count_all_results(db_prefix() . 'tickets');
 
@@ -1692,7 +1709,16 @@ class Tickets_model extends App_Model
         return $q->row();
     }
     /*** End New Code For service Details by id  */
-    public function ticket_detail_by_time($type,$customerid = null){
+    public function ticket_detail_by_time($type,$data_filter = []){
+        $customerid = 0;
+        $groupid = 0;
+        $departmentsid = 0;
+        
+        if(!empty($data_filter)){
+          $customerid =  @$data_filter['customer_id'];
+          $groupid =  @$data_filter['group_id'];
+          $departmentsid =  @$data_filter['departments_id'];
+        }
         $date = new DateTime("now");
         if($type == '1'){
         $oYesterday = clone $date;
@@ -1710,6 +1736,12 @@ class Tickets_model extends App_Model
         }elseif ($customerid == UNASSIGNED) {
             $this->db->where('company_id',$customerid);
             //$this->db->or_where('company_id',null);
+        }
+        if($groupid > 0){
+            $this->db->where('group_id',$groupid);
+        }
+        if($departmentsid > 0){
+            $this->db->where('department',$departmentsid);
         }
         $this->db->group_by('extract(hour from date)');
         $q = $this->db->get();

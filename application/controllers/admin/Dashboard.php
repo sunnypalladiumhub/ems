@@ -80,19 +80,37 @@ class Dashboard extends AdminController {
     /* Start New Code This is admin Ems dashboard view */
     public function ems_dashboard() {
         $data=array();
+        $data_filter=array();
         add_admin_chat_js_assets();
         $this->load->model('tickets_model');
         $this->load->model('clients_model');
+        $this->load->model('departments_model');
         $customer = 0;
         if($this->input->post()){
             $customer = $this->input->post('customer_id');
             $data['customer_id'] = $customer;
+            $data_filter['customer_id'] = $customer;
+            
+            $group = $this->input->post('group_id');
+            $data['group_id'] = $group;
+            $data_filter['group_id'] = $group;
+            
+            $department = $this->input->post('department_id');
+            $data['departments_id'] = $department;
+            $data_filter['departments_id'] = $department;
         }
         $customer_results = $this->clients_model->get();
         $data['customer_results'] = $customer_results;
         
-        $today_hours_records = $this->tickets_model->ticket_detail_by_time('0',$customer);
-        $yesterday_hours_records = $this->tickets_model->ticket_detail_by_time('1',$customer);
+        $departments_results = $this->departments_model->get();
+        $data['departments_results'] = $departments_results;
+        
+        $groups_results = $this->clients_model->get_groups();
+        $data['groups_results'] = $groups_results;
+        
+        
+        $today_hours_records = $this->tickets_model->ticket_detail_by_time('0',$data_filter);
+        $yesterday_hours_records = $this->tickets_model->ticket_detail_by_time('1',$data_filter);
         
         $yesterday_array = array();
         for ($x = 0; $x <= 23; $x++) {
@@ -109,7 +127,7 @@ class Dashboard extends AdminController {
                 $yesterday_array[$value['the_hour']] = $value['number_of_ticket'];
             }
         }
-        $data['weekly_tickets_opening_statistics'] = json_encode($this->tickets_model->get_weekly_tickets_opening_statistics($customer));
+        $data['weekly_tickets_opening_statistics'] = json_encode($this->tickets_model->get_weekly_tickets_opening_statistics($data_filter));
         $data['today_tickets'] = implode(',',$today_array);
         $data['yesterday_tickets'] = implode(',',$yesterday_array);
         $this->load->view('admin/ems_dashboard/dashboard', $data);
