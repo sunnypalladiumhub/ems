@@ -3730,4 +3730,7 @@ $lang['notice_number_ticket']                            = 'Infringements/Notice
 
 $lang['ticket_summary_assigned']                 = 'Assigned';
 
+$lang['ems_dash_resolve']                       = 'Time to Resolve';
+$lang['ems_dash_responed']                       = 'Time to Responed';
+
 /**********************************************/
