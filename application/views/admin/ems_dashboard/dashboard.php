@@ -25,10 +25,10 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <select id="department_id" name="department_id" class="form-control">
+                                        <select id="province_id" name="province_id" class="form-control">
                                             <option value="">-- All Province --  </option>
-                                            <?php foreach ($departments_results as $key => $value) { ?>
-                                                <option value="<?php echo $value['departmentid']; ?>" <?php echo (isset($departments_id) && $departments_id == $value['departmentid']) ? "selected='selected'" : ''; ?> ><?php echo $value['name']; ?></option>
+                                            <?php foreach ($province_results as $key => $value) { ?>
+                                                <option value="<?php echo $value['name']; ?>" <?php echo (isset($province) && $province == $value['name']) ? "selected='selected'" : ''; ?> ><?php echo $value['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

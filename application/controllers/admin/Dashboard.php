@@ -98,12 +98,21 @@ class Dashboard extends AdminController {
             $department = $this->input->post('department_id');
             $data['departments_id'] = $department;
             $data_filter['departments_id'] = $department;
+            
+            $province = $this->input->post('province_id');
+            $data['province'] = $province;
+            $data_filter['province'] = $province;
+            
         }
         $customer_results = $this->clients_model->get();
         $data['customer_results'] = $customer_results;
         
         $departments_results = $this->departments_model->get();
         $data['departments_results'] = $departments_results;
+        
+        $province_results = get_all_states();
+        $data['province_results'] = $province_results;
+        
         
         $groups_results = $this->clients_model->get_groups();
         $data['groups_results'] = $groups_results;
