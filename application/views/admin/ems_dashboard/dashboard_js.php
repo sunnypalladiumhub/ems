@@ -2,8 +2,36 @@
 
 <script>
     $(document).ready(function (){
+        $('#department_id').on('change',function (){
+            reset_other('department_id');
+        });
+        $('#group_id').on('change',function (){
+            reset_other('group_id');
+        });
+        $('#province_id').on('change',function (){
+            reset_other('province_id');
+        });
+        $('#customer_id').on('change',function (){
+            reset_other('customer_id');
+        });
         init_tickets_weekly_chart();
     })
+    function reset_other(drp){
+        if(drp != 'department_id'){
+             $('#department_id').val(''); 
+        }
+        if(drp != 'group_id'){
+             $('#group_id').val(''); 
+        }
+        if(drp != 'province_id'){
+             $('#province_id').val(''); 
+        }
+        if(drp != 'customer_id'){
+             $('#customer_id').val(''); 
+        }
+        
+        
+    }
     var presets = window.chartColors;
     var utils = Samples.utils;
     utils.srand(8);

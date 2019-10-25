@@ -352,6 +352,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
     return $tasks_summary;
 }
 /*** End New Code Add New Fuction For Ems Dashboard Summary Data */
+/*** New Code For Overdue ticket count for EMS dashboard */
 function overdue_tickets_details($customer_id = null, $group_id = null,$departments_id = null){
         $CI = &get_instance();
         $CI->load->model('clients_model');
@@ -433,6 +434,54 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
         /*** End New Code For find OverDue Today */
        return $tasks_summary;
     }
+/*** End New Code For Overdue ticket count for EMS dashboard */    
+    
+/*** New Code Service Level EMS dashboard */
+function get_service_level_details($customer_id = null, $group_id = null,$departments_id = null){
+    $CI = &get_instance();
+    $CI->load->model('tickets_model');
+    $tasks_summary = [];
+    $statuses = $CI->tickets_model->get_priority();
+    foreach ($statuses as $status) {
+        $where = '';
+            if($customer_id != ''){
+                $where .= ' AND tbltickets.company_id ='.$customer_id.'';
+                $ticket_where['company_id'] = $customer_id;
+            }
+            if($group_id){
+               $where .= ' AND tbltickets.group_id ='.$group_id.''; 
+               $ticket_where['group_id'] = $group_id;
+            }
+            if($departments_id){
+               $where .= ' AND tbltickets.department ='.$departments_id.''; 
+               $ticket_where['department'] = $departments_id;
+            }
+                $summary_result = $CI->db->query('SELECT 
+                                                    tbltickets.ticketid as ticket_number,
+                                                    tbltickets.priority as priority,
+                                                    TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours,
+                                                    TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours
+                                                    FROM tbltickets
+                                                    where tbltickets.status = 5 AND tbltickets.priority = '.$status['priorityid'].' '.$where.'
+                                                    GROUP BY tbltickets.ticketid
+                                                    ORDER BY tbltickets.ticketid');
+                
+                $summary_data = $summary_result->result();
+                $count_data = count($summary_data);
+                $resolve_hours = array_sum(array_column($summary_data,'resolve_hours'));
+                $response_hours = array_sum(array_column($summary_data,'response_hours'));
+                   
+            $summary['priority'] = $status['priorityid'];
+            $summary['count_data'] = $count_data;
+            $summary['resolve_hours'] = $resolve_hours;
+            $summary['response_hours'] = $response_hours;
+            $tasks_summary[] = $summary;
+        
+    }
+    return $tasks_summary;
+
+}
+  /*** End New Code Service Level EMS dashboard */
 /**
  * For html5 form accepted attributes
  * This function is used for the tickets form attachments
