@@ -1535,11 +1535,12 @@ class Tickets_model extends App_Model
         $customerid = 0;
         $groupid = 0;
         $departmentsid = 0;
-        
+        $province = '';
         if(!empty($data_filter)){
           $customerid =  @$data_filter['customer_id'];
           $groupid =  @$data_filter['group_id'];
           $departmentsid =  @$data_filter['departments_id'];
+          $province =  @$data_filter['province'];
         }
         $departments_ids = [];
         if (!is_admin()) {
@@ -1603,6 +1604,10 @@ class Tickets_model extends App_Model
                 }
                 if($departmentsid > 0){
                     $this->db->where('department',$departmentsid);
+                }
+                if($province != ''){
+                    $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.company_id');
+                    $this->db->where(db_prefix() . 'clients.state',$province);
                 }
                 $chart['datasets'][0]['data'][$i] = $this->db->count_all_results(db_prefix() . 'tickets');
 
@@ -1713,11 +1718,12 @@ class Tickets_model extends App_Model
         $customerid = 0;
         $groupid = 0;
         $departmentsid = 0;
-        
+        $province = '';
         if(!empty($data_filter)){
           $customerid =  @$data_filter['customer_id'];
           $groupid =  @$data_filter['group_id'];
           $departmentsid =  @$data_filter['departments_id'];
+          $province =  @$data_filter['province'];
         }
         $date = new DateTime("now");
         if($type == '1'){
@@ -1730,6 +1736,7 @@ class Tickets_model extends App_Model
         
         $this->db->select('extract(hour from date) as the_hour, count(*) as number_of_ticket');
         $this->db->from(db_prefix() . 'tickets');
+        
         $this->db->where('DATE(date)',$curr_date);
         if($customerid > 0){
             $this->db->where('company_id',$customerid);
@@ -1742,6 +1749,10 @@ class Tickets_model extends App_Model
         }
         if($departmentsid > 0){
             $this->db->where('department',$departmentsid);
+        }
+        if($province != ''){
+            $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'tickets.company_id');
+            $this->db->where(db_prefix() . 'clients.state',$province);
         }
         $this->db->group_by('extract(hour from date)');
         $q = $this->db->get();

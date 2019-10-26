@@ -108,7 +108,7 @@ foreach ($this->ci->projects_model->get_project_statuses() as $status) {
     }
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,$additionalSelect);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,$additionalSelect,'GROUP BY '.db_prefix() . 'tickets.ticketid');
 
 //var_dump($result);exit;
 

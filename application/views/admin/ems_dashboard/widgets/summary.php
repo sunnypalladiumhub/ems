@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-1 col-xs-1 col-md-1 total-column"></div>
                 <?php $this->load->helper('tickets_helper'); ?>
-                <?php foreach(ticket_ems_dashboard_summary_data((isset($customer_id) ? $customer_id : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null)) as $summary){ ?>
+                <?php foreach(ticket_ems_dashboard_summary_data((isset($customer_id) ? $customer_id : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null),(isset($province) ? $province : null)) as $summary){ ?>
                 <div class="col-md-2 col-xs-6 mbot15 border-right">
 <!--                    <div class="panel_s" style="margin-bottom:0;">
                            <div class="panel-body">-->

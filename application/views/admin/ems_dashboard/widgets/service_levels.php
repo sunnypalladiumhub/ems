@@ -13,7 +13,7 @@
                     <br>
                     <hr>
                     <br>
-                    <?php $results =  get_service_level_details((isset($customer_id) ? $customer_id : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null)); ?>
+                    <?php $results =  get_service_level_details((isset($customer_id) ? $customer_id : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null),(isset($province) ? $province : null)); ?>
                     <?php 
                         if(!empty($results)){
                             foreach ($results as $result){ ?>

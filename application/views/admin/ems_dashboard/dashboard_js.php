@@ -2,18 +2,18 @@
 
 <script>
     $(document).ready(function (){
-        $('#department_id').on('change',function (){
-            reset_other('department_id');
-        });
-        $('#group_id').on('change',function (){
-            reset_other('group_id');
-        });
-        $('#province_id').on('change',function (){
-            reset_other('province_id');
-        });
-        $('#customer_id').on('change',function (){
-            reset_other('customer_id');
-        });
+//        $('#department_id').on('change',function (){
+//            reset_other('department_id');
+//        });
+//        $('#group_id').on('change',function (){
+//            reset_other('group_id');
+//        });
+//        $('#province_id').on('change',function (){
+//            reset_other('province_id');
+//        });
+//        $('#customer_id').on('change',function (){
+//            reset_other('customer_id');
+//        });
         init_tickets_weekly_chart();
     })
     function reset_other(drp){

@@ -233,7 +233,7 @@ function can_change_ticket_status_in_clients_area($status = null)
     return true;
 }
 /*** Start New Code Add New Fuction For Ems Dashboard Summary Data */
-function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null,$departments_id = null) {
+function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null,$departments_id = null,$province = null) {
     $CI = &get_instance();
     $CI->load->model('tickets_model');
     $tasks_summary = [];
@@ -241,17 +241,24 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
     
     foreach ($statuses as $status) {
         $where = '';
+        $join ='';
             if($customer_id != ''){
                 $where .= ' AND tbltickets.company_id ='.$customer_id.'';
                 $ticket_where['company_id'] = $customer_id;
             }
-            if($group_id){
+            if($group_id != ''){
                $where .= ' AND tbltickets.group_id ='.$group_id.''; 
                $ticket_where['group_id'] = $group_id;
             }
-            if($departments_id){
+            if($departments_id != ''){
                $where .= ' AND tbltickets.department ='.$departments_id.''; 
                $ticket_where['department'] = $departments_id;
+            }
+            if($province != ''){
+                $join .= 'LEFT JOIN tblclients ON tblclients.userid = tbltickets.company_id ';
+                        
+               $where .= ' AND tblclients.state ="'.$province.'"'; 
+               //$ticket_where['department'] = $departments_id;
             }
         $ticket_where = [];
 //         if ($status['id'] == 1) {
@@ -266,16 +273,34 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
         $ticket_where_new=array();
         if($status['id'] == 3){
 //            if($customer_id != ''){
+                $summary_result =  $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number
+                                            FROM tbltickets 
+                                            '.$join.'
+                                                WHERE tbltickets.status NOT IN (5,0) 
+                                                '.$where.'
+                                            ');
                 
-                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) '.$where );
+                $summary_data = $summary_result->num_rows();
+                //$summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) '.$where );
+                $summary['total_tasks'] = $summary_data;
                 
 //            }else{
 //                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0)');
 //            }
         }elseif($status['id'] == 4){
 //            if($customer_id != ''){
+                $summary_result =  $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number
+                                            FROM tbltickets 
+                                            '.$join.'
+                                                WHERE tbltickets.status NOT IN (5,0)  AND assigned > 0
+                                                '.$where.'
+                                            ');
                 
-                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND assigned > 0  '.$where);
+                $summary_data = $summary_result->num_rows();
+                $summary['total_tasks'] = $summary_data;
+                //$summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND assigned > 0  '.$where);
                 
 //            }else{
 //                $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', 'status NOT IN (5,0) AND assigned > 0');
@@ -283,7 +308,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
         }elseif($status['id'] == 1){
             $CI = & get_instance();
             
-                $summary_result =     $CI->db->query('SELECT 
+                $summary_result =  $CI->db->query('SELECT 
                                             tbltickets.ticketid as ticket_number, 
                                             tbltickets.priority as priority, 
                                             CASE priority
@@ -297,6 +322,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
                                              FROM tbltickets 
                                              LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
                                              LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             '.$join.'
                                              WHERE tbltickets.status = 1 
                                              '.$where.'
                                              GROUP BY tbltickets.ticketid
@@ -311,7 +337,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
         }elseif($status['id'] == 2){
             $CI = & get_instance();
             
-                $summary_result =     $CI->db->query('SELECT 
+                $summary_result =  $CI->db->query('SELECT 
                                     tbltickets.ticketid as ticket_number, 
                                     tbltickets.priority as priority, 
                                     CASE priority
@@ -325,6 +351,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
                                      LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
                                      LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
                                      LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     '.$join.'
                                      WHERE tbltickets.status = 1 
                                      '.$where.'
                                      GROUP BY tbltickets.ticketid
@@ -336,8 +363,19 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
             $summary['total_tasks'] = $summary_data;
             
         }elseif ($status['id'] == 5) {
+            
+                $summary_result =  $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number
+                                            FROM tbltickets 
+                                            '.$join.'
+                                                WHERE tbltickets.assigned = 0
+                                                '.$where.'
+                                            ');
+                
+                $summary_data = $summary_result->num_rows();
+                $summary['total_tasks'] = $summary_data;
            // $ticket_where['assigned'] = 0;
-            $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', ' assigned = 0  '.$where);
+           // $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', ' assigned = 0  '.$where);
         }
 //        else{
 //        $summary['total_tasks'] = total_rows(db_prefix() . 'tickets', $ticket_where);
@@ -353,7 +391,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
 }
 /*** End New Code Add New Fuction For Ems Dashboard Summary Data */
 /*** New Code For Overdue ticket count for EMS dashboard */
-function overdue_tickets_details($customer_id = null, $group_id = null,$departments_id = null){
+function overdue_tickets_details($customer_id = null, $group_id = null,$departments_id = null,$province = null){
         $CI = &get_instance();
         $CI->load->model('clients_model');
         $statuses =  $CI->clients_model->get_groups();
@@ -363,6 +401,7 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
         /*** Start New Code For find OverDue Today */
         foreach ($statuses as $key=>$value){
             $where = '';
+            $join ='';
             if($customer_id != ''){
                 $where .= ' AND tbltickets.company_id ='.$customer_id.'';
              
@@ -375,6 +414,13 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                $where .= ' AND tbltickets.department ='.$departments_id.''; 
              
             }
+            if($province != ''){
+                $join .= 'LEFT JOIN tblclients ON tblclients.userid = tbltickets.company_id ';
+                        
+               $where .= ' AND tblclients.state ="'.$province.'"'; 
+               //$ticket_where['department'] = $departments_id;
+            }
+
            $summary_result =  $CI->db->query('SELECT 
                                             tbltickets.ticketid as ticket_number, 
                                             tbltickets.priority as priority, 
@@ -389,6 +435,7 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                                              FROM tbltickets 
                                              LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
                                              LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             '.$join.'
                                              WHERE tbltickets.status = 1 AND tbltickets.group_id = '.$value['id'].'
                                                  '.$where.' 
                                              GROUP BY tbltickets.ticketid
@@ -409,6 +456,7 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                                      LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
                                      LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
                                      LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     '.$join.'
                                      WHERE tbltickets.status = 1 AND tbltickets.group_id = '.$value['id'].'
                                     '.$where.' 
                                     GROUP BY tbltickets.ticketid
@@ -437,13 +485,15 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
 /*** End New Code For Overdue ticket count for EMS dashboard */    
     
 /*** New Code Service Level EMS dashboard */
-function get_service_level_details($customer_id = null, $group_id = null,$departments_id = null){
+function get_service_level_details($customer_id = null, $group_id = null,$departments_id = null,$province = null){
+    
     $CI = &get_instance();
     $CI->load->model('tickets_model');
     $tasks_summary = [];
     $statuses = $CI->tickets_model->get_priority();
     foreach ($statuses as $status) {
         $where = '';
+        $join = '';
             if($customer_id != ''){
                 $where .= ' AND tbltickets.company_id ='.$customer_id.'';
                 $ticket_where['company_id'] = $customer_id;
@@ -456,12 +506,18 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
                $where .= ' AND tbltickets.department ='.$departments_id.''; 
                $ticket_where['department'] = $departments_id;
             }
+            if($province != ''){
+                $join .= 'LEFT JOIN tblclients ON tblclients.userid = tbltickets.company_id ';
+                $where .= ' AND tblclients.state ="'.$province.'"'; 
+               
+            }
                 $summary_result = $CI->db->query('SELECT 
                                                     tbltickets.ticketid as ticket_number,
                                                     tbltickets.priority as priority,
                                                     TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours,
                                                     TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours
                                                     FROM tbltickets
+                                                    '.$join.'
                                                     where tbltickets.status = 5 AND tbltickets.priority = '.$status['priorityid'].' '.$where.'
                                                     GROUP BY tbltickets.ticketid
                                                     ORDER BY tbltickets.ticketid');
