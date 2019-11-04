@@ -61,9 +61,9 @@ function AdminMeterNumberStructure($name = '', $bulk_action = false)
     $table .= '<thead>';
     $table .= '<tr>';
 
-//    $table .= '<th class="' . ($bulk_action == true ? '' : 'not_visible') . '">';
-//    $table .= '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="tickets"><label></label></div>';
-//    $table .= '</th>';
+    $table .= '<th class="' . ($bulk_action == true ? '' : 'not_visible') . '">';
+    $table .= '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="meter_number"><label></label></div>';
+    $table .= '</th>';
 
     $table .= '<th class="toggleable" id="th-number">' . _l('meter_section_number') . '</th>';
     $table .= '<th class="toggleable" id="th-type">' . _l('meter_section_type') . '</th>';

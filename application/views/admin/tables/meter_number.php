@@ -3,6 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
+    '1', // bulk actions
     db_prefix() . 'meter_number.number as number',
     db_prefix() . 'meter_number.type as type',
     db_prefix() . 'meter_number.building_type as building_type',
@@ -48,6 +49,7 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
+        
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
             $_data = $aRow[strafter($aColumns[$i], 'as ')];
         } else {
@@ -55,9 +57,12 @@ foreach ($rResult as $aRow) {
         }
         
             // Ticket is assigned
-                
+            if ($aColumns[$i] == '1') {
+                //. $aRow[db_prefix() . 'tickets.ticketid'] .
+            $_data = '<div class="checkbox"><input type="checkbox" value="'.$aRow['id'].'"><label></label></div>';
+        }    
             $url   = admin_url('meter_number/view/'.$aRow['id']);
-            if ($i == 0) {
+            if ($i == 1) {
                 $_data .= '<div class="row-options">';
 //                $_data .= '<a href="' . $url . '?tab=settings">' . _l('view') . '</a>';
                 $_data .= ' <span class="text-dark">  </span><a href="' . $url . '"> View </a>';
