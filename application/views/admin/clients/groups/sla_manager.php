@@ -48,13 +48,10 @@
         <div class="panel_s">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12">
+<!--                    <div class="col-md-12">
                         <p class="pull-left mtop5"> <?php echo _l('ems_dash_service_level'); ?></p>
-                    </div>
-                    
-                    <br>
-                    <hr>
-                    <br>
+                    </div>-->
+                    <!--<br><hr><br>-->
                     <?php $results =  get_service_level_details((isset($sla_manager['id']) ? $sla_manager['id'] : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null)); ?>
                     <?php 
                         if(!empty($results)){
@@ -62,11 +59,11 @@
                         <div class="col-md-12">
                             <div class="text-left">
                                 <?php  if($result['priority'] == 1){ ?>
-                                     <b>HIGH</b>
+                                     <h4>High</h4>
                                <?php }elseif($result['priority'] == 2){ ?> 
-                                     <b>MEDIUM</b>
+                                     <h4>Medium</h4>
                                    <?php }elseif($result['priority'] == 3){ ?>
-                                <b>LOW</b>
+                                     <h4>Low</h4>
                                    <?php } ?>
                             </div>
                         </div>
@@ -92,8 +89,11 @@
                         <div class="col-md-12">
                         <div class=" text-stats-wrapper">
                             <div class="text-left">
-                                <a href="javascript:void(0)" class="text-muted inline-block mbot15">
-                                    <?php echo _l('ems_dash_responed'); ?>  </a>
+                                <label>
+                                    <!--<a href="javascript:void(0)" class="text-muted inline-block mbot15">-->
+                                    <?php echo _l('ems_dash_responed'); ?>
+                                    <!--</a>-->
+                                </label>
                             </div>
 
                         </div>
@@ -110,8 +110,11 @@
                         
                         <div class=" text-stats-wrapper">
                             <div class="text-left">
-                                <a href="javascript:void(0)" class="text-muted inline-block mbot15">
-                                    <?php echo _l('ems_dash_resolve'); ?>  </a>
+                               <label>
+                                   <!--<a href="javascript:void(0)" class="text-muted inline-block mbot15">-->
+                                    <?php echo _l('ems_dash_resolve'); ?>
+                                   <!--</a>-->
+                               </label>
                             </div>
 
                         </div>
@@ -131,9 +134,9 @@
                     ?>
                 </div>
 
-            </div>
+<!--            </div>
         </div>
-    </div>
+    </div>-->
 </div>
         </div>
     </div>
