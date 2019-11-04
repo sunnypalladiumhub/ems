@@ -102,7 +102,14 @@
             </div>
         
         <?php } ?>
-
+            <div id="sub_service_div">
+                <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                    <label for="sub_category" class="control-label"><?php echo _l('tickets_sub_category_name'); ?></label>
+                    <select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                        <option value=""></option>
+                    </select>
+                </div>                                      
+            </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -140,6 +147,28 @@
       }
     });
   }
+  $(function () {
+      $('body').on('change','#move_to_service_tickets_bulk',function (){
+            var service_id = $(this).val();
+            
+            $.ajax({
+                url: admin_url + 'tickets/get_sub_category_by_service_id',
+                type: 'POST',
+                data: {service_id: service_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#sub_service_div').html(data.result);
+                        var group = $('select#sub_category');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });
+  })
 </script>
 </body>
 </html>

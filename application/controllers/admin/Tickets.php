@@ -747,7 +747,14 @@ class Tickets extends AdminController
             $ids           = $this->input->post('ids');
             $status        = $this->input->post('status');
             $department    = $this->input->post('department');
-            $service       = $this->input->post('service');
+            /*** This is new code for Sub category **/
+            $sub_service       = $this->input->post('sub_service');
+            if($sub_service != ''){
+                $service       = $sub_service;
+            }else{
+                $service       = $this->input->post('service');
+            }
+            /*** End This is new code for Sub category **/
             $priority      = $this->input->post('priority');
             $tags          = $this->input->post('tags');
             $is_admin      = is_admin();

@@ -1418,10 +1418,12 @@ class Tickets_model extends App_Model
     {
         if (is_numeric($id)) {
             $this->db->where('serviceid', $id);
-
+            
             return $this->db->get(db_prefix() . 'services')->row();
         }
-
+        /** This new code for main category */
+        $this->db->where('parentid',0);
+        /** End This new code for main category */
         $this->db->order_by('name', 'asc');
 
         return $this->db->get(db_prefix() . 'services')->result_array();
