@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="pull-left mtop5"> <?php echo _l('ems_dash_service_level'); ?></p>
-                        <a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>
+                        <!--<a href="#" class="pull-right mtop5">&nbsp;<?php echo _l('ems_dash_view_details'); ?></a>-->
                     </div>
                     
                     <br>
@@ -31,6 +31,9 @@
                         <br>
                         <br>
                         <?php $time_resolve_per = $result['resolve_hours'] > 0 ? round($result['resolve_hours'] / $result['count_data']) : 0;
+                            if($time_resolve_per > 100){
+                                $time_resolve_per = 100;
+                            }
                             if($time_resolve_per > 50){
                                 $resolve_color = 'success';
                             }elseif($time_resolve_per > 20 && $time_resolve_per < 50){
@@ -39,6 +42,9 @@
                                 $resolve_color = 'danger';
                             }
                               $time_response_per = $result['response_hours'] > 0 ? round($result['response_hours'] / $result['count_data']) : 0;
+                              if($time_response_per > 100){
+                                  $time_response_per = 100;
+                              }
                               if($time_response_per > 50){
                                 $response_color = 'success';
                             }elseif($time_response_per > 20 && $time_response_per < 50){
