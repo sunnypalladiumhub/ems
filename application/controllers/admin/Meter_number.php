@@ -180,7 +180,7 @@ class Meter_number extends AdminController {
                     set_alert('success', _l('total_meter_deleted', $total_deleted));
                 }
             } else{
-                set_alert('warning', _l('No Matter is Checked'));
+                set_alert('warning', _l('Select any data for bulk anction.'));
             }
         }
     }
