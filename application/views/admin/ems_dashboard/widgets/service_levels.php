@@ -19,11 +19,11 @@
                             foreach ($results as $result){ ?>
                         <div class="col-md-12">
                             <div class="text-left">
-                                <?php  if($result['priority'] == 1){ ?>
+                                <?php  if($result['priority'] == 3){ ?>
                                      <b>HIGH</b>
                                <?php }elseif($result['priority'] == 2){ ?> 
                                      <b>MEDIUM</b>
-                                   <?php }elseif($result['priority'] == 3){ ?>
+                                   <?php }elseif($result['priority'] == 1){ ?>
                                 <b>LOW</b>
                                    <?php } ?>
                             </div>
