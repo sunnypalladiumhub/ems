@@ -176,7 +176,7 @@ class Meter_number extends AdminController {
             }
 
             if ($this->input->post('mass_delete')) {
-                set_alert('success', _l('total_tickets_deleted', $total_deleted));
+                set_alert('success', _l('total_meter_deleted', $total_deleted));
             }
         }
     }
