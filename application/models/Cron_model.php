@@ -48,7 +48,7 @@ class Cron_model extends App_Model {
                 log_activity('Cron Invoked Manually');
             }
             
-            $this->email_ticket();
+        //    $this->email_ticket();
             $today = strtotime(date("H:i:s"));                         // 17:16:18
             if($today > 1571713200 && $today < 1571716820){
                $this->staff_coffie_report();
@@ -95,7 +95,7 @@ class Cron_model extends App_Model {
     }
 
     /* New Code For Get ticket Details from email */
-    public function email_ticket(){
+  /*  public function email_ticket(){
         
         $this->db->where_in(db_prefix() . 'departments.departmentid', PAYCITY);
         $departments = $this->db->get(db_prefix() . 'departments')->result_array();
@@ -137,7 +137,7 @@ class Cron_model extends App_Model {
             }
         }
         
-    }
+    } */
     /* End New Code For Get ticket Details from email */
     /** new Code For Coffee Report */
     public function run_coffee_report($manually = false) {
