@@ -466,6 +466,12 @@ class Tickets_model extends App_Model
                         'id'     => $id,
                         'status' => $status,
                     ]);
+                $data_insert['ticket_id'] = $id;
+                $data_insert['status_id'] = $status;
+                $data_insert['user_id'] = get_staff_user_id();
+                $data_insert['date'] = date('Y-m-d H:i:s');
+                $data_insert['description'] = 'Status change of ticket id : '.$id.' New status set : '.$status;
+                $this->db->insert(db_prefix() . 'tickets_activity_log',$data_insert);
             }
 
             $ticket    = $this->get_ticket_by_id($id);

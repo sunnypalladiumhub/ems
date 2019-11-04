@@ -491,7 +491,9 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
     $CI->load->model('tickets_model');
     $tasks_summary = [];
     $statuses = $CI->tickets_model->get_priority();
+    
     foreach ($statuses as $status) {
+        
         $where = '';
         $join = '';
             if($customer_id != ''){
@@ -514,26 +516,43 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
                 $summary_result = $CI->db->query('SELECT 
                                                     tbltickets.ticketid as ticket_number,
                                                     tbltickets.priority as priority,
-                                                    TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours,
+                                                    tbltickets.company_id as company_id,
+                                                    TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours,
                                                     TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours
                                                     FROM tbltickets
                                                     '.$join.'
-                                                    where tbltickets.status = 5 AND tbltickets.priority = '.$status['priorityid'].' '.$where.'
+                                                    where tbltickets.status != 1 AND tbltickets.priority = '.$status['priorityid'].' '.$where.'
                                                     GROUP BY tbltickets.ticketid
                                                     ORDER BY tbltickets.ticketid');
                 
                 $summary_data = $summary_result->result();
+                $CI->load->helper('ems_report_helper');
+                $response_hours_array =array();
+                $resolve_hours_array = array();
+                if(!empty($summary_data)){
+                    foreach ($summary_data as $data_value){
+                        $response_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'response',$data_value->response_hours),2); 
+                        
+                        $resolve_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'resolution',$data_value->resolve_hours),2); 
+                    }
+                }
+                
                 $count_data = count($summary_data);
-                $resolve_hours = array_sum(array_column($summary_data,'resolve_hours'));
-                $response_hours = array_sum(array_column($summary_data,'response_hours'));
-                   
+               // $resolve_hours = array_sum(array_column($summary_data,'resolve_hours'));
+                //$response_hours = array_sum(array_column($summary_data,'response_hours'));
+//              
+                
+                $resolve_hours = !empty($resolve_hours_array) ? array_sum($resolve_hours_array) : 0;
+                $response_hours = !empty($response_hours_array) ? array_sum($response_hours_array) : 0;
             $summary['priority'] = $status['priorityid'];
             $summary['count_data'] = $count_data;
             $summary['resolve_hours'] = $resolve_hours;
             $summary['response_hours'] = $response_hours;
+            
             $tasks_summary[] = $summary;
         
     }
+    
     return $tasks_summary;
 
 }

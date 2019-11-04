@@ -12,7 +12,7 @@ function get_ems_table_records(){
         array('title'=>'Subject','field'=>'tbltickets.subject as subject'),
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -39,7 +39,7 @@ function get_ems_table_records(){
         array('title'=>'Subject','field'=>'tbltickets.subject as subject'),
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -73,7 +73,7 @@ function get_ems_table_records(){
         array('title'=>'Subject','field'=>'tbltickets.subject as subject'),
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -99,7 +99,7 @@ function get_ems_table_records(){
         array('title'=>'Subject','field'=>'tbltickets.subject as subject'),
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -125,7 +125,7 @@ function get_ems_table_records(){
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
         array('title'=>'Unique ID','field'=>'tblclients.vat as unique_id'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -149,7 +149,7 @@ function get_ems_table_records(){
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
         array('title'=>'Unique ID','field'=>'tblclients.vat as unique_id'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -172,7 +172,7 @@ function get_ems_table_records(){
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
         array('title'=>'Unique ID','field'=>'tblclients.vat as unique_id'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -196,7 +196,7 @@ function get_ems_table_records(){
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
         array('title'=>'Unique ID','field'=>'tblclients.vat as unique_id'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -217,7 +217,7 @@ function get_ems_table_records(){
         array('title'=>'Subject','field'=>'tbltickets.subject as subject'),
         array('title'=>'Province (State)','field'=>'tblclients.state as state'),
         array('title'=>'Priority','field'=>'tbltickets.priority as priority'),
-        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 2 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
+        array('title'=>'Time to Respond SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id IN(2,3,4) ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as response_hours'),
         array('title'=>'Time to Resolve SLA','field'=>'TIME_TO_SEC(TIMEDIFF((select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 5 ORDER BY tas.date DESC LIMIT 1),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours'),
         array('title'=>'Channel','field'=>'tbltickets_channel_type.name as channel_name'),
         array('title'=>'Status','field'=>'tbltickets_status.name as status'),
@@ -250,9 +250,12 @@ function get_response_percentage($client_id,$priority,$type,$hours){
         $CI          = &get_instance();
         $CI->db->where('client_id', $client_id);
         $result = $CI->db->get(db_prefix() . 'sla_manager_setting')->row_array();
+        
         if(!empty($result) && isset($result[$option])){
             $set_time = $result[$option];
+            
             $taken_time = $hours;
+           
             $result_per = ($hours * 100) / $set_time;
         }
     }
