@@ -116,7 +116,7 @@ class Sms_SMSPortal extends App_sms {
                 $response = $this->client->request('POST', $url, [
                     'body' => json_encode([
                         'Messages' => [
-                            ['Content' => urlencode($message), 'Destination' => $number],
+                            ['Content' => $message, 'Destination' => $number],
                         ],
                     ]),
                     'headers' => [
