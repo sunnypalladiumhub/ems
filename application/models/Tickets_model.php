@@ -1004,7 +1004,7 @@ class Tickets_model extends App_Model
         /*** Start New Code For Insert Meter Details On Edit Ticket */
         if (isset($data['meter_section']) && count($data['meter_section']) > 0) {
             $this->load->helper('meter_helper');
-            if (handle_meter_fields_post($data['meter_number'], $data['meter_section'])) {
+            if (handle_meter_fields_post($data['meter_section'], $data['meter_number'])) {
                 $affectedRows++;
             }
             unset($data['meter_section']);
