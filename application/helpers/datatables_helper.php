@@ -111,11 +111,29 @@ function data_tables_init($aColumns, $sIndexColumn, $sTable, $join = [], $where 
         $useMatchForCustomFieldsTableSearch = hooks()->apply_filters('use_match_for_custom_fields_table_search', 'false');
 
         for ($i = 0; $i < count($aColumns); $i++) {
+              
             $columnName = $aColumns[$i];
-            if (strpos($columnName, ' as ') !== false) {
-                $columnName = strbefore($columnName, ' as');
+           /*** This is new code for ems report table search **/
+            if($sTable == 'tbltickets'){
+                
+               if (strpos($columnName, ' as ') !== false) {
+                   $str_arr = explode (" as", $columnName); 
+                   $num=count($str_arr);
+                    $num=$num-1;
+                    unset($str_arr[$num]);
+                    $columnName = implode('',$str_arr);
+                   
+               }
+  
             }
-
+            /***End This is new code for ems report table search **/
+            else{
+              
+                if (strpos($columnName, ' as ') !== false) {
+                    $columnName = strbefore($columnName, ' as');
+                }
+            }
+            
             if (stripos($columnName, 'AVG(') !== false || stripos($columnName, 'SUM(') !== false) {
             } else {
                 if (($__post['columns'][$i]) && $__post['columns'][$i]['searchable'] == 'true') {

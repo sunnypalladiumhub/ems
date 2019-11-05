@@ -65,15 +65,15 @@ if($table_name == 'network' || $table_name == 'networkSLA'){
 }
 
 $additionalSelect = [
-    'adminread',
-    db_prefix() . 'tickets.userid',
+//    'adminread',
+//    db_prefix() . 'tickets.userid',
     db_prefix() . 'tickets.company_id',
     'statuscolor',
-    db_prefix() . 'tickets.name as ticket_opened_by_name',
-    db_prefix() . 'tickets.email',
-    db_prefix() . 'tickets.userid',
-    'assigned',
-    db_prefix() . 'clients.company',
+//    db_prefix() . 'tickets.name as ticket_opened_by_name',
+//    db_prefix() . 'tickets.email',
+//    db_prefix() . 'tickets.userid',
+//    'assigned',
+//    db_prefix() . 'clients.company',
     ];
     
 $sIndexColumn = 'ticketid';
@@ -102,11 +102,11 @@ if(!empty($department_id)){
 if($table_name == 'unassigned_companies'){
     array_push($where, 'AND ' . db_prefix() . 'tickets.company_id = -1');
 } 
-foreach ($this->ci->projects_model->get_project_statuses() as $status) {
-    if ($this->ci->input->post('project_status_' . $status['id'])) {
-        array_push($statusIds, $status['id']);
-    }
-}
+//foreach ($this->ci->projects_model->get_project_statuses() as $status) {
+//    if ($this->ci->input->post('project_status_' . $status['id'])) {
+//        array_push($statusIds, $status['id']);
+//    }
+//}
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where,$additionalSelect,'GROUP BY '.db_prefix() . 'tickets.ticketid');
 
