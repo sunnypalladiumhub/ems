@@ -299,6 +299,7 @@
                   <hr class="no-mtop" />
                   <?php init_relation_tasks_table(array('data-new-rel-id'=>$ticket->ticketid,'data-new-rel-type'=>'ticket')); ?>
                </div>
+                   <form id="settings" onsubmit="return false;">
                <div role="tabpanel" class="tab-pane <?php if($this->session->flashdata('active_tab_settings')){echo 'active';} ?>" id="settings">
                   <hr class="no-mtop" />
                   <div class="row">
@@ -931,8 +932,10 @@
                   
             </div>
                   <!-- End new code for Sub Tab pannel for customer and other -->
+                  
          </div>
       </div>
+</form>
    </div>
              
    <div class="panel_s mtop20">

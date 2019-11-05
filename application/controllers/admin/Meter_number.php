@@ -22,6 +22,7 @@ class Meter_number extends AdminController {
             'clientid' => $clientid,
         ]);
     }
+    
     public function view($meter_id){
         $data = array();
         $meter_details = $this->tickets_model->get_MeterNumber($meter_id);
@@ -180,7 +181,7 @@ class Meter_number extends AdminController {
                     set_alert('success', _l('total_meter_deleted', $total_deleted));
                 }
             } else{
-                set_alert('warning', _l('Select any data for bulk anction.'));
+                set_alert('warning', _l('Select any data for bulk action.'));
             }
         }
     }

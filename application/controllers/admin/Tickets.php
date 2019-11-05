@@ -359,6 +359,8 @@ class Tickets extends AdminController
                     }
                 }
                 set_alert('success', _l('ticket_settings_updated_successfully'));
+            } else {
+                $success = 'Something went wrong, Ticket is not updated.';
             }
             echo json_encode([
                 'success' => $success,

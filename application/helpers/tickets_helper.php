@@ -67,9 +67,24 @@ function AdminMeterNumberStructure($name = '', $bulk_action = false)
 
     $table .= '<th class="toggleable" id="th-number">' . _l('meter_section_number') . '</th>';
     $table .= '<th class="toggleable" id="th-type">' . _l('meter_section_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-machine_id">' . _l('meter_section_machine') . '</th>';
     $table .= '<th class="toggleable" id="th-building_type">' . _l('meter_section_building_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_accessible">' . _l('meter_section_meter_accessible') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_location">' . _l('meter_section_meter_location') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_serial_number">' . _l('meter_section_meter_serial_number') . '</th>';
+    $table .= '<th class="toggleable" id="th-seals_on_arrival">' . _l('meter_section_seals_on_arrival') . '</th>';
     $table .= '<th class="toggleable" id="th-meter_type">' . _l('meter_section_meter_type') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_manufacturer">' . _l('meter_section_meter_manufacturer') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_reading">' . _l('meter_section_meter_reading') . '</th>';
     $table .= '<th class="toggleable" id="th-phase">' . _l('meter_section_phase') . '</th>';
+    $table .= '<th class="toggleable" id="th-trip_test_done">' . _l('meter_section_trip_test_done') . '</th>';
+    $table .= '<th class="toggleable" id="th-trip_test_results">' . _l('meter_section_trip_test_results') . '</th>';
+    $table .= '<th class="toggleable" id="th-meter_condition">' . _l('meter_section_meter_condition') . '</th>';
+    $table .= '<th class="toggleable" id="th-other_illegal_connection">' . _l('meter_section_other_illegal_connection') . '</th>';
+    $table .= '<th class="toggleable" id="th-sgc_number">' . _l('meter_section_sgc_number') . '</th>';
+    $table .= '<th class="toggleable" id="th-new_seals_fitted">' . _l('meter_section_new_seals_fitted') . '</th>';
+    $table .= '<th class="toggleable" id="th-new_seal_numbers">' . _l('meter_section_new_seal_numbers') . '</th>';
+    $table .= '<th class="toggleable" id="th-time_stamp ">' . _l('meter_section_time_stamp ') . '</th>';
     
     
     $table .= '</tr>';
