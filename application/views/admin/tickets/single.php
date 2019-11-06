@@ -568,6 +568,7 @@
                                                       <div class="row">
                                                           <div class="col-md-6">
                                                               <div class="form-group">
+                                                                  <input type="hidden" id="meter_section[id]" name="meter_section[id]" value="<?php echo isset($meter) ? $meter->id : '' ?>" >
                                                                   <?php echo render_input('meter_section[number]', 'meter_section_number', isset($meter) ? $meter->number : '', 'text'); ?>
                                                               </div>
                                                           </div>
