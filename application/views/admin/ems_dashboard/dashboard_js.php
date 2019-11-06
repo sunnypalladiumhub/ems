@@ -2,20 +2,53 @@
 
 <script>
     $(document).ready(function (){
-//        $('#department_id').on('change',function (){
-//            reset_other('department_id');
-//        });
-//        $('#group_id').on('change',function (){
-//            reset_other('group_id');
-//        });
-//        $('#province_id').on('change',function (){
-//            reset_other('province_id');
-//        });
-//        $('#customer_id').on('change',function (){
-//            reset_other('customer_id');
-//        });
+        $('body').on('change','#department_id',function (){
+            reload_dropdown();
+        });
+        $('body').on('change','#group_id',function (){
+            reload_dropdown();
+        });
+        $('body').on('change','#province_id',function (){
+            reload_dropdown();
+        });
+        $('body').on('change','#customer_id',function (){
+            reload_dropdown();
+        });
         init_tickets_weekly_chart();
     })
+    function reload_dropdown(){
+        $.ajax({
+                url: admin_url + 'dashboard/get_filter_dropdown_ems',
+                type: 'POST',
+                data: $('#filter_search').serialize(),
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if(data.company_id != ''){
+                        $('#customer_id_div').html(data.company_id);
+                        var group = $('select#customer_id');
+                        group.selectpicker('refresh');
+                    }
+                    if(data.department != ''){
+                        $('#department_id_div').html(data.department);
+                        var group = $('select#department_id');
+                        group.selectpicker('refresh');
+                    }
+                    if(data.group_id != ''){
+                        $('#group_id_div').html(data.group_id);
+                        var group = $('select#group_id');
+                        group.selectpicker('refresh');
+                    }
+                    if(data.province != ''){
+                        $('#province_id_div').html(data.province);
+                        var group = $('select#province_id');
+                        group.selectpicker('refresh');
+                    }
+                    
+                    
+                }
+
+            });
+    }
     function reset_other(drp){
         if(drp != 'department_id'){
              $('#department_id').val(''); 

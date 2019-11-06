@@ -195,4 +195,14 @@ class Departments_model extends App_Model
 
         return $departments;
     }
+    
+    /*** This is new code for EMS Dash Filter */
+    public function get_filter_data($where=[])
+    {
+            $this->db->where_in('departmentid', $where);
+
+            return $this->db->get(db_prefix() . 'departments')->result_array();
+        
+    }
+    /******End new code ***/
 }

@@ -14,6 +14,11 @@ function get_all_states()
 {
     return hooks()->apply_filters('all_states', get_instance()->db->order_by('id', 'asc')->get(db_prefix().'province')->result_array());
 }
+function get_all_states_filter($where = [])
+{
+    get_instance()->db->where_in('name',$where);
+    return hooks()->apply_filters('all_states', get_instance()->db->order_by('id', 'asc')->get(db_prefix().'province')->result_array());
+}
 /**
  * Get country row from database based on passed country id
  * @param  mixed $id

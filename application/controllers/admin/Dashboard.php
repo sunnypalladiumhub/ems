@@ -150,5 +150,73 @@ class Dashboard extends AdminController {
             die();
         }
     }
+    
+    /**** This new code Ems-dash Filter Dropdown *****/
+    
+    public function get_filter_dropdown_ems(){
+        if($this->input->post()){
+            if($this->input->post('department_id') != ''){
+                $data['department'] = $this->input->post('department_id');
+            }
+            if($this->input->post('group_id') != ''){
+                $data['group_id'] = $this->input->post('group_id');
+            }
+            if($this->input->post('province_id') != ''){
+                
+                $data['state'] = $this->input->post('province_id');
+            }
+            if($this->input->post('customer_id') != ''){
+                $data['company_id'] = $this->input->post('customer_id');
+                
+            }
+            $result = $this->tickets_model->get_ems_data_for_filter('',$data);
+            
+            $dropdown['group_id'] = array();
+            $dropdown['company_id'] = array();
+            $dropdown['department'] = array();
+            if(!empty($result)){
+            $group_id = array_column($result, 'group_id');
+            $company_id =  array_column($result, 'company_id');
+            $department =  array_column($result, 'department');
+            
+            $dropdown['group_id'] = array_unique($group_id);
+            $dropdown['company_id'] =  array_unique($company_id);
+            $dropdown['department'] = array_unique($department);
+            $this->load->model('departments_model');
+            
+           if($this->input->post('department_id') != ''){
+                $dropdown['department'] = '';
+            }else{
+                 $departments_results = $this->departments_model->get_filter_data(array_unique($department));
+                $dropdown['department'] = render_select('department_id', $departments_results, array('departmentid', 'name'), 'ticket_settings_departments', isset($data['department']) ? $data['department'] : '' );
+            }
+            if($this->input->post('customer_id') != ''){
+                $dropdown['company_id'] = '';
+            }else{
+                $customer_results = $this->clients_model->get_for_filter_dropdown(array_unique($company_id));
+                $dropdown['company_id'] = render_select_for_company_name('customer_id', $customer_results, array('userid', array('company','vat')), 'ticket_drp_company_name', isset($data['company_id']) ? $data['company_id'] : '' );
+            }
+            if($this->input->post('group_id') != ''){
+                $dropdown['group_id'] = '';
+            }else{
+                $groups_results = $this->clients_model->get_groups_for_ems_filter(array_unique($group_id));
+                $dropdown['group_id'] = render_select('group_id', $groups_results, array('id', 'name'), 'ticket_drp_grp_type', isset($data['group_id']) ? $data['group_id'] : '' );
+            }
+            if($this->input->post('province_id') != ''){
+                
+            }else{
+               $customer_results = $this->clients_model->get_for_filter_dropdown(array_unique($company_id)); 
+               $state = array_column($customer_results, 'state');
+               
+               $province_results = get_all_states_filter(array_unique($state));
+               $dropdown['province'] = render_select('province_id', $province_results, array('name', 'name'), 'ticket_contact_province', $this->input->post('province_id') );
+            }
+            
+//        
+            }
+        }
+        echo json_encode($dropdown);exit;
+    }
+    /**** End This new code Ems-dash Filter Dropdown *****/
 
 }

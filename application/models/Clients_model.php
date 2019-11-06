@@ -1581,4 +1581,20 @@ class Clients_model extends App_Model
 
         return $this->db->get(db_prefix() . 'clients')->result_array();
     }
+    public function get_for_filter_dropdown($where = [])
+    {
+        $this->db->select(implode(',', prefixed_table_fields_array(db_prefix() . 'clients')) . ',' . get_sql_select_client_company());
+        $this->db->where_in('userid',$where);
+        $this->db->order_by('company', 'asc');
+
+        return $this->db->get(db_prefix() . 'clients')->result_array();
+    }
+    public function get_groups_for_ems_filter($id = [])
+    {
+        
+        $this->db->where_in('id', $id);
+
+        $this->db->order_by('name', 'asc');
+        return $this->db->get(db_prefix().'customers_groups')->result_array();
+    }
 }

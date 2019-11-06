@@ -52,7 +52,7 @@
                         <p class="pull-left mtop5"> <?php echo _l('ems_dash_service_level'); ?></p>
                     </div>-->
                     <!--<br><hr><br>-->
-                    <?php $results =  get_service_level_details((isset($sla_manager['id']) ? $sla_manager['id'] : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null)); ?>
+                    <?php $results =  get_service_level_details((isset($sla_manager['client_id']) ? $sla_manager['client_id'] : null),(isset($group_id) ? $group_id : null),(isset($departments_id) ? $departments_id : null)); ?>
                     <?php 
                         if(!empty($results)){
                             foreach ($results as $result){ ?>
