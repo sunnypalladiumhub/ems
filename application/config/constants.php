@@ -218,3 +218,5 @@ define('ANSWERED',3);
 define('ON_HOLD',4);
 define('CLOSED',5);
 define('AFTER_CALL_WORK',6);
+
+define('EMAIL_CHANNEL',2);

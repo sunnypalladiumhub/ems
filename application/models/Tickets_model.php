@@ -169,6 +169,7 @@ class Tickets_model extends App_Model
                                             $data['message']    = $message;
                                             $data['contactid']  = $contactid;
                                             $data['priority']   = get_option('email_piping_default_priority');
+                                            $data['channel_type_id'] = EMAIL_CHANNEL;
                                             if ($userid == false) {
                                                 $data['name']  = $name;
                                                 $data['email'] = $email;
