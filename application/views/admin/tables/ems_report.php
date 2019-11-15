@@ -18,23 +18,35 @@ foreach ($table_field_list as $key=>$value){
 
 if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $assigned_name = 20;
+    $onhold = 18;
+    
 }elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
     $assigned_name = 16;
+        $onhold = 17;
 }elseif($table_name == 'full_report'){
     $assigned_name = 21;
+    $onhold = 18;
 }
 if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $response_hours = 7;
     $resolve_hours = 8;    
+    $response_hours_cell = 21;
+    $resolve_hours_cell = 22;
 }elseif ($table_name == 'full_report') {
     $response_hours = 7;
-    $resolve_hours = 8;    
+    $resolve_hours = 8;
+    $response_hours_cell = 22;
+    $resolve_hours_cell = 23;
 }elseif ($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA') {
     $response_hours = 7;
-    $resolve_hours = 8;    
+    $resolve_hours = 8; 
+    $response_hours_cell = 19;
+    $resolve_hours_cell = 20;
 }elseif ($table_name == 'full_reportSLA') {
     $response_hours = 7;
     $resolve_hours = 8;    
+        $response_hours_cell = 19;
+    $resolve_hours_cell = 20;
 }
 $parent_Category_col_number = 3;
     $sub_parent_Category_col_number = 13;
@@ -128,8 +140,8 @@ foreach ($rResult as $aRow) {
             
             $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'response',$aRow['response_hours']), 2).'%';
         }elseif ($i == $resolve_hours) {
-            
-            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'resolution',$aRow['resolve_hours']),2).'%'; 
+            $hold =  get_on_hold_time($aRow['ticket_number']); 
+            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'resolution',($aRow['resolve_hours'] - $hold)),2).'%'; 
             
         }elseif($i == $assigned_name){
             $_data = $aRow['assigned_name'];  
@@ -142,7 +154,17 @@ foreach ($rResult as $aRow) {
         }
         }
         if($aColumns[$i] == '2'){
-            $_data = '';
+            if($i == $onhold){
+              $_data =  get_on_hold_time($aRow['ticket_number']); 
+            }elseif ($i == $response_hours_cell) {
+                $_data = round($aRow['response_hours'], 2);
+            }elseif ($i == $resolve_hours_cell) {
+                $hold =  get_on_hold_time($aRow['ticket_number']); 
+                $_data = round(($aRow['resolve_hours'] - $hold), 2);
+            }
+            else{
+                $_data = '';
+            }
         }elseif ($aColumns[$i] == 'ans_date' || $aColumns[$i] == db_prefix() . 'tickets.ticketid') {
             if ($aRow[$aColumns[$i]] == null) {
                 $_data = _l('ticket_no_reply_yet');

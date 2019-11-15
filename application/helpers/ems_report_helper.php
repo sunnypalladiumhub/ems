@@ -27,6 +27,8 @@ function get_ems_table_records(){
         array('title'=>'Meter number','field'=>'tblmeter_number.number as meter_number'),
         array('title'=>'Infringement #','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
 //        array('title'=>'Networks','field'=>''),
 //        array('title'=>'Trafic/Road Safety','field'=>''),
 //        array('title'=>'PayCity','field'=>''),
@@ -61,6 +63,8 @@ function get_ems_table_records(){
         array('title'=>'Meter number','field'=>'tblmeter_number.number as meter_number'),
         
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
 //        array('title'=>'Networks','field'=>''),
         );
     
@@ -87,6 +91,8 @@ function get_ems_table_records(){
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Infringement #','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
 //        array('title'=>'Trafic/Road Safety','field'=>''),
         );
     
@@ -113,6 +119,8 @@ function get_ems_table_records(){
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Infringement #','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
 //        array('title'=>'PayCity','field'=>''),
         );
     
@@ -137,6 +145,8 @@ function get_ems_table_records(){
         array('title'=>'Date Closed Date','field'=>'tbltickets.lastreply as close_date'),
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
         //array('title'=>'PayCity','field'=>''),
         );
     
@@ -161,6 +171,8 @@ function get_ems_table_records(){
         array('title'=>'Date Closed Date','field'=>'tbltickets.lastreply as close_date'),
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
         //array('title'=>'Trafic/Road Safety','field'=>''),
         );
     
@@ -184,6 +196,8 @@ function get_ems_table_records(){
         array('title'=>'Date Closed Date','field'=>'tbltickets.lastreply as close_date'),
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
         //array('title'=>'Networks','field'=>''),
         );
     
@@ -208,6 +222,8 @@ function get_ems_table_records(){
         array('title'=>'Date Closed Date','field'=>'tbltickets.lastreply as close_date'),
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
         );
     $data['unassigned_companies'] = array(
         array('title'=>'Ticket Number','field'=>'tbltickets.ticketid as ticket_number'),
@@ -231,6 +247,8 @@ function get_ems_table_records(){
         array('title'=>'On Hold Duration','field'=>''),
         array('title'=>'Meter number','field'=>'tblmeter_number.number as meter_number'),
         array('title'=>'Assigned Ticket','field'=>'CONCAT(' . db_prefix() . 'staff.firstname, \' \', ' . db_prefix() . 'staff.lastname) as assigned_name'),
+        array('title'=>'Respond SLA hour','field'=>''),
+        array('title'=>'Resolve SLA hour','field'=>''),
         );
     
     
@@ -260,4 +278,12 @@ function get_response_percentage($client_id,$priority,$type,$hours){
         }
     }
     return $result_per;
+}
+function get_on_hold_time($ticket_id){
+    
+    $ci =& get_instance();
+    $sql = ' SELECT `OnHoldTime`(?) AS `OnHoldTime`;';
+    $query = $ci->db->query( $sql, array($ticket_id) );
+    return $query->row()->OnHoldTime;
+    
 }

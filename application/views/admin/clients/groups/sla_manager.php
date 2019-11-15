@@ -99,6 +99,7 @@
                         </div>
 
                         <div class="text-right progress-finance-status">
+                            <?php echo 'In hours - (' . $result['response_hours'] .') &nbsp;&nbsp;'; ?>
                             <?php echo $time_response_per; ?>%
                             <div class="progress no-margin progress-bar-mini">
                                 <div class="progress-bar progress-bar-<?php echo $response_color; ?>  no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $time_response_per; ?>" aria-valuemin="0" aria-valuemax="<?php echo $time_response_per; ?>" style="width: <?php echo $time_response_per; ?>%;" data-percent="<?php echo $time_response_per; ?>">
@@ -120,6 +121,7 @@
                         </div>
 
                         <div class="text-right progress-finance-status">
+                            <?php echo 'In hours - (' . $result['resolve_hours'] .') &nbsp;&nbsp;'; ?>
                             <?php echo $time_resolve_per; ?>%
                             <div class="progress no-margin progress-bar-mini">
                                 <div class="progress-bar progress-bar-<?php echo $resolve_color; ?>  no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $time_resolve_per; ?>" aria-valuemin="0" aria-valuemax="<?php echo $time_resolve_per; ?>" style="width: <?php echo $time_resolve_per; ?>%;" data-percent="<?php echo $time_resolve_per; ?>">
