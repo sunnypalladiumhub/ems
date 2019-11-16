@@ -546,9 +546,14 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
                 $resolve_hours_array = array();
                 if(!empty($summary_data)){
                     foreach ($summary_data as $data_value){
+                        
+                        $hold_time = get_on_hold_time($data_value->ticket_number);
+                        if($hold_time == ''){
+                            $hold_time = 0;
+                        }
                         $response_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'response',$data_value->response_hours),2); 
                         
-                        $resolve_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'resolution',$data_value->resolve_hours),2); 
+                        $resolve_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'resolution',($data_value->resolve_hours - $hold_time)),2); 
                     }
                 }
                 
@@ -572,6 +577,20 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
 
 }
   /*** End New Code Service Level EMS dashboard */
+
+/**** New code for ind ticket details for user **/
+function  get_user_ticket_details($customer_id = null){
+    if($customer_id != ''){
+        
+       $CI = &get_instance();
+       $CI->db->select('COUNT(t.ticketid) as ticket_count,ts.name,ts.ticketstatusid');
+            $CI->db->from(db_prefix() . 'tickets_status as ts');
+            $CI->db->join(db_prefix() . 'tickets as t', 'ts.ticketstatusid = t.status AND t.company_id = "'.$customer_id.'"', 'left');
+            $CI->db->group_by('ts.ticketstatusid');
+            return $CI->db->get()->result();
+        
+    }
+}
 /**
  * For html5 form accepted attributes
  * This function is used for the tickets form attachments

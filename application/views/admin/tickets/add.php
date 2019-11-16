@@ -287,7 +287,7 @@ $('#group_id').on('change',function (){
             groupsub.selectpicker('refresh');
             var department_id = $(this).val();
             var department_text = $( "#department option:selected" ).text();
-            if(department_text.toLowerCase() == 'networks' || department_text.toLowerCase() == 'network'){
+            if(department_id == <?php echo NETWORKS; ?> ){
                 $('#meter_number_div').show();
                 $('#notice_number_div').hide();
             }else{

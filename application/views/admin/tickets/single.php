@@ -1152,6 +1152,7 @@
       <?php echo form_close(); ?>
    </div>
 </div>
+
 <script>
    var _ticket_message;
 </script>
@@ -1161,8 +1162,8 @@
 <?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
 <script>
    $(function(){
-     var department_name = '<?php echo strtolower($ticket->department_name); ?>';
-     if(department_name =='networks'){
+     var department_name = '<?php echo $ticket->department; ?>';
+     if(department_name == <?php echo NETWORKS; ?>){
          $('#notice_number_div').hide();
          $('#meter_number_div').show();
      }else{
@@ -1205,10 +1206,12 @@
             groupsub.selectpicker('refresh');
             var department_id = $(this).val();
             var department_text = $( "#department option:selected" ).text();
-            if(department_text.toLowerCase() == 'networks' || department_text.toLowerCase() == 'network'){
+            if(department_id == <?php echo NETWORKS; ?>){
                 $('#meter_number_div').show();
+                $('#notice_number_div').hide();
             }else{
                 $('#meter_number_div').hide();
+                $('#notice_number_div').show();
                 var groupmeter_number = $('select#meter_number');
                 groupmeter_number.selectpicker('val','');
             }
@@ -1259,7 +1262,8 @@
         });
         
        $('#department').on('change',function (){
-          var value = $('#department :selected').text(); 
+          //var value = $('#department :selected').text(); 
+          var value = $('#department :selected').val(); 
           show_selected_department(value);
        });
        
@@ -1304,23 +1308,23 @@
    }
    // Start New Code 
    function show_selected_department(string){
-       var text = string.toLowerCase();
-       if(text == 'paycity'){
+       var text = string;
+       if(text == <?php echo PAYCITY; ?>){
            $('#paycity').show();
        }else{
            $('#paycity').hide();
        }
-       if(text == 'networks'){
+       if(text == <?php echo NETWORKS; ?>){
            $('#networks').show();
        }else{
            $('#networks').hide();
        }
-       if(text == 'road safety'){
+       if(text == <?php echo ROADSAFETY; ?>){
            $('#road_safety').show();
        }else{
            $('#road_safety').hide();
        }
-       if(text == 'traffic'){
+       if(text == <?php echo TRAFFIC; ?>){
            $('#traffic').show();
        }else{
            $('#traffic').hide();
