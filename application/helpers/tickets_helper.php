@@ -587,6 +587,7 @@ function  get_user_ticket_details($customer_id = null){
             $CI->db->from(db_prefix() . 'tickets_status as ts');
             $CI->db->join(db_prefix() . 'tickets as t', 'ts.ticketstatusid = t.status AND t.company_id = "'.$customer_id.'"', 'left');
             $CI->db->group_by('ts.ticketstatusid');
+            $CI->db->order_by("ts.statusorder", "asc");
             return $CI->db->get()->result();
         
     }

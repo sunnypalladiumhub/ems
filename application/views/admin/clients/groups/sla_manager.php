@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<h4 class="customer-profile-group-heading"><?php echo _l('menu_customer_sub_sla_manager'); ?></h4>
+<h4 class="customer-profile-group-heading"><?php echo _l('menu_customer_sub_sla_manager'); ?> &nbsp;&nbsp;&nbsp;(Time in Hours)</h4>
 <div id="contact_data"></div>
 <div id="consent_data">
     <div class="row">
@@ -140,7 +140,7 @@
 
 
                             </div>
-                            <hr>
+                            
                             <?php $results_data = get_user_ticket_details((isset($sla_manager['client_id']) ? $sla_manager['client_id'] : null)); ?>
                             <div class="row">
                                 <div class="col-md-12">
