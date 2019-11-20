@@ -7,8 +7,8 @@
 				<div class="panel_s">
 					<div class="panel-body">
 						<div class="_buttons">
-							<a href="#" onclick="new_service(); return false;" class="btn btn-info pull-left display-block"><?php echo _l('new_service'); ?></a>
-						</div>
+                                                   	<a href="#" onclick="new_service(); return false;" class="btn btn-info pull-left display-block"><?php echo _l('new_service'); ?></a>
+                                                </div>
 						<div class="clearfix"></div>
 						<hr class="hr-panel-heading" />
 						<div class="clearfix"></div>

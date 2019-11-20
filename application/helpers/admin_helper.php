@@ -273,6 +273,7 @@ function get_admin_uri()
  */
 function is_admin($staffid = '')
 {
+    
     /**
      * Checking for current user?
      */
@@ -288,6 +289,22 @@ function is_admin($staffid = '')
     ->where('admin', 1)
     ->where('staffid', $staffid);
 
+    return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
+}
+function is_manager($staffid = '')
+{
+    
+    /**
+     * Checking for current user?
+     */
+
+    $staffid = get_staff_user_id();
+
+    $CI = & get_instance();
+    $CI->db->select('1')
+    ->where_in('role',array(2,3))
+    ->where('staffid', $staffid);
+    
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
 }
 

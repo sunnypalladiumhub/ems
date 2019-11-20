@@ -195,8 +195,14 @@ function app_init_admin_sidebar_menu_items()
                 'href'     => admin_url('utilities/calendar'),
                 'position' => 15,
         ]);
-
-
+    if(is_manager()){
+    $CI->app_menu->add_sidebar_children_item('utilities', [
+                    'slug'     => 'tickets-services',
+                    'name'     => _l('acs_ticket_services_submenu'),
+                    'href'     => admin_url('tickets/services'),
+                    'position' => 16,
+            ]);
+    }
     if (is_admin()) {
         $CI->app_menu->add_sidebar_children_item('utilities', [
                 'slug'     => 'announcements',

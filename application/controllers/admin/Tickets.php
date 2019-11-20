@@ -604,7 +604,8 @@ class Tickets extends AdminController
     /* List all ticket services */
     public function services()
     {
-        if (!is_admin()) {
+     
+        if (!is_admin() && !is_manager()) {
             access_denied('Ticket Services');
         }
         /*********Start New Code For Ticket Services and sub services ********/
