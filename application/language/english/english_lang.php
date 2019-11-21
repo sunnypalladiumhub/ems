@@ -3734,4 +3734,8 @@ $lang['ems_dash_resolve']                       = 'Time to Resolve';
 $lang['ems_dash_responed']                       = 'Time to Responed';
 $lang['total_meter_deleted']             = 'Total meter deleted: %s';
 
+
+$lang['ticket_sent_to_client_success']          = 'The Mail is successfully sent to the customer';
+$lang['ticket_sent_to_client_fail']             = 'Failed to send Mail';
+
 /**********************************************/

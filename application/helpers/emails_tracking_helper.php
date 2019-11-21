@@ -70,6 +70,7 @@ function get_available_tracking_templates_slugs()
         'send-contract',
         'send-subscription',
         'subscription-payment-failed',
+        'ticket-msg',
     ];
 
     return hooks()->apply_filters('available_tracking_templates', $slugs);

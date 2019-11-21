@@ -193,6 +193,10 @@ function contract_pdf($contract)
 {
     return app_pdf('contract', LIBSPATH . 'pdf/Contract_pdf', $contract);
 }
+function ticket_pdf($ticket)
+{
+    return app_pdf('ticket', LIBSPATH . 'pdf/Ticket_pdf', $ticket);
+}
 /**
  * Generate payment pdf
  * @param  mixed $payment payment from database

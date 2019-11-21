@@ -55,6 +55,11 @@
                               <?php echo _l('ticket_single_settings_new'); ?>
                            </a>
                         </li>
+                        <li role="presentation">
+                           <a href="#mail" aria-controls="mail" role="tab" data-toggle="tab">
+                              Mail
+                           </a>
+                        </li>
                         <!-- Start new Code For Calculation  Ticket AGE -->                                
                         <?php
                         
@@ -939,6 +944,55 @@
                   <!-- End new code for Sub Tab pannel for customer and other -->
                   
          </div>
+        <div role="tabpanel" class="tab-pane <?php if(!$this->session->flashdata('active_tab')){echo 'active';} ?>" id="mail">
+            
+            <div class="row">
+                           <div class="col-md-12 text-right _buttons">
+                              <a href="#" class="btn btn-default" data-target="#contract_send_to_client_modal" data-toggle="modal"><span class="btn-with-tooltip" data-toggle="tooltip" data-title="<?php echo _l('contract_send_to_email'); ?>" data-placement="bottom">
+                              <i class="fa fa-envelope"></i></span>
+                              </a>
+                              
+                           </div>
+                             <div class="col-md-12">
+                                 <?php $contract_merge_fields = $this->app_merge_fields->get_flat('ticket', ['other', 'client'], '{email_signature}'); ?>
+                              <?php if(isset($contract_merge_fields)){ ?>
+                              <hr class="hr-panel-heading" />
+                              <p class="bold mtop10 text-right"><a href="#" onclick="slideToggle('.avilable_merge_fields'); return false;"><?php echo _l('available_merge_fields'); ?></a></p>
+                              <div class=" avilable_merge_fields mtop15 hide">
+                                 <ul class="list-group">
+                                    <?php
+                                       foreach($contract_merge_fields as $field){
+                                           foreach($field as $f){
+                                              echo '<li class="list-group-item"><b>'.$f['name'].'</b>  <a href="#" class="pull-right" onclick="insert_merge_field(this); return false">'.$f['key'].'</a></li>';
+                                          }
+                                       }
+                                    ?>
+                                 </ul>
+                              </div>
+                              <?php } ?>
+                           </div>
+                           
+                        </div>
+                        <hr class="hr-panel-heading" />
+                        <?php
+                $this->load->view('admin/includes/ticket_emails_tracking',array(
+                  'tracked_emails'=>
+                  get_tracked_emails($ticket->ticketid, 'ticket'))
+                );
+            ?>
+                        <div class="editable tc-content" style="border:1px solid #d2d2d2;min-height:70px; border-radius:4px;">
+                           <?php
+                              if(empty($ticket->content)){
+                               echo hooks()->apply_filters('new_contract_default_content', '<span class="text-danger text-uppercase mtop15 editor-add-content-notice"> ' . _l('click_to_add_content') . '</span>');
+                              } else {
+                               echo $ticket->content;
+                              }
+                              
+                              ?>
+                        </div>
+            
+         </div>
+                  
       </div>
 
    </div>
@@ -1158,10 +1212,45 @@
 </script>
 <?php $this->load->view('admin/tickets/services/service'); ?>
 <?php $this->load->view('admin/tickets/meter_number/service'); ?>
+<?php $this->load->view('admin/tickets/send_to_client'); ?>
 <?php init_tail(); ?>
 <?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
 <script>
    $(function(){
+      
+tinymce.init({
+  selector: 'div.editable ',
+  height: 200,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste code help wordcount',
+    'table'
+  ],
+  toolbar: 'undo redo | formatselect | ' +
+  ' bold italic backcolor | alignleft aligncenter ' +
+  ' alignright alignjustify | bullist numlist outdent indent |' +
+  'table |table tabledelete | tableprops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol'+
+  ' removeformat | help',
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tiny.cloud/css/codepen.min.css'
+  ],
+  setup: function (editor) {
+
+          editor.addCommand('mceSave', function () {
+             save_contract_content(true);
+          });
+
+          editor.on('MouseLeave blur', function () {
+             if (tinymce.activeEditor.isDirty()) {
+                save_contract_content();
+             }
+          });
+        }
+});
+
      var department_name = '<?php echo $ticket->department; ?>';
      if(department_name == <?php echo NETWORKS; ?>){
          $('#notice_number_div').hide();
@@ -1291,7 +1380,24 @@
    });
    });
 
-
+ function save_contract_content(manual) {
+    var editor = tinyMCE.activeEditor;
+    var data = {};
+    data.ticketid = "<?php echo $ticket->ticketid; ?>";
+    data.content = editor.getContent();
+    $.post(admin_url + 'tickets/save_tickets_mail_data', data).done(function (response) {
+       response = JSON.parse(response);
+       if (typeof (manual) != 'undefined') {
+          // Show some message to the user if saved via CTRL + S
+          alert_float('success', response.message);
+       }
+       // Invokes to set dirty to false
+       editor.save();
+    }).fail(function (error) {
+       var response = JSON.parse(error.responseText);
+       alert_float('danger', response.message);
+    });
+   }
    var Ticket_message_editor;
    var edit_ticket_message_additional = $('#edit-ticket-message-additional');
 

@@ -177,8 +177,8 @@ foreach ($rResult as $aRow) {
             $_data = '<a href="' . $url . '?tab=settings" class="valign">' . $_data . '</a>';
             if ($aColumns[$i] == 'subject') {
                 $_data .= '<div class="row-options">';
-//                $_data .= '<a href="' . $url . '?tab=settings">' . _l('view') . '</a>';
-                $_data .= ' <span class="text-dark">  </span><a href="' . $url . '?tab=settings">' . _l('ticket_table_edit_btn') . '</a>';
+                $_data .= '<a href="' . $url . '?tab=mail">' . _l('view') . '</a>';
+                $_data .= ' <span class="text-dark"> | </span><a href="' . $url . '?tab=settings">' . _l('ticket_table_edit_btn') . '</a>';
                 $_data .= ' <span class="text-dark"> | </span><a href="' . admin_url('tickets/delete/' . $aRow[db_prefix() . 'tickets.ticketid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
                 $_data .= '</div>';
             }

@@ -900,5 +900,34 @@ class Tickets extends AdminController
         echo json_encode($data);
     }
     /* End new code for sub category by parent category */
+    /**** This is new code for email ticket */
+    public function save_tickets_mail_data(){
+        $success = false;
+        $message = '';
 
+        $this->db->where('ticketid', $this->input->post('ticketid'));
+        $this->db->update(db_prefix().'tickets', [
+                'content' => $this->input->post('content', false),
+        ]);
+
+        $success = $this->db->affected_rows() > 0;
+        $message = _l('updated_successfully', _l('contract'));
+
+        echo json_encode([
+            'success' => $success,
+            'message' => $message,
+        ]);
+    }
+    public function send_to_email($id)
+    {
+        $success = $this->tickets_model->send_ticket_to_client($id, $this->input->post('attach_pdf'), $this->input->post('cc'));
+        
+        if ($success) {
+            
+            set_alert('success', _l('ticket_sent_to_client_success'));
+        } else {
+            set_alert('danger', _l('ticket_sent_to_client_fail'));
+        }
+        redirect(admin_url('tickets/ticket/' . $id.'?tab=mail'));
+    }
 }

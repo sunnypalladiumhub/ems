@@ -1847,6 +1847,57 @@ class Tickets_model extends App_Model
 
         return $this->db->get(db_prefix() . 'tickets')->result_array();
     }
+    
+    
+    public function send_ticket_to_client($id, $attachpdf = true, $cc = '')
+    {
+        $tickets = $this->get($id);
+
+        if ($attachpdf) {
+            set_mailing_constant();
+            $pdf    = ticket_pdf($tickets);
+            $attach = $pdf->Output(slug_it($tickets->subject) . '.pdf', 'S');
+        }
+
+        $sent_to = $this->input->post('sent_to');
+        $sent    = false;
+
+        if (is_array($sent_to)) {
+            $i = 0;
+            foreach ($sent_to as $contact_id) {
+                if ($contact_id != '') {
+                   $contact = $contact_id;
+                    // Send cc only for the first contact
+                    if (!empty($cc) && $i > 0) {
+                        $cc = '';
+                    }
+
+                    $template = mail_template('Ticket_msg_from_staff', $tickets, $contact,[], $cc);
+
+                    if ($attachpdf) {
+                        $template->add_attachment([
+                            'attachment' => $attach,
+                            'filename'   => slug_it($tickets->subject) . '.pdf',
+                            'type'       => 'application/pdf',
+                        ]);
+                    }
+
+                    if ($template->send()) {
+                        $sent = true;
+                    }
+                }
+                $i++;
+            }
+        } else {
+            return false;
+        }
+        if ($sent) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 }
 /* End new Code for EMS Dashboard Status ********/
