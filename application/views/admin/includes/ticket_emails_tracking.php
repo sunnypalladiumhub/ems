@@ -9,6 +9,7 @@ if(count($tracked_emails) === 0) {
          <thead>
             <tr>
                <th><b><?php echo _l('tracked_email_date'); ?></b></th>
+               <th><b>From</b></th>
                <th><b><?php echo _l('tracked_email_subject'); ?></b></th>
                <th><b><?php echo _l('tracked_email_to'); ?></b></th>
                <th><b><?php echo _l('tracked_email_opened'); ?></b></th>
@@ -20,6 +21,9 @@ if(count($tracked_emails) === 0) {
             <tr>
                <td>
                   <?php echo _dt($email['date']); ?>
+               </td>
+               <td>
+                  <?php echo $email['from']; ?>
                </td>
                <td>
                   <?php echo$email['subject']; ?>

@@ -920,9 +920,23 @@ class Tickets extends AdminController
     }
     public function send_to_email($id)
     {
+        
         $success = $this->tickets_model->send_ticket_to_client($id, $this->input->post('attach_pdf'), $this->input->post('cc'));
         
         if ($success) {
+            $tickets = $this->tickets_model->get($id);
+            $data_ticket_replies['ticketid'] = $id;
+            $data_ticket_replies['name'] = get_staff_full_name(get_staff_user_id());
+            $data_ticket_replies['date'] = date('Y-m-d H:i:s');
+            $data_ticket_replies['message'] = $tickets->content;
+            $data_ticket_replies['admin'] = is_admin();
+            $this->db->insert(db_prefix() . 'ticket_replies', $data_ticket_replies);
+            
+            
+            $this->db->where('ticketid', $id);
+            $this->db->update(db_prefix().'tickets', [
+                    'content' => '',
+            ]);
             
             set_alert('success', _l('ticket_sent_to_client_success'));
         } else {

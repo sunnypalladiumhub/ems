@@ -32,6 +32,7 @@ function add_email_tracking($data)
             'rel_type' => $GLOBALS['SENDING_EMAIL_TEMPLATE_CLASS']->get_rel_type(),
             'date'     => date('Y-m-d H:i:s'),
             'email'    => $data['email'],
+            'from'    => get_staff_full_name(get_staff_user_id())
         ]);
     }
 }
