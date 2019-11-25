@@ -77,6 +77,13 @@ class Ticket_merge_fields extends App_merge_fields
                         'ticket',
                     ],
                 ],
+                [
+                    'name'      => 'Ticket content',
+                    'key'       => '{ticket_content}',
+                    'available' => [
+                        'ticket',
+                    ],
+                ],
             ];
     }
 
@@ -181,7 +188,7 @@ class Ticket_merge_fields extends App_merge_fields
         } else {
             $fields['{ticket_message}'] = $ticket->message;
         }
-
+        $fields['{ticket_content}'] = $ticket->content;
         $fields['{ticket_date}']    = _dt($ticket->date);
         $fields['{ticket_subject}'] = $ticket->subject;
 

@@ -954,7 +954,7 @@
                               
                            </div>
                              <div class="col-md-12">
-                                 <?php $contract_merge_fields = $this->app_merge_fields->get_flat('ticket', [], '{email_signature}'); ?>
+                                 <?php $contract_merge_fields = $this->app_merge_fields->get_flat('ticket', ['other'], '{email_signature}'); ?>
                               <?php if(isset($contract_merge_fields)){ ?>
                               <hr class="hr-panel-heading" />
                               <p class="bold mtop10 text-right"><a href="#" onclick="slideToggle('.avilable_merge_fields'); return false;"><?php echo _l('available_merge_fields'); ?></a></p>
