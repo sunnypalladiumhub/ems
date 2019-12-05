@@ -74,6 +74,91 @@ class Departments_model extends App_Model
 
         return $insert_id;
     }
+    public function email_add($data)
+    {
+        if (isset($data['hidefromclient'])) {
+            $data['hidefromclient'] = 1;
+        } else {
+            $data['hidefromclient'] = 0;
+        }
+
+        if (!empty($data['password'])) {
+            $data['password'] = $this->encryption->encrypt($data['password']);
+        }
+
+        if (!isset($data['encryption'])) {
+            $data['encryption'] = '';
+        }
+
+        if (!isset($data['delete_after_import'])) {
+            $data['delete_after_import'] = 0;
+        } else {
+            $data['delete_after_import'] = 1;
+        }
+
+        $data = hooks()->apply_filters('before_department_added', $data);
+        $this->db->insert(db_prefix() . 'department_email', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            hooks()->do_action('after_department_added', $insert_id);
+            log_activity('New Email Department Added [' . $data['departmentid'] . ', ID: ' . $insert_id . ']');
+        }
+
+        return $insert_id;
+    }
+    public function email_update($data, $id)
+    {
+        $dep_original = $this->get($id);
+        if (!$dep_original) {
+            return false;
+        }
+
+
+        if (!isset($data['encryption'])) {
+            $data['encryption'] = '';
+        }
+
+        if (!isset($data['delete_after_import'])) {
+            $data['delete_after_import'] = 0;
+        } else {
+            $data['delete_after_import'] = 1;
+        }
+
+        if ($data['email'] == '') {
+            $data['email'] = null;
+        }
+        if (isset($data['hidefromclient'])) {
+            $data['hidefromclient'] = 1;
+        } else {
+            $data['hidefromclient'] = 0;
+        }
+        // Check if not empty $data['password']
+        // Get original
+        // Decrypt original
+        // Compare with $data['password']
+        // If equal unset
+        // If not encrypt and save
+        if (!empty($data['password'])) {
+            $or_decrypted = $this->encryption->decrypt($dep_original->password);
+            if ($or_decrypted == $data['password']) {
+                unset($data['password']);
+            } else {
+                $data['password'] = $this->encryption->encrypt($data['password']);
+            }
+        }
+
+        $data = hooks()->apply_filters('before_department_updated', $data, $id);
+
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . 'department_email', $data);
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Department Email Updated [Name: ' . $data['departmentid'] . ', ID: ' . $id . ']');
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param  array $_POST data
@@ -205,4 +290,17 @@ class Departments_model extends App_Model
         
     }
     /******End new code ***/
+    public function email_delete($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete(db_prefix() . 'department_email');
+        if ($this->db->affected_rows() > 0) {
+            log_activity('Department Deleted [ID: ' . $id . ']');
+
+            return true;
+        }
+
+        return false;
+    }
+
 }

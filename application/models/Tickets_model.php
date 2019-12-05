@@ -74,6 +74,13 @@ class Tickets_model extends App_Model
                     if ($data) {
                         $department_id = $data->departmentid;
                         $to            = $data->email;
+                    }else{
+                        $this->db->where('email', trim($toemail));
+                        $data_email = $this->db->get(db_prefix() . 'department_email')->row();
+                        if ($data_email) {
+                            $department_id = $data_email->departmentid;
+                            $to            = $data_email->email;
+                        }
                     }
                 }
             }

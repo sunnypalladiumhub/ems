@@ -64,7 +64,7 @@ class Cron_model extends App_Model {
             $this->autoclose_tickets();
             $this->recurring_invoices();
             $this->recurring_expenses();
-
+            $this->auto_import_imap_tickets_new();
             $this->auto_import_imap_tickets();
             $this->check_leads_email_integration();
             $this->delete_activity_log();
@@ -1458,7 +1458,125 @@ class Cron_model extends App_Model {
             }
         }
     }
+    public function auto_import_imap_tickets_new() {
+        $this->db->select('host,encryption,password,email,delete_after_import,imap_username')->from(db_prefix() . 'department_email')->where('host !=', '')->where('password !=', '')->where('email !=', '');
+        $dep_emails = $this->db->get()->result_array();
+        foreach ($dep_emails as $e) {
+            $password = $this->encryption->decrypt($e['password']);
+            if (!$password) {
+                log_activity('Failed to decrypt department password', null);
 
+                continue;
+            }
+            require_once(APPPATH . 'third_party/php-imap/Imap.php');
+            $mailbox = $e['host'];
+            $username = $e['email'];
+            if (!empty($e['imap_username'])) {
+                $username = $e['imap_username'];
+            }
+            $password = $password;
+            $encryption = $e['encryption'];
+            // open connection
+            $imap = new Imap($mailbox, $username, $password, $encryption);
+            if ($imap->isConnected() === false) {
+                log_activity('Failed to connect to IMAP auto importing tickets from departments.', null);
+
+                continue;
+            }
+            $imap->selectFolder('INBOX');
+            $emails = $imap->getUnreadMessages();
+            $this->load->model('tickets_model');
+
+            foreach ($emails as $email) {
+                // Check if empty body
+                if (isset($email['body']) && $email['body'] == '' || !isset($email['body'])) {
+                    $email['body'] = 'No message found';
+                }
+
+                $plainTextBody = $imap->getPlainTextBody($email['uid']);
+                $plainTextBody = trim($plainTextBody);
+
+                if (!empty($plainTextBody)) {
+                    $email['body'] = $plainTextBody;
+                }
+
+                $email['body'] = handle_google_drive_links_in_text($email['body']);
+
+                if (class_exists('EmailReplyParser\EmailReplyParser') && get_option('ticket_import_reply_only') === '1' && (mb_substr_count($email['subject'], 'FWD:') == 0 && mb_substr_count($email['subject'], 'FW:') == 0)) {
+                    $parsedBody = \EmailReplyParser\EmailReplyParser::parseReply($email['body']);
+                    $parsedBody = trim($parsedBody);
+                    // For some emails this is causing an issue and not returning the email, instead is returning empty string
+                    // In this case, only use parsed email reply if not empty
+                    if (!empty($parsedBody)) {
+                        $email['body'] = $parsedBody;
+                    }
+                }
+
+                $email['body'] = $this->prepare_imap_email_body_html($email['body']);
+                $data['attachments'] = [];
+
+                if (isset($email['attachments'])) {
+                    foreach ($email['attachments'] as $key => $at) {
+                        $_at_name = $email['attachments'][$key]['name'];
+                        // Rename the name to filename the model expects filename not name
+                        unset($email['attachments'][$key]['name']);
+                        $email['attachments'][$key]['filename'] = $_at_name;
+                        $_attachment = $imap->getAttachment($email['uid'], $key);
+                        $email['attachments'][$key]['data'] = $_attachment['content'];
+                    }
+                    // Add the attchments to data
+                    $data['attachments'] = $email['attachments'];
+                } else {
+                    // No attachments
+                    $data['attachments'] = [];
+                }
+
+                $data['subject'] = $email['subject'];
+                $data['body'] = $email['body'];
+
+                $data['to'] = [];
+
+                // To is the department name
+                $data['to'][] = $e['email'];
+
+                // Check for CC
+                if (isset($email['cc'])) {
+                    foreach ($email['cc'] as $cc) {
+                        $data['to'][] = trim(preg_replace('/(.*)<(.*)>/', '\\2', $cc));
+                    }
+                }
+
+                $data['to'] = implode(',', $data['to']);
+
+                if (hooks()->apply_filters('imap_fetch_from_email_by_reply_to_header', 'true') == 'true') {
+                    $replyTo = $imap->getReplyToAddresses($email['uid']);
+
+                    if (count($replyTo) === 1) {
+                        $email['from'] = $replyTo[0];
+                    }
+                }
+
+                $data['email'] = preg_replace('/(.*)<(.*)>/', '\\2', $email['from']);
+                $data['fromname'] = preg_replace('/(.*)<(.*)>/', '\\1', $email['from']);
+                $data['fromname'] = trim(str_replace('"', '', $data['fromname']));
+
+                $data = hooks()->apply_filters('imap_auto_import_ticket_data', $data, $email);
+
+                $status = $this->tickets_model->insert_piped_ticket($data);
+
+                if ($status == 'Ticket Imported Successfully' || $status == 'Ticket Reply Imported Successfully') {
+                    if ($e['delete_after_import'] == 0) {
+                        $imap->setUnseenMessage($email['uid']);
+                    } else {
+                        $imap->deleteMessage($email['uid']);
+                    }
+                } else {
+                    // Set unseen message in all cases to prevent looping throught the message again
+                    $imap->setUnseenMessage($email['uid']);
+                }
+            }
+        }
+    }
     public function auto_import_imap_tickets() {
         $this->db->select('host,encryption,password,email,delete_after_import,imap_username')->from(db_prefix() . 'departments')->where('host !=', '')->where('password !=', '')->where('email !=', '');
         $dep_emails = $this->db->get()->result_array();

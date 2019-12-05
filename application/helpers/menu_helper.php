@@ -400,6 +400,12 @@ function app_init_admin_sidebar_menu_items()
                     'position' => 5,
             ]);
         $CI->app_menu->add_setup_children_item('support', [
+                    'slug'     => 'departments',
+                    'name'     => 'Departments emails',
+                    'href'     => admin_url('departments/email'),
+                    'position' => 6,
+            ]);
+        $CI->app_menu->add_setup_children_item('support', [
                     'slug'     => 'tickets-predefined-replies',
                     'name'     => _l('acs_ticket_predefined_replies_submenu'),
                     'href'     => admin_url('tickets/predefined_replies'),

@@ -149,6 +149,81 @@ class Departments extends AdminController
 
     private function email_exist_as_staff()
     {
+        
         return total_rows(db_prefix().'departments', 'email IN (SELECT email FROM '.db_prefix().'staff)') > 0;
+        
+        /**** New code for multi email Department ***/
+       // return total_rows(db_prefix().'department_email', 'email IN (SELECT email FROM '.db_prefix().'staff)') > 0;
     }
+    private function email_exist_as_staff_email()
+    {
+        
+        /**** New code for multi email Department ***/
+        return total_rows(db_prefix().'department_email', 'email IN (SELECT email FROM '.db_prefix().'staff)') > 0;
+    }
+    public function email(){
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('departments_email');
+        }
+        $data['departments']          = $this->departments_model->get();
+        $data['email_exist_as_staff'] = $this->email_exist_as_staff_email();
+        $data['title']                = _l('departments');
+        $this->load->view('admin/departments/emails', $data);
+    }
+    public function email_add(){
+        if ($this->input->post()) {
+            $message          = '';
+            $data             = $this->input->post();
+            $data             = $this->input->post();
+            $data['password'] = $this->input->post('password', false);
+
+            if (isset($data['fakeusernameremembered']) || isset($data['fakepasswordremembered'])) {
+                unset($data['fakeusernameremembered']);
+                unset($data['fakepasswordremembered']);
+            }
+
+            if (!$this->input->post('id')) {
+                $id = $this->departments_model->email_add($data);
+                if ($id) {
+                    $success = true;
+                    $message = _l('added_successfully', _l('department'));
+                }
+                echo json_encode([
+                    'success'              => $success,
+                    'message'              => $message,
+                    'email_exist_as_staff' => $this->email_exist_as_staff(),
+                ]);
+            } else {
+                $id = $data['id'];
+                unset($data['id']);
+                $success = $this->departments_model->email_update($data, $id);
+                if ($success) {
+                    $message = _l('updated_successfully', _l('department'));
+                }
+                echo json_encode([
+                    'success'              => $success,
+                    'message'              => $message,
+                    'email_exist_as_staff' => $this->email_exist_as_staff(),
+                ]);
+            }
+            die;
+        }
+    }
+    /* Delete email department from database */
+    public function email_delete($id)
+    {
+        if (!$id) {
+            redirect(admin_url('departments'));
+        }
+        $response = $this->departments_model->email_delete($id);
+        if (is_array($response) && isset($response['referenced'])) {
+            set_alert('warning', _l('is_referenced', _l('department_lowercase')));
+        } elseif ($response == true) {
+            set_alert('success', _l('deleted', _l('department')));
+        } else {
+            set_alert('warning', _l('problem_deleting', _l('department_lowercase')));
+        }
+        redirect(admin_url('departments'));
+    }
+
 }
