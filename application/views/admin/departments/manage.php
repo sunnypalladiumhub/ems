@@ -16,6 +16,12 @@
                             <?php echo _l('new_department'); ?>
                         </a>
                     </div>
+                        
+                    <div class="_buttons pull-right">
+                        <a href="<?php echo admin_url('departments/email'); ?>" class="btn btn-info pull-left display-block">
+                            Add More Emails
+                        </a>
+                    </div>
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
