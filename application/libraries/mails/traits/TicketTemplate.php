@@ -25,7 +25,14 @@ trait TicketTemplate
         if (!class_exists('tickets_model')) {
             $this->ci->load->model('tickets_model');
         }
-
+        $tiket_from_check = $this->get_ticket_for_mail_log();
+        if(!empty($tiket_from_check)){
+            if (!empty($tiket_from_check->department_email)
+            && valid_email($tiket_from_check->department_email)) {
+                return $tiket_from_check->department_email;
+            }
+        }
+        
         $ticket = $this->get_ticket_for_mail();
 
         if (!empty($ticket->department_email) && valid_email($ticket->department_email)) {
@@ -38,7 +45,17 @@ trait TicketTemplate
     protected function _from()
     {
         $default = parent::_from();
-
+        $tiket_from_check = $this->get_ticket_for_mail_log();
+        if(!empty($tiket_from_check)){
+            if (!empty($tiket_from_check->department_email)
+            && valid_email($tiket_from_check->department_email)) {
+                return [
+                    'fromname'  => $default['fromname'],
+                    'fromemail' => $tiket_from_check->department_email,
+                ];
+            }
+        }
+        
         $ticket = $this->get_ticket_for_mail();
 
         if (!empty($ticket->department_email)
@@ -60,6 +77,13 @@ trait TicketTemplate
             ->join(db_prefix() . 'departments', db_prefix() . 'departments.departmentid=' . db_prefix() . 'tickets.department', 'left');
 
         return $this->ci->db->get(db_prefix() . 'tickets')->row();
+    }
+    private function get_ticket_for_mail_log()
+    {
+        $this->ci->db->select(db_prefix() . 'ticket_department_email.department_email as department_email')
+            ->where('ticket_id', $this->ticketid);
+            
+        return $this->ci->db->get(db_prefix() . 'ticket_department_email')->row();
     }
 
     private function add_ticket_attachments()

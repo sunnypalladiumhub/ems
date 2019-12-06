@@ -185,6 +185,13 @@ class Tickets_model extends App_Model
                                             }
                                             $tid = $this->add($data, null, $attachments);
                                             // Dont change this line
+                                            $this->db->insert(db_prefix() . 'ticket_department_email', [
+                                                'ticket_id'     => $tid,
+                                                'department_email' => $to,
+                                                'departmentid'     => $department_id,
+                                                'subject'    => 'Ticket create from email.',
+                                                'gm_updated'  => date('Y-m-d H:i:s'),
+                                            ]);
                                             $mailstatus = 'Ticket Imported Successfully';
                                         }
                                     }
