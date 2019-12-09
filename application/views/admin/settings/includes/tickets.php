@@ -18,6 +18,9 @@
     <hr />
     <?php render_yes_no_option('receive_notification_on_new_ticket','receive_notification_on_new_ticket', 'receive_notification_on_new_ticket_help'); ?>
     <hr />
+    <?php render_yes_no_option('receive_notification_to_user_on_new_ticket','receive_notification_to_user_on_new_ticket', 'receive_notification_to_user_on_new_ticket_help'); ?>
+    <hr />
+    
     <?php render_yes_no_option('receive_notification_on_new_ticket_replies','receive_notification_on_new_ticket_replies', 'receive_notification_on_new_ticket_reply_help'); ?>
     <hr />
     <?php render_yes_no_option('staff_members_open_tickets_to_all_contacts','staff_members_open_tickets_to_all_contacts','staff_members_open_tickets_to_all_contacts_help'); ?>

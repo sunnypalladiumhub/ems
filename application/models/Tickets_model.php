@@ -829,15 +829,15 @@ class Tickets_model extends App_Model
             } else {
                 $email = $data['email'];
             }
-            if(isset($data['company_id']) && $data['company_id'] > 0){
-                $email     = $this->clients_model->get_client($data['company_id'])->default_email;
-                if(!empty($email) && $email != ''){
-                     $template = 'ticket_created_to_customer';
-                      $ticket = $this->get_ticket_by_id($ticketid);
-                     send_mail_template($template, $ticket, $email, [],$email);
-                }
-                
-            }
+//            if(isset($data['company_id']) && $data['company_id'] > 0){
+//                $email     = $this->clients_model->get_client($data['company_id'])->default_email;
+//                if(!empty($email) && $email != ''){
+//                     $template = 'ticket_created_to_customer';
+//                      $ticket = $this->get_ticket_by_id($ticketid);
+//                     send_mail_template($template, $ticket, $email, [],$email);
+//                }
+//                
+//            }
 
            
             
@@ -870,8 +870,9 @@ class Tickets_model extends App_Model
                     }
                     $staff_departments = $this->departments_model->get_staff_departments($member['staffid'], true);
                     if (in_array($data['department'], $staff_departments)) {
-                        send_mail_template('ticket_created_to_staff', $ticketid, $data['userid'], $data['contactid'], $member, $_attachments);
-
+                        if($notificationForStaffMemberOnTicketCreation){
+                            send_mail_template('ticket_created_to_staff', $ticketid, $data['userid'], $data['contactid'], $member, $_attachments);
+                        }
                         if ($notificationForStaffMemberOnTicketCreation) {
                             $notified = add_notification([
                                     'description'     => 'not_new_ticket_created',
@@ -897,11 +898,13 @@ class Tickets_model extends App_Model
             if ($isContact && total_rows(db_prefix() . 'contacts', ['ticket_emails' => 1, 'id' => $data['contactid']]) == 0) {
                 $sendEmail = false;
             }
-
+            $notificationForUserOnTicketCreation = get_option('receive_notification_to_user_on_new_ticket') == 1;
             if ($sendEmail) {
-                $ticket = $this->get_ticket_by_id($ticketid);
-                // $admin == null ? [] : $_attachments - Admin opened ticket from admin area add the attachments to the email
-                send_mail_template($template, $ticket, $email, $admin == null ? [] : $_attachments, $cc);
+                if($notificationForUserOnTicketCreation){
+                    $ticket = $this->get_ticket_by_id($ticketid);
+                    // $admin == null ? [] : $_attachments - Admin opened ticket from admin area add the attachments to the email
+                    send_mail_template($template, $ticket, $email, $admin == null ? [] : $_attachments, $cc);
+                }
             }
 
             hooks()->do_action('ticket_created', $ticketid);

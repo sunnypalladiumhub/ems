@@ -3737,5 +3737,6 @@ $lang['total_meter_deleted']             = 'Total meter deleted: %s';
 
 $lang['ticket_sent_to_client_success']          = 'The Mail is successfully sent to the customer';
 $lang['ticket_sent_to_client_fail']             = 'Failed to send Mail';
-
+$lang['receive_notification_to_user_on_new_ticket']      = 'Receive notification to user on new ticket Created';
+$lang['receive_notification_to_user_on_new_ticket_help'] = 'auto send email to customer when ticket created';
 /**********************************************/
