@@ -507,6 +507,7 @@ class Tickets_model extends App_Model
                 $notificationForStaffMemberOnTicketReply = get_option('receive_notification_on_new_ticket_replies') == 1;
 
                 foreach ($staff as $staff_key => $member) {
+                    
                     if (get_option('access_tickets_to_none_staff_members') == 0
                          && !is_staff_member($member['staffid'])) {
                         continue;
@@ -515,7 +516,15 @@ class Tickets_model extends App_Model
                     $staff_departments = $this->departments_model->get_staff_departments($member['staffid'], true);
 
                     if (in_array($ticket->department, $staff_departments)) {
-                        send_mail_template('ticket_new_reply_to_staff', $ticket, $member, $_attachments);
+                        /** new code for muliemail **/
+                       $this->db->select(db_prefix() . 'ticket_department_email.department_email as department_email')
+                            ->where('ticket_id', $ticket->ticketid);
+                      $department_email = $this->db->get(db_prefix() . 'ticket_department_email')->row();
+                      if($department_email->department_email == $member['email']){
+                         /***end **/ 
+                          send_mail_template('ticket_new_reply_to_staff', $ticket, $member, $_attachments);
+                      }
+                        
 
                         if ($notificationForStaffMemberOnTicketReply) {
                             $notified = add_notification([
@@ -871,7 +880,7 @@ class Tickets_model extends App_Model
                     $staff_departments = $this->departments_model->get_staff_departments($member['staffid'], true);
                     if (in_array($data['department'], $staff_departments)) {
                         if($notificationForStaffMemberOnTicketCreation){
-                            send_mail_template('ticket_created_to_staff', $ticketid, $data['userid'], $data['contactid'], $member, $_attachments);
+                                send_mail_template('ticket_created_to_staff', $ticketid, $data['userid'], $data['contactid'], $member, $_attachments);
                         }
                         if ($notificationForStaffMemberOnTicketCreation) {
                             $notified = add_notification([
@@ -898,13 +907,13 @@ class Tickets_model extends App_Model
             if ($isContact && total_rows(db_prefix() . 'contacts', ['ticket_emails' => 1, 'id' => $data['contactid']]) == 0) {
                 $sendEmail = false;
             }
-            $notificationForUserOnTicketCreation = get_option('receive_notification_to_user_on_new_ticket') == 1;
+           // $notificationForUserOnTicketCreation = get_option('receive_notification_to_user_on_new_ticket') == 1;
             if ($sendEmail) {
-                if($notificationForUserOnTicketCreation){
+             //   if($notificationForUserOnTicketCreation){
                     $ticket = $this->get_ticket_by_id($ticketid);
                     // $admin == null ? [] : $_attachments - Admin opened ticket from admin area add the attachments to the email
                     send_mail_template($template, $ticket, $email, $admin == null ? [] : $_attachments, $cc);
-                }
+               // }
             }
 
             hooks()->do_action('ticket_created', $ticketid);

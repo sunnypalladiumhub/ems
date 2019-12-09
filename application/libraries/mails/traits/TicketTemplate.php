@@ -50,7 +50,8 @@ trait TicketTemplate
             if (!empty($tiket_from_check->department_email)
             && valid_email($tiket_from_check->department_email)) {
                 return [
-                    'fromname'  => $default['fromname'],
+                    //'fromname'  =>  $default['fromname'],
+                    'fromname'  =>  $tiket_from_check->department_email,
                     'fromemail' => $tiket_from_check->department_email,
                 ];
             }
@@ -62,7 +63,7 @@ trait TicketTemplate
             && $ticket->dept_email_from_header == 1
             && valid_email($ticket->department_email)) {
             return [
-                'fromname'  => $default['fromname'],
+                'fromname'  => $tiket_from_check->department_email,
                 'fromemail' => $ticket->department_email,
             ];
         }
