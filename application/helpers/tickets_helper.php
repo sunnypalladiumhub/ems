@@ -383,7 +383,7 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
                                             tbltickets.ticketid as ticket_number
                                             FROM tbltickets 
                                             '.$join.'
-                                                WHERE tbltickets.assigned = 0
+                                                WHERE tbltickets.status NOT IN (5,0) AND tbltickets.assigned = 0
                                                 '.$where.'
                                             ');
                 
