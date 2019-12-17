@@ -410,6 +410,10 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
         $CI = &get_instance();
         $CI->load->model('clients_model');
         $statuses =  $CI->clients_model->get_groups();
+        
+        $b = array(array('id'=>'null', "name"=> "Unassigned"));
+        $statuses = array_merge($statuses, $b); 
+        
         $date = new DateTime("now");
         $curr_date = $date->format('Y-m-d');
         
@@ -435,8 +439,8 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                $where .= ' AND tblclients.state ="'.$province.'"'; 
                //$ticket_where['department'] = $departments_id;
             }
-
-           $summary_result =  $CI->db->query('SELECT 
+            if ($value['id'] != 'null') {
+            $summary_result = $CI->db->query('SELECT 
                                             tbltickets.ticketid as ticket_number, 
                                             tbltickets.priority as priority, 
                                             CASE priority
@@ -450,13 +454,38 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                                              FROM tbltickets 
                                              LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
                                              LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
-                                             '.$join.'
-                                             WHERE tbltickets.status = 1 AND tbltickets.group_id = '.$value['id'].'
-                                                 '.$where.' 
+                                             ' . $join . '
+                                             WHERE tbltickets.status = 1 AND tbltickets.group_id = ' . $value['id'] . '
+                                                 ' . $where . ' 
                                              GROUP BY tbltickets.ticketid
                                              HAVING resolve_hours>expose
                                              ORDER BY tbltickets.ticketid');
+        }else{
+            $summary_result = $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number, 
+                                            tbltickets.priority as priority, 
+                                            CASE priority
+                                              WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                              WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                              WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                              ELSE 48
+                                              END as expose,
+                                            TIME_TO_SEC(TIMEDIFF((now()),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours 
+
+                                             FROM tbltickets 
+                                             LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                             LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             ' . $join . '
+                                             WHERE tbltickets.status = 1 AND tbltickets.group_id IS NULL
+                                                 ' . $where . ' 
+                                             GROUP BY tbltickets.ticketid
+                                             HAVING resolve_hours>expose
+                                             ORDER BY tbltickets.ticketid');
+            
+        }
+        
             $q = $summary_result->num_rows();
+            if ($value['id'] != 'null') {
             $summary_result_today =  $CI->db->query('SELECT 
                                     tbltickets.ticketid as ticket_number, 
                                     tbltickets.priority as priority, 
@@ -477,6 +506,28 @@ function overdue_tickets_details($customer_id = null, $group_id = null,$departme
                                     GROUP BY tbltickets.ticketid
                                      HAVING DATE_FORMAT(DATE_ADD(activity_date, INTERVAL +expose HOUR), "%Y-%m-%d") = CURDATE()
                                      ORDER BY tbltickets.ticketid');
+            }else{
+                $summary_result_today =  $CI->db->query('SELECT 
+                                    tbltickets.ticketid as ticket_number, 
+                                    tbltickets.priority as priority, 
+                                    CASE priority
+                                      WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                      WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                      WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                      ELSE 48
+                                      END as expose,
+                                      tbltickets_activity_log.date as activity_date
+                                     FROM tbltickets 
+                                     LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                     LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                     LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     '.$join.'
+                                     WHERE tbltickets.status = 1 AND tbltickets.group_id IS NULL
+                                    '.$where.' 
+                                    GROUP BY tbltickets.ticketid
+                                     HAVING DATE_FORMAT(DATE_ADD(activity_date, INTERVAL +expose HOUR), "%Y-%m-%d") = CURDATE()
+                                     ORDER BY tbltickets.ticketid');
+            }
             $q_today = $summary_result_today->num_rows();
             
             
