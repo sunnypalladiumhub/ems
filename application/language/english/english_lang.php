@@ -3739,4 +3739,6 @@ $lang['ticket_sent_to_client_success']          = 'The Mail is successfully sent
 $lang['ticket_sent_to_client_fail']             = 'Failed to send Mail';
 $lang['receive_notification_to_user_on_new_ticket']      = 'Receive notification to user on new ticket Created';
 $lang['receive_notification_to_user_on_new_ticket_help'] = 'auto send email to customer when ticket created';
+
+$lang['allow_non_admin_staff_to_delete_ticket']     = 'Allow non-admin staff members to delete ticket';
 /**********************************************/

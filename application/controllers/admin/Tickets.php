@@ -147,9 +147,12 @@ class Tickets extends AdminController
         if (!$ticketid) {
             redirect(admin_url('tickets'));
         }
-
+        if (is_admin() || (!is_admin() && get_option('allow_non_admin_staff_to_delete_ticket') == '1')) {
         $response = $this->tickets_model->delete($ticketid);
-
+        }else{
+           set_alert('danger', "You are not allow to delete ticket.");
+            redirect($_SERVER['HTTP_REFERER']);
+        }
         if ($response == true) {
             set_alert('success', _l('deleted', _l('ticket')));
         } else {
