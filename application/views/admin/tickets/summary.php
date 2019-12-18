@@ -4,7 +4,10 @@
  $statuses = $this->tickets_model->get_ticket_status();
  ?>
  <div class="_filters _hidden_inputs hidden tickets_filters">
+     
   <?php
+  
+  echo form_hidden('overdue_lsit',isset($_GET['overdue']) ? 'true' : 'false');
   echo form_hidden('my_tickets');
   if(is_admin()){
     $ticket_assignees = $this->tickets_model->get_tickets_assignes_disctinct();

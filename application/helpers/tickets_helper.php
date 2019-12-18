@@ -405,6 +405,80 @@ function ticket_ems_dashboard_summary_data($customer_id = null, $group_id = null
     return $tasks_summary;
 }
 /*** End New Code Add New Fuction For Ems Dashboard Summary Data */
+function ticket_ems_dashboard_summary_data_ticket() {
+    $CI = &get_instance();
+    $CI->load->model('tickets_model');
+    $tasks_summary = [];
+    $statuses = $CI->tickets_model->get_ems_dashboard_status();
+    
+    foreach ($statuses as $status) {
+        $where = '';
+        $join ='';
+        
+        if($status['id'] == 1){
+            $CI = & get_instance();
+            
+                $summary_result =  $CI->db->query('SELECT 
+                                            tbltickets.ticketid as ticket_number, 
+                                            tbltickets.priority as priority, 
+                                            CASE priority
+                                              WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                              WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                              WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                              ELSE 48
+                                              END as expose,
+                                            TIME_TO_SEC(TIMEDIFF((now()),(select date from tbltickets_activity_log as tas where tas.ticket_id = tbltickets.ticketid AND tas.status_id = 1 ORDER BY tas.date ASC LIMIT 1)))/3600 as resolve_hours 
+
+                                             FROM tbltickets 
+                                             LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                             LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                             '.$join.'
+                                             WHERE tbltickets.status = 1 
+                                             '.$where.'
+                                             GROUP BY tbltickets.ticketid
+                                             HAVING resolve_hours>expose
+                                             ORDER BY tbltickets.ticketid
+                                             ');
+            
+                $summary_data = $summary_result->result_array();
+            
+            $summary['overdue'] = $summary_data;
+            
+        }elseif($status['id'] == 2){
+            $CI = & get_instance();
+            
+                $summary_result =  $CI->db->query('SELECT 
+                                    tbltickets.ticketid as ticket_number, 
+                                    tbltickets.priority as priority, 
+                                    CASE priority
+                                      WHEN 1 THEN tblsla_manager_setting.low_resolution
+                                      WHEN 2 THEN tblsla_manager_setting.medium_resolution
+                                      WHEN 3 THEN tblsla_manager_setting.high_resolution
+                                      ELSE 48
+                                      END as expose,
+                                      tbltickets_activity_log.date as activity_date
+                                     FROM tbltickets 
+                                     LEFT JOIN tblstaff ON tblstaff.staffid = tbltickets.assigned 
+                                     LEFT JOIN tblsla_manager_setting ON tblsla_manager_setting.client_id = tbltickets.assigned
+                                     LEFT JOIN tbltickets_activity_log ON tbltickets_activity_log.ticket_id = tbltickets.ticketid AND tbltickets_activity_log.status_id = 1
+                                     '.$join.'
+                                     WHERE tbltickets.status = 1 
+                                     '.$where.'
+                                     GROUP BY tbltickets.ticketid
+                                     HAVING DATE_FORMAT(DATE_ADD(activity_date, INTERVAL +expose HOUR), "%Y-%m-%d") = CURDATE()
+                                     ORDER BY tbltickets.ticketid');
+                
+                $summary_data = $summary_result->result_array();
+                    
+            $summary['overdue_today'] = $summary_data;
+            
+        }
+        
+        $tasks_summary = $summary;
+    }
+   
+    return $tasks_summary;
+}
 /*** New Code For Overdue ticket count for EMS dashboard */
 function overdue_tickets_details($customer_id = null, $group_id = null,$departments_id = null,$province = null){
         $CI = &get_instance();

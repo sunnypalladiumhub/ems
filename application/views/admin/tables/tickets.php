@@ -132,7 +132,29 @@ if (!is_admin()) {
         }
     }
 }
-
+if($_POST['overdue_lsit'] == 'true'){
+    $where  = [];
+        $data = ticket_ems_dashboard_summary_data_ticket();
+        $overdue = array_column($data['overdue'], 'ticket_number');
+        $overdue_today = array_column($data['overdue_today'], 'ticket_number');
+        $data_id = implode(",",$overdue_today);
+        $ids_string = '12,13,15';
+        if($data_id != '' && $ids_string == ''){
+            $ids_string .= $data_id;
+        }elseif($data_id != ''){
+            $ids_string .= ','.$data_id;
+        }
+        $ids = implode(",",$overdue);
+        if($ids != '' && $ids_string == ''){
+            $ids_string .= $ids;
+        }elseif($ids != ''){
+            $ids_string .= ','.$ids;
+        }
+       
+        array_push($where, 'AND ticketid IN (' .$ids_string.')' );
+        
+        
+    }
 $sIndexColumn = 'ticketid';
 $sTable       = db_prefix() . 'tickets';
 
@@ -148,6 +170,7 @@ $rResult = $result['rResult'];
 
 foreach ($rResult as $aRow) {
     $row = [];
+    
     for ($i = 0; $i < count($aColumns); $i++) {
         
             if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
