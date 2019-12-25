@@ -218,5 +218,6 @@ define('ANSWERED',3);
 define('ON_HOLD',4);
 define('CLOSED',5);
 define('AFTER_CALL_WORK',6);
+define('PMD_COMAPANY',86);
 
 define('EMAIL_CHANNEL',2);

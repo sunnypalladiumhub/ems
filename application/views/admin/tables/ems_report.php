@@ -19,13 +19,16 @@ foreach ($table_field_list as $key=>$value){
 if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $assigned_name = 20;
     $onhold = 18;
+    $close_date = 17;
     
 }elseif($table_name == 'paycitySLA' || $table_name == 'trafic_road_safetySLA' || $table_name == 'networkSLA' || $table_name == 'full_reportSLA'){
     $assigned_name = 16;
         $onhold = 17;
+        $close_date = 16;
 }elseif($table_name == 'full_report'){
     $assigned_name = 21;
     $onhold = 18;
+    $close_date = 17;
 }
 if($table_name == 'network'|| $table_name == 'unassigned_companies' || $table_name == 'trafic_road_safety' || $table_name == 'paycity'){
     $response_hours = 7;
@@ -137,14 +140,18 @@ foreach ($rResult as $aRow) {
         }elseif ($i == $sub_parent_Category_col_number) {
              $_data = $aRow['sub_parent_name'];  
         }elseif ($i== $response_hours) {
-            
-            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'response',$aRow['response_hours']), 2).'%';
+            $responsce_percentage = get_response_percentage(($aRow['company_id'] > 0) ? $aRow['company_id'] : -1  ,$aRow['priority'],'response',$aRow['response_hours']);
+             
+            $_data = ($responsce_percentage > 0)?round($responsce_percentage, 4).'%':''; 
         }elseif ($i == $resolve_hours) {
             $hold =  get_on_hold_time($aRow['ticket_number']); 
-            $_data = round(get_response_percentage($aRow['company_id'],$aRow['priority'],'resolution',($aRow['resolve_hours'] - $hold)),2).'%'; 
+            $resolve_percentage = get_response_percentage(($aRow['company_id'] > 0) ? $aRow['company_id'] : -1,$aRow['priority'],'resolution',($aRow['resolve_hours'] - $hold));
+            $_data = ($resolve_percentage > 0)?round($resolve_percentage,4).'%':''; 
             
         }elseif($i == $assigned_name){
             $_data = $aRow['assigned_name'];  
+        }elseif ($i == $close_date) {
+            $_data = $aRow['close_date']; 
         }
         else{
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
@@ -157,10 +164,18 @@ foreach ($rResult as $aRow) {
             if($i == $onhold){
               $_data =  get_on_hold_time($aRow['ticket_number']); 
             }elseif ($i == $response_hours_cell) {
-                $_data = round($aRow['response_hours'], 2);
+                $_data = ($aRow['response_hours'] > 0)?round($aRow['response_hours'], 4) : '';
             }elseif ($i == $resolve_hours_cell) {
                 $hold =  get_on_hold_time($aRow['ticket_number']); 
-                $_data = round(($aRow['resolve_hours'] - $hold), 2);
+                if($aRow['status'] == 'Closed'){
+                    if($aRow['resolve_hours'] > $hold){
+                        $_data = round(($aRow['resolve_hours'] - $hold), 4);
+                    } else {
+                        $_data = round(($aRow['resolve_hours']), 4);
+                    }
+                } else {
+                    $_data = '';
+                }
             }
             else{
                 $_data = '';

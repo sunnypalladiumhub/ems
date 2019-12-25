@@ -676,9 +676,9 @@ function get_service_level_details($customer_id = null, $group_id = null,$depart
                         if($hold_time == ''){
                             $hold_time = 0;
                         }
-                        $response_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'response',$data_value->response_hours),2); 
+                        $response_hours_array[] = round(get_response_percentage(($data_value->company_id > 0) ? $data_value->company_id : -1,$data_value->priority,'response',$data_value->response_hours),2); 
                         
-                        $resolve_hours_array[] = round(get_response_percentage($data_value->company_id,$data_value->priority,'resolution',($data_value->resolve_hours - $hold_time)),2); 
+                        $resolve_hours_array[] = round(get_response_percentage(($data_value->company_id > 0) ? $data_value->company_id : -1,$data_value->priority,'resolution',($data_value->resolve_hours - $hold_time)),2); 
                     }
                 }
                 
