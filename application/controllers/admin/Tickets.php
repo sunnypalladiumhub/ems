@@ -947,7 +947,7 @@ class Tickets extends AdminController
             $this->db->where('ticketid', $id);
             $this->db->update(db_prefix().'tickets', [
                     'content' => '',
-                    //'status'=> $status
+                    'status'=> $status
             ]);
             
             set_alert('success', _l('ticket_sent_to_client_success'));
