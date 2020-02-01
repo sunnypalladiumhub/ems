@@ -9,6 +9,13 @@
   
   echo form_hidden('overdue_lsit',isset($_GET['overdue']) ? 'true' : 'false');
   echo form_hidden('my_tickets');
+  echo form_hidden('today');
+  echo form_hidden('this_week');
+  echo form_hidden('this_month');
+  echo form_hidden('ytd');
+  echo form_hidden('start_date');
+  echo form_hidden('end_date');
+  echo form_hidden('custome_date');
   if(is_admin()){
     $ticket_assignees = $this->tickets_model->get_tickets_assignes_disctinct();
     foreach($ticket_assignees as $assignee){

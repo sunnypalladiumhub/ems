@@ -921,6 +921,7 @@ class Tickets extends AdminController
             'message' => $message,
         ]);
     }
+    //this is new function for mail system to user
     public function send_to_email($id)
     {
         
@@ -935,10 +936,18 @@ class Tickets extends AdminController
             $data_ticket_replies['admin'] = is_admin();
             $this->db->insert(db_prefix() . 'ticket_replies', $data_ticket_replies);
             
-            
+            $this->db->select('status');
+            $this->db->where('ticketid', $id);
+            $old_ticket_status = $this->db->get(db_prefix() . 'tickets')->row()->status;
+            if($old_ticket_status == 5){
+                $status = 5;
+            }else{
+                $status = 1;
+            }
             $this->db->where('ticketid', $id);
             $this->db->update(db_prefix().'tickets', [
                     'content' => '',
+                    //'status'=> $status
             ]);
             
             set_alert('success', _l('ticket_sent_to_client_success'));
@@ -947,4 +956,5 @@ class Tickets extends AdminController
         }
         redirect(admin_url('tickets/ticket/' . $id.'?tab=mail'));
     }
+    //End of new function for mail system to user
 }

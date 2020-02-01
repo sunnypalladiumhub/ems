@@ -392,14 +392,16 @@ class Tickets_model extends App_Model
                 unset($data[$unset]);
             }
         }
-
+        //new code 
+       // $data['status'] = 1;
+        //end new code 
         if ($admin !== null) {
             $data['admin'] = $admin;
             $status        = $data['status'];
         } else {
             $status = 1;
         }
-
+        
         if (isset($data['status'])) {
             unset($data['status']);
         }
@@ -462,7 +464,10 @@ class Tickets_model extends App_Model
             $this->db->select('status');
             $this->db->where('ticketid', $id);
             $old_ticket_status = $this->db->get(db_prefix() . 'tickets')->row()->status;
-
+            
+//            if($old_ticket_status == 5){
+//                $status = 5;
+//            }
             /**
              * When a ticket is in status "In progress" and the customer reply to the ticket it changes the status to "Open" which is not normal.
              * The ticket should keep the status "In progress"

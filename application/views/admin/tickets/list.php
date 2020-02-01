@@ -25,6 +25,7 @@
                   <a href="" data-cview="my_tickets" onclick="dt_custom_view('my_tickets','.tickets-table','my_tickets'); return false;"><?php echo _l('my_tickets_assigned'); ?></a>
                 </li>
                 <li class="divider"></li>
+                
                 <?php foreach($statuses as $status){ ?>
                 <li class="<?php if($status['ticketstatusid'] == $chosen_ticket_status || $chosen_ticket_status == '' && in_array($status['ticketstatusid'], $default_tickets_list_statuses)){echo 'active';} ?>">
                   <a href="#" data-cview="ticket_status_<?php echo $status['ticketstatusid']; ?>" onclick="dt_custom_view('ticket_status_<?php echo $status['ticketstatusid']; ?>','.tickets-table','ticket_status_<?php echo $status['ticketstatusid']; ?>'); return false;">
@@ -32,6 +33,44 @@
                   </a>
                 </li>
                 <?php } ?>
+                <div class="clearfix"></div>
+                <li class="divider"></li>
+                <li>
+                  <a href="#" data-cview="today" onclick="dt_custom_view('today','.tickets-table','today'); return false;">Today</a>
+                </li>
+                <li>
+                  <a href="#" data-cview="this_week" onclick="dt_custom_view('this_week','.tickets-table','this_week'); return false;">This week</a>
+                </li>
+                <li>
+                  <a href="#" data-cview="this_month" onclick="dt_custom_view('this_month','.tickets-table','this_month'); return false;">This month</a>
+                </li>
+                <li>
+                  <a href="#" data-cview="ytd" onclick="dt_custom_view('ytd','.tickets-table','ytd'); return false;">YTD</a>
+                </li>
+                <li class="dropdown-submenu pull-left">
+                 <a href="#" tabindex="-1">Custom dates</a>
+                 <ul class="dropdown-menu dropdown-menu-left">
+                  <li>
+                      <div class="input-group date">
+                          <input type="text" id="start_date" name="start_date" data-cview="start_date" placeholder="start date"  class="form-control datepicker" value="<?php echo isset($_POST['start_date']) ? $_POST['start_date'] : '' ?>" autocomplete="off" aria-invalid="false">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar calendar-icon"></i>
+                        </div>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-group date">
+                          <input type="text" id="end_date" name="end_date" data-cview="end_date"  placeholder="end date" class="form-control datepicker" value="" autocomplete="off" aria-invalid="false"><div class="input-group-addon">
+                            <i class="fa fa-calendar calendar-icon"></i>
+                        </div>
+                      </div>
+                  </li>
+                  <li>
+                      <input type="submit" data-cview="custome_date" onclick="dt_custom_view('custome_date' ,'.tickets-table','custome_date'); return false;" class="btn btn-success" value="search">
+                  </li>
+                  
+                </ul>
+              </li>
                 <?php if(count($ticket_assignees) > 0 && is_admin()){ ?>
                 <div class="clearfix"></div>
                 <li class="divider"></li>

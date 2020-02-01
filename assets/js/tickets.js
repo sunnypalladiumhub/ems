@@ -82,7 +82,7 @@ $(function() {
             $settingsArea.find('input[name="subject"]').parents('.form-group').removeClass('has-error');
         }
 
-        var selectRequired = ['department', 'priority'];
+        var selectRequired = ['department', 'priority','group_id','company_id','service','sub_category'];
 
         if ($('#contactid').data('no-contact') != true) {
             selectRequired.push('contactid');
