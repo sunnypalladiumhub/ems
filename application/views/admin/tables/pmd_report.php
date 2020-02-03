@@ -37,6 +37,23 @@ $join = [
 
 
 $where  = [];
+if ($this->ci->input->post('custome_date')) {
+    array_push($where, 'AND tbltickets.date BETWEEN "' .date("Y-m-d", strtotime($this->ci->input->post('start_date'))) .'" AND "'.date("Y-m-d", strtotime($this->ci->input->post('end_date'))).'"'  );
+}
+elseif ($this->ci->input->post('ytd')) {
+    array_push($where, 'AND YEAR(tbltickets.date) = YEAR(CURRENT_DATE())'  );
+}
+elseif ($this->ci->input->post('this_month')) {
+    array_push($where, 'AND (MONTH(tbltickets.date) = MONTH(CURRENT_DATE())
+                        AND YEAR(tbltickets.date) = YEAR(CURRENT_DATE()))'  );
+}
+elseif ($this->ci->input->post('this_week')) {
+    array_push($where, 'AND YEARWEEK(tbltickets.date,1) = YEARWEEK(CURRENT_DATE(),1)');
+}
+elseif ($this->ci->input->post('today')) {
+    array_push($where, 'AND DATE(tbltickets.date) = CURRENT_DATE()');
+}
+
 if(!empty($_POST['comapany'])){
     array_push($where, 'AND ' . db_prefix() . 'tickets.company_id = '. $_POST['comapany']  . '');
 }

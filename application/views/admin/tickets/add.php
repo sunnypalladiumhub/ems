@@ -71,7 +71,8 @@
                                 <!-- Start new Code For Category and sub category -->                                
                                 <div id="service_div">
                                     <div class="select-placeholder form-group" app-field-wrapper="company_id">
-                                        <label for="service" class="control-label">Category</label>
+                                        <label for="service" class="control-label">
+                                            <small class="req text-danger">* </small>Category</label>
                                         <select id="service" name="service" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
                                             <option value=""></option>
                                         </select>
@@ -79,7 +80,8 @@
                                 </div>
                                 <div id="sub_service_div">
                                     <div class="select-placeholder form-group" app-field-wrapper="company_id">
-                                        <label for="sub_category" class="control-label"><?php echo _l('tickets_sub_category_name'); ?></label>
+                                        <label for="sub_category" class="control-label">
+                                            <small class="req text-danger">* </small><?php echo _l('tickets_sub_category_name'); ?></label>
                                         <select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
                                             <option value=""></option>
                                         </select>

@@ -156,7 +156,14 @@ function app_init_admin_sidebar_menu_items() {
             'position' => 50,
         ]);
     }
-
+if (is_manager()) {
+    $CI->app_menu->add_sidebar_menu_item('announcements', [
+            'name' => _l('als_announcements_submenu'),
+            'href' => admin_url('announcements'),
+            'icon' => 'fa fa-cogs',
+            'position' => 51,
+        ]);
+}
     // Utilities
     $CI->app_menu->add_sidebar_menu_item('utilities', [
         'collapse' => true,
@@ -194,12 +201,7 @@ function app_init_admin_sidebar_menu_items() {
             'href' => admin_url('tickets/services'),
             'position' => 16,
         ]);
-        $CI->app_menu->add_sidebar_children_item('utilities', [
-            'slug' => 'announcements',
-            'name' => _l('als_announcements_submenu'),
-            'href' => admin_url('announcements'),
-            'position' => 20,
-        ]);
+        
     }
 
     if (is_admin()) {

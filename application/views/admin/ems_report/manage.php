@@ -23,14 +23,6 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right width300">
                                         <li>
-                                            <a href="#" data-cview="all" onclick="dt_custom_view('', '.table-<?php echo $table; ?>', ''); return false;">
-                                                <?php echo _l('task_list_all'); ?>
-                                            </a>
-                                        </li>
-
-                                        <div class="clearfix"></div>
-                                        <li class="divider"></li>
-                                        <li>
                                             <a href="#" data-cview="today" onclick="dt_custom_view('today', '.table-<?php echo $table; ?>', 'today'); return false;">Today</a>
                                         </li>
                                         <li>
@@ -82,6 +74,7 @@
                         <div class="_hidden_inputs _filters <?php echo '_' . $table . '_filters'; ?>">
                             <?php
                             echo form_hidden('table', $table);
+                            echo form_hidden('all');
                             echo form_hidden('today');
   echo form_hidden('this_week');
   echo form_hidden('this_month');

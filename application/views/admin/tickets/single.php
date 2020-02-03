@@ -310,8 +310,8 @@
                   <hr class="no-mtop" />
                   <div class="row">
                      <div class="col-md-6">
-                         <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department); ?>
-                         <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type',$ticket->group_id ); ?>
+                         <?php echo render_select('department',$departments,array('departmentid','name'),'ticket_settings_departments',$ticket->department, array('required' => 'true')); ?>
+                         <?php echo render_select('group_id', $company_groups, array('id', 'name'), 'ticket_drp_grp_type',$ticket->group_id, array('required' => 'true') ); ?>
                          <div id="company_id_div">
                              <?php echo render_select('company_id', $company_name, array('userid', 'company'), 'ticket_drp_company_name', $ticket->company_id); ?>
                          </div>
@@ -353,14 +353,14 @@
                        <div id="service_div">
                     <?php
                     if(is_admin() || get_option('staff_members_create_inline_ticket_services') == '1'){
-                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category', isset($service_detals->service_id) ? $service_detals->service_id : '');
+                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category', isset($service_detals->service_id) ? $service_detals->service_id : '',array('required' => 'true'));
                      } else {
-                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$service_detals->service_id);
+                        echo render_select('service',$services,array('serviceid','name'),'ticket_settings_category',$service_detals->service_id,array('required' => 'true'));
                      }
                     ?>
                            </div>
                        <div id="sub_service_div">
-                           <?php echo render_select('sub_category',$sub_category,array('serviceid','name'),'tickets_sub_category_name', isset($service_detals->sub_category) ? $service_detals->sub_category : ''); ?>
+                           <?php echo render_select('sub_category',$sub_category,array('serviceid','name'),'tickets_sub_category_name', isset($service_detals->sub_category) ? $service_detals->sub_category : '',array('required' => 'true')); ?>
                        </div>
                        <!-- Start new code for service and sub service list -->
                        <!-- Start new code for Meter number -->

@@ -303,6 +303,10 @@ function render_select($name, $options, $option_attrs = [], $label = '', $select
         }
         $_select_attrs .= $key . '=' . '"' . $val . '" ';
     }
+    $strinf_required = '';
+   if(isset($select_attrs['required']) && $select_attrs['required']== true){
+        $strinf_required = '<small class="req text-danger">* </small>';
+    }
 
     $_select_attrs = rtrim($_select_attrs);
 
@@ -323,7 +327,7 @@ function render_select($name, $options, $option_attrs = [], $label = '', $select
     }
     $select .= '<div class="select-placeholder form-group' . $form_group_class . '" ' . $_form_group_attr . '>';
     if ($label != '') {
-        $select .= '<label for="' . $name . '" class="control-label">' . _l($label, '', false) . '</label>';
+        $select .= '<label for="' . $name . '" class="control-label">'.$strinf_required . _l($label, '', false) . '</label>';
     }
     $select .= '<select id="' . $name . '" name="' . $name . '" class="selectpicker' . $select_class . '" ' . $_select_attrs . ' data-live-search="true">';
     if ($include_blank == true) {
