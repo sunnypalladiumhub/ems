@@ -940,8 +940,6 @@ class Tickets extends AdminController
             $this->db->where('ticketid', $id);
             $old_ticket_status = $this->db->get(db_prefix() . 'tickets')->row()->status;
             if($old_ticket_status == 5){
-                $status = 5;
-            }else{
                 $status = 1;
             }
             $this->db->where('ticketid', $id);
