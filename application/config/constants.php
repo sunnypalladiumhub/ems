@@ -219,5 +219,8 @@ define('ON_HOLD',4);
 define('CLOSED',5);
 define('AFTER_CALL_WORK',6);
 define('PMD_COMAPANY',86);
-
 define('EMAIL_CHANNEL',2);
+
+define('RECHARGER_CUSTOMER',320);
+define('RECHARGER_DEPARTMENT',7);
+define('RECHARGER_PORTAL','Portal');

@@ -29,6 +29,12 @@
                   </div>
                   <?php } ?>
                   <div class="row">
+                      <?php
+                      if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+                        <input type="hidden" value="<?php echo RECHARGER_DEPARTMENT ?>" id="department" name="department">
+                          <?php 
+                      }else{
+                      ?>
                      <div class="col-md-6">
                         <div class="form-group open-ticket-department-group">
                            <label for="department"><?php echo _l('clients_ticket_open_departments'); ?></label>
@@ -43,6 +49,7 @@
                            <?php echo form_error('department'); ?>
                         </div>
                      </div>
+                      <?php } ?>
                      <div class="col-md-6">
                         <div class="form-group open-ticket-priority-group">
                            <label for="priority"><?php echo _l('clients_ticket_open_priority'); ?></label>
@@ -58,18 +65,25 @@
                         </div>
                      </div>
                   </div>
-                  <?php
-                  if(get_option('services') == 1 && count($services) > 0){ ?>
-                  <div class="form-group open-ticket-service-group">
-                     <label for="service"><?php echo _l('clients_ticket_open_service'); ?></label>
-                     <select data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" name="service" id="service" class="form-control selectpicker">
-                        <option value=""></option>
-                        <?php foreach($services as $service){ ?>
-                        <option value="<?php echo $service['serviceid']; ?>" <?php echo set_select('service',$service['serviceid'],(count($services) == 1 ? true : false)); ?>><?php echo $service['name']; ?></option>
+                   <?php
+                      if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+                        <input type="hidden" value="<?php echo RECHARGER_DEPARTMENT ?>" id="service" name="service">
+                          <?php 
+                      }else{
+                      ?>
+                        <?php
+                        if(get_option('services') == 1 && count($services) > 0){ ?>
+                        <div class="form-group open-ticket-service-group">
+                           <label for="service"><?php echo _l('clients_ticket_open_service'); ?></label>
+                           <select data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" name="service" id="service" class="form-control selectpicker">
+                              <option value=""></option>
+                              <?php foreach($services as $service){ ?>
+                              <option value="<?php echo $service['serviceid']; ?>" <?php echo set_select('service',$service['serviceid'],(count($services) == 1 ? true : false)); ?>><?php echo $service['name']; ?></option>
+                              <?php } ?>
+                           </select>
+                        </div>
                         <?php } ?>
-                     </select>
-                  </div>
-                  <?php } ?>
+                      <?php } ?>
                   <div class="custom-fields">
                      <?php echo render_custom_fields('tickets','',array('show_on_client_portal'=>1)); ?>
                   </div>
@@ -110,3 +124,16 @@
    </div>
 </div>
 <?php echo form_close(); ?>
+<?php 
+if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+<script>
+   $(function(){
+      var channel_type = $('select[name="custom_fields[tickets][2]"]');
+      channel_type.val('<?php echo RECHARGER_PORTAL ?>');
+      channel_type.selectpicker('refresh');
+      $('select[name="custom_fields[tickets][2]"]').parent().parent('.form-group').css('display','none');
+     });
+</script>
+<?php 
+} ?>
+
