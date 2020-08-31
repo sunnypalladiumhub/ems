@@ -79,6 +79,9 @@
                            <th><?php echo _l('task_status'); ?></th>
                            <th><?php echo _l('tasks_total_added_attachments'); ?></th>
                            <th><?php echo _l('tasks_total_comments'); ?></th>
+                           <th><?php echo _l('tasks_total_root_cause'); ?></th>
+                           <th><?php echo _l('tasks_total_corrective_action'); ?></th>
+                           <th><?php echo _l('tasks_total_preventive_action'); ?></th>
                            <th><?php echo _l('task_checklist_items'); ?></th>
                            <th><?php echo _l('staff_stats_total_logged_time'); ?></th>
                            <th><?php echo _l('task_finished_on_time'); ?></th>
@@ -119,6 +122,42 @@
                                     echo $task['total_comments'];
                                  } else {
                                     echo $task['total_comments_staff'] . '/' . $task['total_comments'];
+                                 }
+                              ?>
+                              </span>
+                           </td>
+                           <td data-order="<?php echo $task['total_root_cause']; ?>">
+                              <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_root_cause'); ?>">
+                              <i class="fa fa-comments"></i>
+                               <?php
+                                 if(!is_numeric($staff_id)) {
+                                    echo $task['total_root_cause'];
+                                 } else {
+                                    echo $task['total_root_cause_staff'] . '/' . $task['total_root_cause'];
+                                 }
+                              ?>
+                              </span>
+                           </td>
+                           <td data-order="<?php echo $task['total_corrective_action']; ?>">
+                              <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_corrective_action'); ?>">
+                              <i class="fa fa-comments"></i>
+                               <?php
+                                 if(!is_numeric($staff_id)) {
+                                    echo $task['total_corrective_action'];
+                                 } else {
+                                    echo $task['total_corrective_action_staff'] . '/' . $task['total_corrective_action'];
+                                 }
+                              ?>
+                              </span>
+                           </td>
+                           <td data-order="<?php echo $task['total_preventive_action']; ?>">
+                              <span class="label label-default-light" data-toggle="tooltip" data-title="<?php echo _l('tasks_total_preventive_action'); ?>">
+                              <i class="fa fa-comments"></i>
+                               <?php
+                                 if(!is_numeric($staff_id)) {
+                                    echo $task['total_preventive_action'];
+                                 } else {
+                                    echo $task['total_preventive_action_staff'] . '/' . $task['total_preventive_action'];
                                  }
                               ?>
                               </span>

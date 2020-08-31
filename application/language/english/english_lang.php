@@ -3742,3 +3742,15 @@ $lang['receive_notification_to_user_on_new_ticket_help'] = 'auto send email to c
 
 $lang['allow_non_admin_staff_to_delete_ticket']     = 'Allow non-admin staff members to delete ticket';
 /**********************************************/
+$lang['task_root_cause']     = 'Root cause';
+$lang['task_corrective_action']     = 'Corrective Action';
+$lang['task_preventive_action']     = 'Preventive Action';
+$lang['task_single_add_new_root_cause']        = 'Add Root Cause';
+$lang['task_root_cause_updated']   = 'Root Cause updated';
+$lang['task_single_add_new_corrective_action']        = 'Add Corrective Action';
+$lang['task_corrective_action_updated']   = 'Corrective Action updated';
+$lang['task_single_add_new_preventive_action']        = 'Add Preventive Action';
+$lang['task_preventive_action_updated']   = 'Preventive Action updated';
+$lang['tasks_total_root_cause']                = 'Total Root Cause';
+$lang['tasks_total_corrective_action']                = 'Total Corrective Action';
+$lang['tasks_total_preventive_action']                = 'Total Preventive Action';
