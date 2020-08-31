@@ -1001,6 +1001,7 @@ class Tasks extends AdminController {
         if ($this->tasks_model->is_task_assignee(get_staff_user_id(), $id) || $this->tasks_model->is_task_creator(get_staff_user_id(), $id) || has_permission('tasks', '', 'edit')) {
 
             $success = false;
+            $message = '';
             if ($status == Tasks_model::STATUS_COMPLETE) {
                 $this->db->where('taskid', $id);
                 $rootCause = $this->db->count_all_results(db_prefix() . 'task_root_cause');
@@ -1013,6 +1014,8 @@ class Tasks extends AdminController {
 
                 if ($rootCause > 0 && $corrective > 0 && $preventive > 0) {
                     $success = $this->tasks_model->mark_as($status, $id);
+                } else {
+                    $message = _l('tasks_mark_as_complete_failed');
                 }
             } else {
                 $success = $this->tasks_model->mark_as($status, $id);
@@ -1020,8 +1023,6 @@ class Tasks extends AdminController {
 
             // Don't do this query if the action is not performed via task single
             $taskHtml = $this->input->get('single_task') === 'true' ? $this->get_task_data($id, true) : '';
-
-            $message = '';
 
             if ($success) {
                 $message = _l('task_marked_as_success', format_task_status($status, true, true));

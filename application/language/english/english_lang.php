@@ -3754,3 +3754,4 @@ $lang['task_preventive_action_updated']   = 'Preventive Action updated';
 $lang['tasks_total_root_cause']                = 'Total Root Cause';
 $lang['tasks_total_corrective_action']                = 'Total Corrective Action';
 $lang['tasks_total_preventive_action']                = 'Total Preventive Action';
+$lang['tasks_mark_as_complete_failed']                = 'Atleast One Root cause,Corrective action and Preventive action required.';
