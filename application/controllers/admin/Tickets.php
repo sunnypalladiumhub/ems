@@ -218,7 +218,22 @@ class Tickets extends AdminController
                 $returnToTicketList = true;
                 unset($data['ticket_add_response_and_back_to_list']);
             }
-
+            if (isset($data['ticket_send_sms'])) {
+                $returnToTicketList = true;
+                $mobile_number = $data['ticket_user_mobile_number'];
+                unset($data['ticket_user_mobile_number']);
+                $response = hooks()->do_action('admin_init_sms');
+                if($response){
+                    $activity = array(
+                        'description'=>'Ticket SMS replay to customer ticket [ID:'.$data['ticketid'].', Number : '.$mobile_number.', Message : '.$data['message'].' ]',
+                        'date' => date('Y-m-d H:i:s'),
+                        'staffid' => get_staff_full_name()
+                    );
+                      $this->db->insert(db_prefix() . 'activity_log',$activity);
+                }
+            }
+            unset($data['ticket_user_mobile_number']);
+            
             $data['message'] = $this->input->post('message', false);
             $replyid         = $this->tickets_model->add_reply($data, $id, get_staff_user_id());
 

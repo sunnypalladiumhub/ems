@@ -429,7 +429,10 @@ class Tickets_model extends App_Model
         if (!isset($data['userid'])) {
             $data['userid'] = 0;
         }
-
+        if(isset($data['ticket_send_sms'])){
+          $data['is_sent_sms'] = 1;
+          unset($data['ticket_send_sms']);
+        }
         /*  if (is_client_logged_in()) {
                     $data['contactid'] = get_contact_user_id();
                 }
@@ -675,7 +678,7 @@ class Tickets_model extends App_Model
         // backward compatibility for the action hook
         $ticket_replies_order = hooks()->apply_filters('ticket_replies_order', $ticket_replies_order);
 
-        $this->db->select(db_prefix().'ticket_replies.id,'.db_prefix().'ticket_replies.name as from_name,'.db_prefix().'ticket_replies.email as reply_email, '.db_prefix().'ticket_replies.admin, '.db_prefix().'ticket_replies.userid,'.db_prefix().'staff.firstname as staff_firstname, '.db_prefix().'staff.lastname as staff_lastname,'.db_prefix().'contacts.firstname as user_firstname,'.db_prefix().'contacts.lastname as user_lastname,message,date,contactid');
+        $this->db->select(db_prefix().'ticket_replies.id,'.db_prefix().'ticket_replies.is_sent_sms as is_sent_sms,'.db_prefix().'ticket_replies.name as from_name,'.db_prefix().'ticket_replies.email as reply_email, '.db_prefix().'ticket_replies.admin, '.db_prefix().'ticket_replies.userid,'.db_prefix().'staff.firstname as staff_firstname, '.db_prefix().'staff.lastname as staff_lastname,'.db_prefix().'contacts.firstname as user_firstname,'.db_prefix().'contacts.lastname as user_lastname,message,date,contactid');
         $this->db->from(db_prefix() . 'ticket_replies');
         $this->db->join(db_prefix() . 'clients', db_prefix().'clients.userid = '.db_prefix().'ticket_replies.userid', 'left');
         $this->db->join(db_prefix() . 'staff', db_prefix().'staff.staffid = '.db_prefix().'ticket_replies.admin', 'left');

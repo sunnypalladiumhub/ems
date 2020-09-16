@@ -27,6 +27,32 @@ function maybe_test_sms_gateway()
     }
 }
 
+
+hooks()->add_action('admin_init_sms', 'sms_send_hook');
+
+function sms_send_hook()
+{
+    $CI = &get_instance();
+    if (is_staff_logged_in() && $CI->input->post('ticket_send_sms')) {
+
+        $retval = $CI->{'sms_smsportal'}->send(
+            $CI->input->post('ticket_user_mobile_number'),
+            clear_textarea_breaks(nl2br($CI->input->post('message')))
+        );
+
+        $response = ['success' => false];
+
+        if (isset($GLOBALS['sms_error'])) {
+            $response['error'] = $GLOBALS['sms_error'];
+        } else {
+            $response['success'] = true;
+        }
+        return $response['success'];
+//        echo json_encode($response);
+//        die;
+    }
+}
+
 hooks()->add_action('admin_init', '_maybe_sms_gateways_settings_group');
 
 function _maybe_sms_gateways_settings_group($groups)

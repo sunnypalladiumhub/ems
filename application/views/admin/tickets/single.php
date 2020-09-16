@@ -238,6 +238,30 @@
                            </button>
                         </div>
                         <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <input type="checkbox"  name="ticket_send_sms" value="1" id="ticket_send_sms">
+                                        <label for="ticket_add_response_and_back_to_list">Send SMS</label>
+                                    </div>
+                                </div>
+                                <div class="show_sms_div" style="display: none;">
+                                <div class="col-md-2">
+                                    <div class="form-group" app-field-wrapper="ticket_charecter_count">
+                                        <label for="cc" class="control-label">Count</label>
+                                        <input type="text" id="ticket_charecter_count" class="form-control" readonly>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" app-field-wrapper="ticket_charecter_count">
+                                        <label for="cc" class="control-label">Mobile number</label>
+                                        <input type="text" id="ticket_user_mobile_number" name="ticket_user_mobile_number" class="form-control" value="<?php echo isset($ticket->mobile) ? $ticket->mobile : '' ?>" onkeypress="return isNumberKey(event)">
+                                    </div>
+                                    
+                                </div>
+                                    </div>
+                            </div>
                            <div class="row">
                               <div class="col-md-5">
                                  <?php echo render_select('status',$statuses,array('ticketstatusid','name'),'ticket_single_change_status',get_option('default_ticket_reply_status'),array(),array(),'','',false); ?>
@@ -1025,6 +1049,7 @@
              } else {  ?>
                <a href="<?php echo admin_url('profile/'.$ticket->admin); ?>"><?php echo $ticket->opened_by; ?></a>
             <?php } ?>
+
          </p>
          <p class="text-muted">
             <?php if($ticket->admin !== NULL || $ticket->admin != 0){
@@ -1103,6 +1128,8 @@
                   <?php }  else { ?>
                      <a href="<?php echo admin_url('profile/'.$reply['admin']); ?>"><?php echo $reply['submitter']; ?></a>
                   <?php } ?>
+                                    
+               
                </p>
                <p class="text-muted">
                   <?php if($reply['admin'] !== NULL || $reply['admin'] != 0){
@@ -1114,7 +1141,15 @@
                 }
                 ?>
              </p>
+             <p>
+                 <?php
+               if($reply['is_sent_sms']){
+               ?>
+               <span>Sent SMS</span>
+               <?php } ?>
+             </p>
              <hr />
+             
              <a href="<?php echo admin_url('tickets/delete_ticket_reply/'.$ticket->ticketid .'/'.$reply['id']); ?>" class="btn btn-danger pull-left _delete mright5 btn-xs"><?php echo _l('delete_ticket_reply'); ?></a>
              <div class="clearfix"></div>
              <?php if(has_permission('tasks','','create')){ ?>
@@ -1216,8 +1251,31 @@
 <?php init_tail(); ?>
 <?php hooks()->do_action('ticket_admin_single_page_loaded',$ticket); ?>
 <script>
+    
    $(function(){
+   $('#ticket_send_sms').on('change',function (){
+        if($(this).prop("checked") == true){
+            var message = tinymce.get('message').getContent().length;
+            $('.show_sms_div').show();
+            
+            $('#ticket_charecter_count').val(message);
+        }
+
+      else if($(this).prop("checked") == false){
+            $('.show_sms_div').hide();
+      }
       
+   });
+   
+    tinymce.activeEditor.on('keyup', function () {
+        
+        if($('#ticket_send_sms').prop("checked") == true){
+            var message = tinymce.get('message').getContent().length;
+            $('#ticket_charecter_count').val(message);
+        }
+    });
+      
+
 tinymce.init({
   selector: 'div.editable ',
   height: 200,
@@ -1225,7 +1283,7 @@ tinymce.init({
   plugins: [
     'advlist autolink lists link image charmap print preview anchor',
     'searchreplace visualblocks code fullscreen',
-    'insertdatetime media table paste code help wordcount',
+    'insertdatetime media table paste code help wordcount ',
     'table'
   ],
   toolbar: 'undo redo | formatselect | ' +
@@ -1242,13 +1300,18 @@ tinymce.init({
           editor.addCommand('mceSave', function () {
              save_contract_content(true);
           });
-
+          editor.on('change', function (e) {
+                var length = editor.contentDocument.body.innerText.length;
+            });
           editor.on('MouseLeave blur', function () {
+              
              if (tinymce.activeEditor.isDirty()) {
                 save_contract_content();
              }
           });
-        }
+         
+        },
+ 
 });
 
      var department_name = '<?php echo $ticket->department; ?>';
