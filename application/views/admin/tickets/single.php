@@ -1256,6 +1256,11 @@
    $('#ticket_send_sms').on('change',function (){
         if($(this).prop("checked") == true){
             var message = tinymce.get('message').getContent().length;
+            if(message > 160){
+                $('#ticket_charecter_count').css('border','2px solid red');
+            }else{
+                  $("#ticket_charecter_count").removeAttr("style");
+            }
             $('.show_sms_div').show();
             
             $('#ticket_charecter_count').val(message);
@@ -1271,6 +1276,11 @@
         
         if($('#ticket_send_sms').prop("checked") == true){
             var message = tinymce.get('message').getContent().length;
+            if(message > 160){
+                $('#ticket_charecter_count').css('border','2px solid red');
+            }else{
+                  $("#ticket_charecter_count").removeAttr("style");
+            }
             $('#ticket_charecter_count').val(message);
         }
     });
