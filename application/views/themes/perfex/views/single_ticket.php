@@ -77,6 +77,12 @@
                                     <p>
                                         <?php echo _l('service') . ': <span class="pull-right bold">'.$ticket->service_name.'</span>'; ?>
                                     </p>
+                                    <?php if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+                                    <hr class="hr-10" />
+                                    <p>
+                                        <?php echo 'Sub category' . ': <span class="pull-right bold">'.$service_detals->sub_category_name.'</span>'; ?>
+                                    </p>
+                                    <?php } ?>
                                 <?php } ?>
                                 <?php
                                 $custom_fields = get_custom_fields('tickets',array('show_on_client_portal'=>1));

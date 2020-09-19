@@ -67,7 +67,32 @@
                   </div>
                    <?php
                       if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
-                        <input type="hidden" value="<?php echo RECHARGER_DEPARTMENT ?>" id="service" name="service">
+                        <!--<input type="hidden" value="<?php //echo RECHARGER_DEPARTMENT ?>" id="service" name="service">-->
+                   <div class="row">
+                   <div class="col-md-6">
+                        <div id="service_div">
+                                    <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                        <label for="service" class="control-label">
+                                            <small class="req text-danger">* </small>Category</label>
+                                        <select id="service" name="service" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>                                      
+                                </div>
+                   </div>
+                   <div class="col-md-6">
+                       <div id="sub_service_div">
+                                    <div class="select-placeholder form-group" app-field-wrapper="company_id">
+                                        <label for="sub_category" class="control-label">
+                                            <small class="req text-danger">* </small><?php echo _l('tickets_sub_category_name'); ?></label>
+                                        <select id="sub_category" name="sub_category" class="selectpicker" required="true" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>                                      
+                                </div>
+                   </div>
+                       </div>
+                                
                           <?php 
                       }else{
                       ?>
@@ -132,7 +157,46 @@ if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
       channel_type.val('<?php echo RECHARGER_PORTAL ?>');
       channel_type.selectpicker('refresh');
       $('select[name="custom_fields[tickets][2]"]').parent().parent('.form-group').css('display','none');
+      
+      get_category(<?php echo RECHARGER_DEPARTMENT; ?>);
+      
      });
+     function get_category(department_id){
+      $.ajax({
+                url: site_url + 'clients/get_category_list_by_department',
+                type: 'POST',
+                data: {department_id: department_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#service_div').html(data.result);
+                        var group = $('select#service');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });   
+     }
+     $('body').on('change','#service',function (){
+            var service_id = $(this).val();
+            
+            $.ajax({
+                url: site_url + 'clients/get_sub_category_by_service_id',
+                type: 'POST',
+                data: {service_id: service_id},
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    if (data.status == 1) {
+                        $('#sub_service_div').html(data.result);
+                        var group = $('select#sub_category');
+                        group.selectpicker('refresh');
+                    }
+                }
+
+            });
+
+        
+        });
 </script>
 <?php 
 } ?>

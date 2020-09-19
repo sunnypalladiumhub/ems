@@ -3,8 +3,6 @@
   <thead>
     <th width="10%" class="th-ticket-number"><?php echo _l('clients_tickets_dt_number'); ?></th>
     <th class="th-ticket-subject"><?php echo _l('clients_tickets_dt_subject'); ?></th>
-    <th class="th-ticket-subject"><?php echo _l('clients_tickets_dt_product'); ?></th>
-    <th class="th-ticket-subject"><?php echo _l('clients_tickets_serial_number'); ?></th>
     <?php if($show_submitter_on_table) { ?>
       <th class="th-ticket-submitter"><?php echo _l('ticket_dt_submitter'); ?></th>
     <?php } ?>
@@ -34,12 +32,6 @@
           <a href="<?php echo site_url('clients/ticket/'.$ticket['ticketid']); ?>">
             <?php echo $ticket['subject']; ?>
           </a>
-        </td>
-        <td>
-            <?php echo $ticket['product_name']; ?>
-        </td>
-        <td>
-            <?php echo $ticket['serial_number']; ?>
         </td>
         <?php if($show_submitter_on_table) { ?>
           <td>

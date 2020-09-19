@@ -1759,7 +1759,7 @@ class Tickets_model extends App_Model
     
     /*** Start New Code For service Details by id  */
     public function get_service_details_by_id($service_id){
-        $this->db->select("IF(parentid > 0 , parentid,serviceid) as service_id, IF(parentid > 0 , serviceid,'') as sub_category");
+        $this->db->select("IF(parentid > 0 , parentid,serviceid) as service_id, IF(parentid > 0 , serviceid,'') as sub_category, IF(parentid > 0 , name,'') as sub_category_name");
         $this->db->from(db_prefix() . 'services');
         $this->db->where('serviceid',$service_id);
         $q = $this->db->get();

@@ -692,6 +692,8 @@ class Clients extends ClientsController
         }
 
         $data['ticket'] = $this->tickets_model->get_ticket_by_id($id, get_client_user_id());
+        $data['service_detals']     = $this->tickets_model->get_service_details_by_id($data['ticket']->serviceid);
+        
         if (!$data['ticket'] || $data['ticket']->userid != get_client_user_id()) {
             show_404();
         }
@@ -1448,4 +1450,32 @@ class Clients extends ClientsController
     {
         return total_rows(db_prefix() . 'contacts', 'id !=' . get_contact_user_id() . ' AND email="' . $email . '"') > 0 ? false : true;
     }
+    
+    /* Start new code  category list by department */
+    public function get_category_list_by_department(){
+        if ($this->input->post()) {
+            $services  = $this->tickets_model->get_service_by_department_id($this->input->post('department_id'));
+            if($this->input->post('service')){
+                $dropdown = render_select('parentid', $services, array('serviceid', 'name'), 'ticket_settings_category', '', '');
+            }else{
+            $dropdown = render_select('service', $services, array('serviceid', 'name'), 'ticket_settings_category', '');
+            }
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
+    /* End new code  category list by department */
+    
+    /* Start new code for sub category by parent category */
+    public function get_sub_category_by_service_id(){
+        if ($this->input->post()) {
+            $sub_category  = $this->tickets_model->get_sub_category_by_service_id($this->input->post('service_id'));
+            $dropdown = render_select('sub_category', $sub_category, array('serviceid', 'name'), 'tickets_sub_category_name', (count($sub_category) == 1) ? $sub_category[0]['serviceid'] : '');
+            $data['status']=1;
+            $data['result'] = $dropdown;
+        }
+        echo json_encode($data);
+    }
+    /* End new code for sub category by parent category */
 }
