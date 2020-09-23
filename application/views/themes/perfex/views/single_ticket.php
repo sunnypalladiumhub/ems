@@ -84,6 +84,26 @@
                                     </p>
                                     <?php } ?>
                                 <?php } ?>
+                                    <hr class="hr-10" />
+                                    <p>
+                                        <?php echo _l('ticket_form_message') . ': <span class="pull-right bold">'.$ticket->description.'</span>'; ?>
+                                    </p>
+                                    <hr class="hr-10" />
+                                    <?php if($ticket->meter_number > 0 && !empty($ticket->meter_number)){ ?>
+                                    <p>
+                                        <?php echo _l('ticket_meter_number') . ': <span class="pull-right bold">'.ticket_meter_number_name($ticket->meter_number).'</span>'; ?>
+                                    </p>
+                                        <?php
+                                    }else{ ?>
+                                    <p>
+                                        <?php echo _l('notice_number_ticket') . ': <span class="pull-right bold">'.$ticket->notice_number.'</span>'; ?>
+                                    </p>
+                                        <?php 
+                                    } ?>
+                                    <hr class="hr-10" />
+                                    <p>
+                                        <?php echo _l('ticket_drp_channel_type'). ': <span class="pull-right bold">'.ticket_channel_type_name($ticket->channel_type_id).'</span>'; ?>
+                                    </p>
                                 <?php
                                 $custom_fields = get_custom_fields('tickets',array('show_on_client_portal'=>1));
                                 foreach($custom_fields as $field){
@@ -92,8 +112,8 @@
                                         continue;
                                     }
                                  ?>
-                                <hr class="hr-10" />
-                                <p><?php echo $field['name']; ?>: <span class="pull-right bold"><?php echo $cfValue; ?></span></p>
+                                <!--<hr class="hr-10" />-->
+                                <!--<p> <?php echo $field['name']; ?>: <span class="pull-right bold"><?php echo $cfValue; ?></span></p>-->
                                 <?php } ?>
                             </div>
                         </div>

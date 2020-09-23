@@ -586,7 +586,7 @@ class Clients extends ClientsController
         $this->view('tickets');
         $this->layout();
     }
-
+   
     public function change_ticket_status()
     {
         if (has_contact_permission('support')) {
@@ -647,7 +647,10 @@ class Clients extends ClientsController
             }
             if ($this->form_validation->run() !== false) {
                 $data = $this->input->post();
-
+                if(isset($data['sub_category']) && $data['sub_category'] != ''){
+                    $data['service'] = $data['sub_category'];
+                    unset($data['sub_category']);
+                }
                 $id = $this->tickets_model->add([
                     'subject'    => $data['subject'],
                     'department' => $data['department'],
@@ -661,6 +664,10 @@ class Clients extends ClientsController
                     'custom_fields' => isset($data['custom_fields']) && is_array($data['custom_fields'])
                     ? $data['custom_fields']
                     : [],
+                    'meter_number' => isset($data['meter_number']) ? $data['meter_number'] : '',
+                    'notice_number' => isset($data['notice_number']) ? $data['notice_number'] : '',
+                    'channel_type_id' => isset($data['channel_type_id']) ? $data['channel_type_id'] : '',
+                    'description' => isset($data['description']) ? $data['description'] : '',
                     'message'   => $data['message'],
                     'contactid' => get_contact_user_id(),
                     'userid'    => get_client_user_id(),
@@ -674,6 +681,8 @@ class Clients extends ClientsController
         }
         $data             = [];
         $data['projects'] = $this->projects_model->get_projects_for_ticket(get_client_user_id());
+        $data['meter_number']       = $this->tickets_model->get_MeterNumber();
+        $data['channel_type']       = $this->tickets_model->get_channel_type();
         $data['title']    = _l('new_ticket');
         $this->data($data);
         $this->view('open_ticket');
@@ -693,6 +702,13 @@ class Clients extends ClientsController
 
         $data['ticket'] = $this->tickets_model->get_ticket_by_id($id, get_client_user_id());
         $data['service_detals']     = $this->tickets_model->get_service_details_by_id($data['ticket']->serviceid);
+        if(isset($data['service_detals']->service_id) && $data['service_detals']->service_id != ''){
+            
+           $category =  $this->tickets_model->get_service_details_name_by_id($data['service_detals']->service_id);
+            $data['service_detals']->services_name = $category->category_name;
+            $data['ticket']->service = $data['service_detals']->service_id;
+            $data['ticket']->service_name = $category->category_name;
+        }
         
         if (!$data['ticket'] || $data['ticket']->userid != get_client_user_id()) {
             show_404();
@@ -718,6 +734,7 @@ class Clients extends ClientsController
 
         $data['ticket_replies'] = $this->tickets_model->get_ticket_replies($id);
         $data['title']          = $data['ticket']->subject;
+        
         $this->data($data);
         $this->view('single_ticket');
         $this->layout();

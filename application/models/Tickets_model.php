@@ -1765,6 +1765,13 @@ class Tickets_model extends App_Model
         $q = $this->db->get();
         return $q->row();
     }
+    public function get_service_details_name_by_id($service_id){
+        $this->db->select("name as category_name");
+        $this->db->from(db_prefix() . 'services');
+        $this->db->where('serviceid',$service_id);
+        $q = $this->db->get();
+        return $q->row();
+    }
     /*** End New Code For service Details by id  */
     public function ticket_detail_by_time($type,$data_filter = []){
         $customerid = 0;

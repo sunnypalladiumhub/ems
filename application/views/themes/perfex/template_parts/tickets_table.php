@@ -10,17 +10,24 @@
     <th class="th-ticket-project"><?php echo _l('project'); ?></th>
     <?php if(get_option('services') == 1){ ?>
       <th class="th-ticket-service"><?php echo _l('clients_tickets_dt_service'); ?></th>
+      <?php if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+        <th class="th-ticket-service"><?php echo 'Sub Category'; ?></th>
+      <?php } ?>
     <?php } ?>
     <th class="th-ticket-priority"><?php echo _l('priority'); ?></th>
     <th class="th-ticket-status"><?php echo _l('clients_tickets_dt_status'); ?></th>
     <th class="th-ticket-last-reply"><?php echo _l('clients_tickets_dt_last_reply'); ?></th>
+    <th class="th-ticket-last-reply"><?php echo _l('ticket_meter_number'); ?></th>
+    <th class="th-ticket-last-reply"><?php echo _l('ticket_drp_channel_type'); ?></th>
+    <th class="th-ticket-last-reply"><?php echo _l('ticket_form_message'); ?></th>
     <?php
     $custom_fields = get_custom_fields('tickets',array('show_on_client_portal'=>1));
     foreach($custom_fields as $field){ ?>
-      <th><?php echo $field['name']; ?></th>
+      <!--<th><?php echo $field['name']; ?></th>-->
     <?php } ?>
   </thead>
   <tbody>
+      
     <?php foreach($tickets as $ticket){ ?>
       <tr class="<?php if($ticket['clientread'] == 0){echo 'text-danger';} ?>">
         <td data-order="<?php echo $ticket['ticketid']; ?>">
@@ -49,9 +56,19 @@
           ?>
         </td>
         <?php if(get_option('services') == 1){ ?>
+        <?php if(get_client_user_id() == RECHARGER_CUSTOMER){ ?>
+          <td>
+            <?php echo get_services_name($ticket['parentid']);$ticket['service_name']; ?>
+          </td>
+          
+          <td>
+            <?php echo get_services_name($ticket['serviceid']); ?>
+          </td>
+          <?php }else{ ?>
           <td>
             <?php echo $ticket['service_name']; ?>
           </td>
+          <?php } ?>
         <?php } ?>
         <td>
           <?php
@@ -71,10 +88,21 @@
            }
            ?>
          </td>
-         <?php foreach($custom_fields as $field){ ?>
-          <td>
-            <?php echo get_custom_field_value($ticket['ticketid'],$field['id'],'tickets'); ?>
-          </td>
+            <td>
+                <?php echo $ticket['meter_number'] > 0 ? ticket_meter_number_name($ticket['meter_number']) : $ticket['notice_number']; ?>
+             </td>
+             <td>
+                 
+                <?php echo ticket_channel_type_name($ticket['channel_type_id']); ?>
+             </td>
+             <td>
+                 
+                <?php echo $ticket['description']; ?>
+             </td>
+             <?php foreach($custom_fields as $field){ ?>
+          <!--<td>-->
+            <?php //echo get_custom_field_value($ticket['ticketid'],$field['id'],'tickets'); ?>
+          <!--</td>-->
         <?php } ?>
       </tr>
     <?php } ?>

@@ -223,4 +223,4 @@ define('EMAIL_CHANNEL',2);
 
 define('RECHARGER_CUSTOMER',320);
 define('RECHARGER_DEPARTMENT',7);
-define('RECHARGER_PORTAL','Portal');
+define('RECHARGER_PORTAL',10);

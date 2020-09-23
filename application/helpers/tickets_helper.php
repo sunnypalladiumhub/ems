@@ -149,7 +149,42 @@ function ticket_priority_translate($id)
 
     return $line;
 }
+function ticket_meter_number_name($id){
+    if ($id == '' || is_null($id)) {
+        return '';
+    }
 
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    $meter_number = $CI->db->get(db_prefix() . 'meter_number')->row();
+
+    return !$meter_number ? '' : $meter_number->number;
+    
+
+}
+function ticket_channel_type_name($id){
+    if ($id == '' || is_null($id)) {
+        return '';
+    }
+
+    $CI = & get_instance();
+    $CI->db->where('id', $id);
+    $tickets_channel_type = $CI->db->get(db_prefix() . 'tickets_channel_type')->row();
+
+    return !$tickets_channel_type ? '' : $tickets_channel_type->name;
+    
+}
+function get_services_name($id){
+    if ($id == '' || is_null($id)) {
+        return '';
+    }
+
+    $CI = & get_instance();
+    $CI->db->where('serviceid', $id);
+    $services = $CI->db->get(db_prefix() . 'services')->row();
+
+    return !$services ? '' : $services->name;
+}
 /**
  * When ticket will be opened automatically set to open
  * @param integer  $current Current status
